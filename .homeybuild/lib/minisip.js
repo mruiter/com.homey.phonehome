@@ -20,16 +20,24 @@ class MiniSip {
     this.sock = null;
     this.address = null;
     this.port = null;
+    this.logger = () => {};
     this._respWaiters = []; // {callId, cseqMethod, cb}
     this._reqListeners = [];
   }
 
-  start({ address, port }) {
+  async start({ address, port, logger }) {
     this.address = address;
     this.port = port;
+    this.logger = logger || (() => {});
     this.sock = dgram.createSocket('udp4');
     this.sock.on('message', (msg, rinfo) => this._onMessage(msg, rinfo));
-    this.sock.bind(port, address);
+    await new Promise((resolve, reject) => {
+      this.sock.once('error', err => {
+        this.stop();
+        reject(err);
+      });
+      this.sock.bind(port, address, resolve);
+    });
   }
 
   stop() {
@@ -62,6 +70,7 @@ class MiniSip {
   send(req, cb) {
     const dest = parseUriToHostPort(req.uri);
     const raw = buildRawRequest(req, this.address, this.port);
+    this.logger('debug', `SIP send to ${dest.host}:${dest.port}\n${raw}`);
     const waiter = { callId: req.headers['call-id'], cseqMethod: req.method, cb };
     if (cb) this._respWaiters.push(waiter);
     this.sock.send(Buffer.from(raw, 'utf8'), dest.port, dest.host);
@@ -69,6 +78,7 @@ class MiniSip {
 
   _onMessage(buf, rinfo) {
     const text = buf.toString('utf8');
+    this.logger('debug', `SIP recv from ${rinfo.address}:${rinfo.port}\n${text}`);
     if (text.startsWith('SIP/2.0')) {
       const res = parseResponse(text);
       // match by call-id and cseq method
@@ -124,6 +134,37 @@ function hdrTo(obj, name) {
   const disp = obj.name ? `"${obj.name}" ` : '';
   const tag = obj.params && obj.params.tag ? `;tag=${obj.params.tag}` : '';
   return `${name}: ${disp}<${obj.uri}>${tag}`;
+}
+
+function parseNameAddr(str) {
+  const result = { params: {} };
+  let rest = str.trim();
+
+  // Match optional display name and URI enclosed in <>
+  const m = rest.match(/^(?:"?([^"<]*)"?\s*)?<([^>]+)>(.*)$/);
+  if (m) {
+    if (m[1]) result.name = m[1].trim();
+    result.uri = m[2].trim();
+    rest = m[3];
+  } else {
+    // No angle brackets, URI is up to first ';'
+    const idx = rest.indexOf(';');
+    if (idx >= 0) {
+      result.uri = rest.slice(0, idx).trim();
+      rest = rest.slice(idx);
+    } else {
+      result.uri = rest.trim();
+      rest = '';
+    }
+  }
+
+  // Parse parameters after URI
+  rest.split(';').filter(Boolean).forEach(part => {
+    const [k, v] = part.split('=');
+    result.params[k.trim()] = v ? v.trim() : true;
+  });
+
+  return result;
 }
 
 function parseHeaders(lines) {
