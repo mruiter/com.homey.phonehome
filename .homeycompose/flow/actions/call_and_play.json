@@ -1,0 +1,9 @@
+{
+  "title": { "en": "Call number and play Soundboard/URL audio", "nl": "Bel nummer en speel Soundboard/URL-geluid" },
+  "titleFormatted": { "en": "Call [[number]] and play [[sound]] / [[file_url]]", "nl": "Bel [[number]] en speel [[sound]] / [[file_url]]" },
+  "args": [
+    { "name": "number", "type": "text", "title": { "en": "Phone number or SIP URI", "nl": "Telefoonnummer of SIP URI" } },
+    { "name": "sound", "type": "autocomplete", "title": { "en": "Soundboard file (optional)", "nl": "Soundboard-bestand (optioneel)" } },
+    { "name": "file_url", "type": "text", "title": { "en": "Fallback: URL or path to WAV (8kHz mono)", "nl": "Fallback: URL of pad naar WAV (8kHz mono)" } }
+  ]
+}

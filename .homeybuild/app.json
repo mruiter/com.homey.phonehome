@@ -1,4 +1,5 @@
 {
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.marco.voipplayer",
   "sdk": 3,
   "name": {
@@ -19,94 +20,6 @@
     "homey:manager:api"
   ],
   "compatibility": ">=5.0.0",
-  "flow": {
-    "actions": [
-      {
-        "id": "call_and_play",
-        "title": {
-          "en": "Call number and play Soundboard/URL audio",
-          "nl": "Bel nummer en speel Soundboard/URL-geluid"
-        },
-        "titleFormatted": {
-          "en": "Call [[number]] and play [[sound]] (file_url: [[file_url]])",
-          "nl": "Bel [[number]] en speel [[sound]] (file_url: [[file_url]])"
-        },
-        "args": [
-          {
-            "name": "number",
-            "type": "text",
-            "title": {
-              "en": "Phone number or SIP URI",
-              "nl": "Telefoonnummer of SIP URI"
-            }
-          },
-          {
-            "name": "sound",
-            "type": "autocomplete",
-            "title": {
-              "en": "Soundboard file (optional)",
-              "nl": "Soundboard-bestand (optioneel)"
-            }
-          },
-          {
-            "name": "file_url",
-            "type": "text",
-            "title": {
-              "en": "Fallback: URL or path to WAV (8kHz mono)",
-              "nl": "Fallback: URL of pad naar WAV (8kHz mono)"
-            }
-          }
-        ]
-      }
-    ],
-    "triggers": [
-      {
-        "id": "call_completed",
-        "title": {
-          "en": "Call completed (status)",
-          "nl": "Call afgerond (status)"
-        },
-        "titleFormatted": {
-          "en": "Call completed: [[status]]",
-          "nl": "Call afgerond: [[status]]"
-        },
-        "tokens": [
-          {
-            "name": "status",
-            "type": "string",
-            "title": {
-              "en": "Status",
-              "nl": "Status"
-            }
-          },
-          {
-            "name": "duurMs",
-            "type": "number",
-            "title": {
-              "en": "Call duration (ms)",
-              "nl": "Gespreksduur (ms)"
-            }
-          },
-          {
-            "name": "callee",
-            "type": "string",
-            "title": {
-              "en": "Callee",
-              "nl": "Gebelde partij"
-            }
-          },
-          {
-            "name": "reason",
-            "type": "string",
-            "title": {
-              "en": "Reason / Cause",
-              "nl": "Reden / Cause"
-            }
-          }
-        ]
-      }
-    ]
-  },
   "settings": [
     {
       "id": "sip_domain",
@@ -207,5 +120,114 @@
     "small": "assets/images/small.png",
     "large": "assets/images/large.png"
   },
-  "brandColor": "#3A7BD5"
+  "brandColor": "#3A7BD5",
+  "flow": {
+    "triggers": [
+      {
+        "title": {
+          "en": "Call completed (status)",
+          "nl": "Call afgerond (status)"
+        },
+        "titleFormatted": {
+          "en": "Call completed: [[status]]",
+          "nl": "Call afgerond: [[status]]"
+        },
+        "tokens": [
+          {
+            "name": "status",
+            "type": "string",
+            "title": {
+              "en": "Status",
+              "nl": "Status"
+            }
+          },
+          {
+            "name": "duurMs",
+            "type": "number",
+            "title": {
+              "en": "Call duration (ms)",
+              "nl": "Gespreksduur (ms)"
+            }
+          },
+          {
+            "name": "callee",
+            "type": "string",
+            "title": {
+              "en": "Callee",
+              "nl": "Gebelde partij"
+            }
+          },
+          {
+            "name": "reason",
+            "type": "string",
+            "title": {
+              "en": "Reason / Cause",
+              "nl": "Reden / Cause"
+            }
+          }
+        ],
+        "id": "call_completed"
+      }
+    ],
+    "actions": [
+      {
+        "title": {
+          "en": "Call number and play Soundboard/URL audio",
+          "nl": "Bel nummer en speel Soundboard/URL-geluid"
+        },
+        "titleFormatted": {
+          "en": "Call [[number]] and play [[sound]] / [[file_url]]",
+          "nl": "Bel [[number]] en speel [[sound]] / [[file_url]]"
+        },
+        "args": [
+          {
+            "name": "number",
+            "type": "text",
+            "title": {
+              "en": "Phone number or SIP URI",
+              "nl": "Telefoonnummer of SIP URI"
+            }
+          },
+          {
+            "name": "sound",
+            "type": "autocomplete",
+            "title": {
+              "en": "Soundboard file (optional)",
+              "nl": "Soundboard-bestand (optioneel)"
+            }
+          },
+          {
+            "name": "file_url",
+            "type": "text",
+            "title": {
+              "en": "Fallback: URL or path to WAV (8kHz mono)",
+              "nl": "Fallback: URL of pad naar WAV (8kHz mono)"
+            }
+          }
+        ],
+        "id": "call_and_play"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "VOIP Player",
+        "nl": "VOIP Speler"
+      },
+      "class": "other",
+      "capabilities": [],
+      "images": {
+        "small": "assets/icon.svg",
+        "large": "assets/icon.svg"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices"
+        }
+      ],
+      "id": "voip_player"
+    }
+  ]
 }

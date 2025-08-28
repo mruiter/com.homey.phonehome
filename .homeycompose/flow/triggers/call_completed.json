@@ -1,0 +1,10 @@
+{
+  "title": { "en": "Call completed (status)", "nl": "Call afgerond (status)" },
+  "titleFormatted": { "en": "Call completed: [[status]]", "nl": "Call afgerond: [[status]]" },
+  "tokens": [
+    { "name": "status", "type": "string", "title": { "en": "Status", "nl": "Status" } },
+    { "name": "duurMs", "type": "number", "title": { "en": "Call duration (ms)", "nl": "Gespreksduur (ms)" } },
+    { "name": "callee", "type": "string", "title": { "en": "Callee", "nl": "Gebelde partij" } },
+    { "name": "reason", "type": "string", "title": { "en": "Reason / Cause", "nl": "Reden / Cause" } }
+  ]
+}

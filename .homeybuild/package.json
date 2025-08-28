@@ -8,6 +8,6 @@
   },
   "dependencies": {},
   "homey": {
-    "compose": false
+    "compose": true
   }
 }
