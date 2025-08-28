@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<rect width="512" height="512" rx="120" fill="#fff"/>
-<text x="50%" y="55%" font-size="220" text-anchor="middle" fill="#0f62fe" font-family="Arial">☎</text>
+  <rect width="512" height="512" rx="120" fill="#fff"/>
+  <path d="M120 200 h272 a24 24 0 0 1 24 24 v120 a24 24 0 0 1 -24 24 h-272 a24 24 0 0 1 -24 -24 v-120 a24 24 0 0 1 24 -24 z" fill="#0f62fe"/>
+  <circle cx="256" cy="368" r="10" fill="#0f62fe"/>
+  <path d="M180 190 h152 v-30 a16 16 0 0 0 -16 -16 h-120 a16 16 0 0 0 -16 16z" fill="#0f62fe"/>
 </svg>

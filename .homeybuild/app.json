@@ -1,42 +1,228 @@
 {
   "id": "com.marco.voipplayer",
   "sdk": 3,
-  "name": { "en": "VOIP Player", "nl": "VOIP Speler" },
+  "name": {
+    "en": "VOIP Player",
+    "nl": "VOIP Speler"
+  },
   "description": {
-    "en": "Place a SIP call and play a sound from Soundboard",
-    "nl": "Zet een SIP-gesprek op en speel een Soundboard-geluid af"
+    "en": "Place a SIP call and play a Soundboard/URL audio when answered",
+    "nl": "Zet een SIP-gesprek op en speel een Soundboard/URL-audio bij beantwoording"
   },
   "category": "tools",
-  "version": "0.1.0",
-  "author": { "name": "Marco", "email": "dev@example.com" },
-  "permissions": ["homey:manager:api"],
+  "version": "0.1.1",
+  "author": {
+    "name": "Marco",
+    "email": "dev@example.com"
+  },
+  "permissions": [
+    "homey:manager:api"
+  ],
   "compatibility": ">=5.0.0",
   "flow": {
     "actions": [
       {
         "id": "call_and_play",
-        "title": { "nl": "Bel nummer en speel Soundboard/URL-geluid" },
-        "titleFormatted": { "nl": "Bel [[number]] en speel audio" },
+        "title": {
+          "en": "Call number and play Soundboard/URL audio",
+          "nl": "Bel nummer en speel Soundboard/URL-geluid"
+        },
+        "titleFormatted": {
+          "en": "Call [[number]] and play [[sound]] (file_url: [[file_url]])",
+          "nl": "Bel [[number]] en speel [[sound]] (file_url: [[file_url]])"
+        },
         "args": [
-          { "name": "number", "type": "text" },
-          { "name": "sound", "type": "autocomplete" },
-          { "name": "file_url", "type": "text" }
+          {
+            "name": "number",
+            "type": "text",
+            "title": {
+              "en": "Phone number or SIP URI",
+              "nl": "Telefoonnummer of SIP URI"
+            }
+          },
+          {
+            "name": "sound",
+            "type": "autocomplete",
+            "title": {
+              "en": "Soundboard file (optional)",
+              "nl": "Soundboard-bestand (optioneel)"
+            }
+          },
+          {
+            "name": "file_url",
+            "type": "text",
+            "title": {
+              "en": "Fallback: URL or path to WAV (8kHz mono)",
+              "nl": "Fallback: URL of pad naar WAV (8kHz mono)"
+            }
+          }
         ]
       }
     ],
     "triggers": [
       {
         "id": "call_completed",
-        "title": { "nl": "Call afgerond (status)" },
-        "titleFormatted": { "nl": "Call afgerond: [[status]]" },
+        "title": {
+          "en": "Call completed (status)",
+          "nl": "Call afgerond (status)"
+        },
+        "titleFormatted": {
+          "en": "Call completed: [[status]]",
+          "nl": "Call afgerond: [[status]]"
+        },
         "tokens": [
-          { "name": "status", "type": "string" },
-          { "name": "duurMs", "type": "number" },
-          { "name": "callee", "type": "string" },
-          { "name": "reason", "type": "string" }
+          {
+            "name": "status",
+            "type": "string",
+            "title": {
+              "en": "Status",
+              "nl": "Status"
+            }
+          },
+          {
+            "name": "duurMs",
+            "type": "number",
+            "title": {
+              "en": "Call duration (ms)",
+              "nl": "Gespreksduur (ms)"
+            }
+          },
+          {
+            "name": "callee",
+            "type": "string",
+            "title": {
+              "en": "Callee",
+              "nl": "Gebelde partij"
+            }
+          },
+          {
+            "name": "reason",
+            "type": "string",
+            "title": {
+              "en": "Reason / Cause",
+              "nl": "Reden / Cause"
+            }
+          }
         ]
       }
     ]
   },
-  "settings": []
+  "settings": [
+    {
+      "type": "group",
+      "title": {
+        "en": "SIP settings",
+        "nl": "SIP-instellingen"
+      },
+      "children": [
+        {
+          "id": "sip_domain",
+          "type": "text",
+          "title": {
+            "en": "SIP Domain/Registrar",
+            "nl": "SIP Domein/Registrar"
+          }
+        },
+        {
+          "id": "sip_proxy",
+          "type": "text",
+          "title": {
+            "en": "SIP Proxy/Request-URI host (optional)",
+            "nl": "SIP Proxy/Request-URI host (optioneel)"
+          }
+        },
+        {
+          "id": "username",
+          "type": "text",
+          "title": {
+            "en": "Username",
+            "nl": "Gebruikersnaam"
+          }
+        },
+        {
+          "id": "password",
+          "type": "password",
+          "title": {
+            "en": "Password",
+            "nl": "Wachtwoord"
+          }
+        },
+        {
+          "id": "display_name",
+          "type": "text",
+          "title": {
+            "en": "Display name (From)",
+            "nl": "Weergavenaam (From)"
+          }
+        },
+        {
+          "id": "from_user",
+          "type": "text",
+          "title": {
+            "en": "From user",
+            "nl": "From user"
+          }
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": {
+        "en": "Network & Ports",
+        "nl": "Netwerk & Poorten"
+      },
+      "children": [
+        {
+          "id": "local_ip",
+          "type": "text",
+          "title": {
+            "en": "Local IP (Homey)",
+            "nl": "Lokaal IP (Homey)"
+          }
+        },
+        {
+          "id": "local_sip_port",
+          "type": "number",
+          "title": {
+            "en": "Local SIP port",
+            "nl": "Lokale SIP poort"
+          },
+          "value": 5070
+        },
+        {
+          "id": "local_rtp_port",
+          "type": "number",
+          "title": {
+            "en": "Local RTP port",
+            "nl": "Lokale RTP poort"
+          },
+          "value": 40000
+        },
+        {
+          "id": "expires_sec",
+          "type": "number",
+          "title": {
+            "en": "REGISTER Expires (s)",
+            "nl": "REGISTER Expires (s)"
+          },
+          "value": 300
+        },
+        {
+          "id": "invite_timeout",
+          "type": "number",
+          "title": {
+            "en": "Invite timeout (s)",
+            "nl": "Invite timeout (s)"
+          },
+          "value": 45
+        }
+      ]
+    }
+  ],
+  "icon": "assets/icon.svg",
+  "images": {
+    "small": "assets/images/small.png",
+    "large": "assets/images/large.png"
+  },
+  "brandColor": "#3A7BD5"
 }
