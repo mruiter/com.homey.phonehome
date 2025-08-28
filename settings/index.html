@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>VOIP Settings</title>
+  <script src="/homey.js" data-origin="settings"></script>
+  <style>
+    body { font-family: sans-serif; margin: 20px; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; box-sizing: border-box; }
+    button { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>SIP Settings</h1>
+  <form id="settings-form">
+    <label>SIP Domain/Registrar
+      <input id="sip_domain" type="text" />
+    </label>
+    <label>SIP Proxy/Request-URI host (optional)
+      <input id="sip_proxy" type="text" />
+    </label>
+    <label>Username
+      <input id="username" type="text" />
+    </label>
+    <label>Password
+      <input id="password" type="password" />
+    </label>
+    <label>Display name (From)
+      <input id="display_name" type="text" />
+    </label>
+    <label>From user
+      <input id="from_user" type="text" />
+    </label>
+    <label>Local IP (Homey)
+      <input id="local_ip" type="text" />
+    </label>
+    <label>Local SIP port
+      <input id="local_sip_port" type="number" />
+    </label>
+    <label>Local RTP port
+      <input id="local_rtp_port" type="number" />
+    </label>
+    <label>REGISTER Expires (s)
+      <input id="expires_sec" type="number" />
+    </label>
+    <label>Invite timeout (s)
+      <input id="invite_timeout" type="number" />
+    </label>
+    <button type="submit">Save</button>
+  </form>
+  <script>
+    function onHomeyReady(Homey) {
+      const fields = ['sip_domain','sip_proxy','username','password','display_name','from_user','local_ip','local_sip_port','local_rtp_port','expires_sec','invite_timeout'];
+      fields.forEach(key => {
+        Homey.get(key, (err, value) => {
+          if (!err && document.getElementById(key)) {
+            document.getElementById(key).value = value !== undefined && value !== null ? value : '';
+          }
+        });
+      });
+      document.getElementById('settings-form').addEventListener('submit', e => {
+        e.preventDefault();
+        fields.forEach(key => {
+          const input = document.getElementById(key);
+          let val = input.value;
+          if (input.type === 'number') {
+            val = Number(val);
+            if (isNaN(val)) val = 0;
+          }
+          Homey.set(key, val, err => {
+            if (err) console.error(err);
+          });
+        });
+        Homey.alert('Settings saved');
+      });
+      Homey.ready();
+    }
+  </script>
+</body>
+</html>
