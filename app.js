@@ -10,7 +10,7 @@ class VoipPlayerApp extends Homey.App {
 
     action.registerArgumentAutocompleteListener('sound', async (query, args) => {
       try {
-        const sb = await this.homey.api.getApiApp('com.soundboard');
+        const sb = await this.homey.api.getApiApp('com.athom.soundboard');
         const sounds = await sb.get('/sounds');
         const q = (query || '').toLowerCase();
         return (sounds || [])
@@ -88,7 +88,7 @@ class VoipPlayerApp extends Homey.App {
 
   async _resolveSoundboardToWav(soundArg) {
     const path = require('path'); const fs = require('fs'); const os = require('os');
-    const sb = await this.homey.api.getApiApp('com.soundboard');
+    const sb = await this.homey.api.getApiApp('com.athom.soundboard');
     const s = await sb.get(`/sounds/${encodeURIComponent(soundArg.id)}`);
     const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
     if (s && s.url) {
