@@ -24,7 +24,7 @@
     {
       "id": "sip_domain",
       "type": "text",
-      "title": {
+      "label": {
         "en": "SIP Domain/Registrar",
         "nl": "SIP Domein/Registrar"
       }
@@ -32,7 +32,7 @@
     {
       "id": "sip_proxy",
       "type": "text",
-      "title": {
+      "label": {
         "en": "SIP Proxy/Request-URI host (optional)",
         "nl": "SIP Proxy/Request-URI host (optioneel)"
       }
@@ -40,7 +40,7 @@
     {
       "id": "username",
       "type": "text",
-      "title": {
+      "label": {
         "en": "Username",
         "nl": "Gebruikersnaam"
       }
@@ -48,7 +48,7 @@
     {
       "id": "password",
       "type": "password",
-      "title": {
+      "label": {
         "en": "Password",
         "nl": "Wachtwoord"
       }
@@ -56,7 +56,7 @@
     {
       "id": "display_name",
       "type": "text",
-      "title": {
+      "label": {
         "en": "Display name (From)",
         "nl": "Weergavenaam (From)"
       },
@@ -65,7 +65,7 @@
     {
       "id": "from_user",
       "type": "text",
-      "title": {
+      "label": {
         "en": "From user",
         "nl": "From user"
       }
@@ -73,7 +73,7 @@
     {
       "id": "local_ip",
       "type": "text",
-      "title": {
+      "label": {
         "en": "Local IP (Homey)",
         "nl": "Lokaal IP (Homey)"
       }
@@ -81,7 +81,7 @@
     {
       "id": "local_sip_port",
       "type": "number",
-      "title": {
+      "label": {
         "en": "Local SIP port",
         "nl": "Lokale SIP poort"
       },
@@ -90,7 +90,7 @@
     {
       "id": "local_rtp_port",
       "type": "number",
-      "title": {
+      "label": {
         "en": "Local RTP port",
         "nl": "Lokale RTP poort"
       },
@@ -99,7 +99,7 @@
     {
       "id": "expires_sec",
       "type": "number",
-      "title": {
+      "label": {
         "en": "REGISTER Expires (s)",
         "nl": "REGISTER Expires (s)"
       },
@@ -108,7 +108,7 @@
     {
       "id": "invite_timeout",
       "type": "number",
-      "title": {
+      "label": {
         "en": "Invite timeout (s)",
         "nl": "Invite timeout (s)"
       },
