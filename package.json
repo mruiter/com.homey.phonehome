@@ -3,7 +3,11 @@
   "version": "0.1.1",
   "description": "Homey app: place a SIP call and play a Soundboard/URL audio",
   "main": "app.js",
-  "engines": { "node": ">=16" },
-  "dependencies": { "sip": "^0.1.8" },
-  "homey": { "compose": false }
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {},
+  "homey": {
+    "compose": false
+  }
 }

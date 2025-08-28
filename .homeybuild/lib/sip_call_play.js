@@ -1,6 +1,6 @@
 'use strict';
 
-const sip = require('sip');
+const sip = require('./minisip');
 const dgram = require('dgram');
 const crypto = require('crypto');
 const { readWavPcm16Mono8k, pcm16ToUlawBuffer } = require('./wav_utils');
