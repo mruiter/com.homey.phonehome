@@ -1,0 +1,11 @@
+{
+  "name": "com.marco.voipplayer",
+  "version": "0.1.0",
+  "description": "Homey app: bel via SIP en speel een Soundboard-audio af",
+  "main": "app.js",
+  "engines": { "node": ">=16" },
+  "dependencies": {
+    "sip": "^0.1.8"
+  },
+  "homey": { "compose": true }
+}

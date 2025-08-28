@@ -1,0 +1,42 @@
+{
+  "id": "com.marco.voipplayer",
+  "sdk": 3,
+  "name": { "en": "VOIP Player", "nl": "VOIP Speler" },
+  "description": {
+    "en": "Place a SIP call and play a sound from Soundboard",
+    "nl": "Zet een SIP-gesprek op en speel een Soundboard-geluid af"
+  },
+  "category": "tools",
+  "version": "0.1.0",
+  "author": { "name": "Marco", "email": "dev@example.com" },
+  "permissions": ["homey:manager:api"],
+  "compatibility": ">=5.0.0",
+  "flow": {
+    "actions": [
+      {
+        "id": "call_and_play",
+        "title": { "nl": "Bel nummer en speel Soundboard/URL-geluid" },
+        "titleFormatted": { "nl": "Bel [[number]] en speel audio" },
+        "args": [
+          { "name": "number", "type": "text" },
+          { "name": "sound", "type": "autocomplete" },
+          { "name": "file_url", "type": "text" }
+        ]
+      }
+    ],
+    "triggers": [
+      {
+        "id": "call_completed",
+        "title": { "nl": "Call afgerond (status)" },
+        "titleFormatted": { "nl": "Call afgerond: [[status]]" },
+        "tokens": [
+          { "name": "status", "type": "string" },
+          { "name": "duurMs", "type": "number" },
+          { "name": "callee", "type": "string" },
+          { "name": "reason", "type": "string" }
+        ]
+      }
+    ]
+  },
+  "settings": []
+}
