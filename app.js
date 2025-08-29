@@ -35,6 +35,7 @@ class VoipPlayerApp extends Homey.App {
         realm: this.homey.settings.get('realm') || '',
         display_name: this.homey.settings.get('display_name') || 'HomeyBot',
         from_user: this.homey.settings.get('from_user') || this.homey.settings.get('username'),
+        transport: (this.homey.settings.get('sip_transport') || '').toUpperCase(),
         local_ip: this.homey.settings.get('local_ip'),
         local_sip_port: Number(this.homey.settings.get('local_sip_port') || 5070),
         local_rtp_port: Number(this.homey.settings.get('local_rtp_port') || 40000),
@@ -64,14 +65,24 @@ class VoipPlayerApp extends Homey.App {
       }
 
       const { callOnce } = require('./lib/sip_call_play');
+      const baseArgs = {
+        ...cfg,
+        to: number,
+        wavPath,
+        logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
+      };
       let result;
       try {
-        result = await callOnce({
-          ...cfg,
-          to: number,
-          wavPath,
-          logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
-        });
+        if (cfg.transport) {
+          result = await callOnce(baseArgs);
+        } else {
+          try {
+            result = await callOnce({ ...baseArgs, transport: 'UDP' });
+          } catch (e1) {
+            this.log('UDP transport failed, retrying TCP');
+            result = await callOnce({ ...baseArgs, transport: 'TCP' });
+          }
+        }
       } catch (e) {
         await this._triggerCompleted.trigger({
           status: 'failed', duurMs: 0, callee: number, reason: e.message||'unknown'

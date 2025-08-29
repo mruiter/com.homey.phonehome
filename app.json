@@ -79,6 +79,14 @@
       }
     },
     {
+      "id": "sip_transport",
+      "type": "text",
+      "title": {
+        "en": "SIP transport (udp/tcp, empty=auto)",
+        "nl": "SIP-transport (udp/tcp, leeg=auto)"
+      }
+    },
+    {
       "id": "local_ip",
       "type": "text",
       "title": {

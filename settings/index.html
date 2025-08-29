@@ -35,6 +35,13 @@
     <label>From user
       <input id="from_user" type="text" />
     </label>
+    <label>SIP Transport (udp/tcp, empty=auto)
+      <select id="sip_transport">
+        <option value="">auto (UDP then TCP)</option>
+        <option value="UDP">UDP</option>
+        <option value="TCP">TCP</option>
+      </select>
+    </label>
     <label>Local IP (Homey)
       <input id="local_ip" type="text" />
     </label>
@@ -60,7 +67,7 @@
   </form>
   <script>
     function onHomeyReady(Homey) {
-      const fields = ['sip_domain','sip_proxy','username','password','realm','display_name','from_user','local_ip','local_sip_port','local_rtp_port','expires_sec','invite_timeout','stun_server','stun_port'];
+      const fields = ['sip_domain','sip_proxy','username','password','realm','display_name','from_user','sip_transport','local_ip','local_sip_port','local_rtp_port','expires_sec','invite_timeout','stun_server','stun_port'];
       fields.forEach(key => {
         Homey.get(key, (err, value) => {
           if (!err && document.getElementById(key)) {
