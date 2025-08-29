@@ -10,14 +10,36 @@ function genBranch() { return 'z9hG4bK-' + crypto.randomBytes(8).toString('hex')
 function genTag()    { return crypto.randomBytes(8).toString('hex'); }
 function genCallId(ip){ return crypto.randomBytes(10).toString('hex') + '@' + ip; }
 
+
 function parseAuthHeader(h) {
+  // Normalize authentication header input. Older code expected a raw
+  // string, but the `sip` library already parses it into an object (or
+  // array of objects). Support both formats.
+  if (!h) return {};
+
+  // If an array of headers is provided, use the first one.
+  if (Array.isArray(h)) h = h[0];
+
+  // When `h` is an object, strip quotes from parameter values and return
+  // it as a plain key/value object.
+  if (typeof h === 'object') {
+    const out = {};
+    for (const [k, v] of Object.entries(h)) {
+      if (k === 'scheme') continue;
+      out[k.trim()] = String(v).replace(/^"|"$/g, '');
+    }
+    return out;
+  }
+
+  // Fallback for string headers.
   const out = {};
-  (h || '').replace(/^Digest\s+/i, '').split(',').forEach(part => {
+  String(h).replace(/^Digest\s+/i, '').split(',').forEach(part => {
     const m = part.match(/\s*([^=]+)="?([^"]+)"?/);
     if (m) out[m[1].trim()] = m[2];
   });
   return out;
 }
+
 function makeDigestResponse({ username, password, method, uri, realm, nonce, qop, nc, cnonce }) {
   const md5 = s => crypto.createHash('md5').update(s).digest('hex');
   const HA1 = md5(`${username}:${realm}:${password}`);
@@ -29,7 +51,7 @@ function buildAuthHeader(wwwAuth, { method, uri }, username, password, realmOver
   const a = parseAuthHeader(wwwAuth);
   const cnonce = crypto.randomBytes(8).toString('hex');
   const nc = '00000001';
-  const realm = realmOverride || a.realm;
+  const realm = realmOverride || a.realm || '';
   const response = makeDigestResponse({ username, password, method, uri, realm, nonce: a.nonce, qop: a.qop, nc, cnonce });
   const params = [
     `username="${username}"`,
@@ -73,8 +95,10 @@ function parseRemoteRtp(sdp) {
   if (ip && port && hasPcmu) return { ip, port };
   return null;
 }
-function buildVia(ip, port) {
-  return { version: '2.0', protocol: 'UDP', host: ip, port, params: { branch: genBranch(), rport: null } };
+function buildVia(ip, port, protocol = 'UDP') {
+  const params = { branch: genBranch() };
+  if (protocol === 'UDP') params.rport = null;
+  return { version: '2.0', protocol, host: ip, port, params };
 }
 
 async function callOnce(cfg) {
@@ -82,8 +106,12 @@ async function callOnce(cfg) {
     sip_domain, sip_proxy, username, password, realm, display_name, from_user,
     local_ip, local_sip_port, local_rtp_port, expires_sec, invite_timeout,
     stun_server, stun_port,
+    sip_transport = 'UDP',
     to, wavPath, logger = () => {}
   } = cfg;
+
+  const transport = (sip_transport || 'UDP').toUpperCase();
+  const transportParam = transport.toLowerCase();
 
   let public_ip = local_ip;
   let public_sip_port = local_sip_port;
@@ -106,15 +134,16 @@ async function callOnce(cfg) {
     }
   }
 
-  const contactUri = `sip:${from_user}@${public_ip}:${public_sip_port}`;
+  const contactUri = `sip:${from_user}@${public_ip}:${public_sip_port};transport=${transportParam}`;
   const toUri = /^\\d+$/.test(to) ? `sip:${to}@${sip_domain}` : (to.startsWith('sip:') ? to : `sip:${to}`);
   const registerToUri = `sip:${from_user}@${sip_domain}`;
-  const reqUri = sip_proxy ? `sip:${sip_proxy.replace(/^sip:/,'')}` : toUri;
+  let reqUri = sip_proxy ? `sip:${sip_proxy.replace(/^sip:/,'')}` : toUri;
+  if (!/;transport=/i.test(reqUri)) reqUri += `;transport=${transportParam}`;
 
   logger('info', `REGISTER naar ${sip_domain} als ${username}`);
   logger('info', `Start SIP socket op ${local_ip}:${local_sip_port}`);
   try {
-    await sip.start({ address: local_ip, port: local_sip_port, logger });
+    await sip.start({ address: local_ip, port: local_sip_port, logger, transport });
   } catch (err) {
     logger('error', `Kon SIP-poort niet binden op ${local_ip}:${local_sip_port}: ${err.code || err.message || err}`);
     if (err && err.code === 'EADDRINUSE') {
@@ -134,7 +163,7 @@ async function callOnce(cfg) {
           'call-id': callId,
           cseq: { method, seq: 1 },
           contact: [{ uri: contactUri }],
-          via: [ buildVia(public_ip, public_sip_port) ],
+          via: [ buildVia(public_ip, public_sip_port, transport) ],
           'max-forwards': 70,
           'user-agent': 'HomeySIP-POC/0.2',
           ...extraHeaders
@@ -145,7 +174,7 @@ async function callOnce(cfg) {
 
     // REGISTER
     await new Promise((resolve, reject) => {
-      const register = baseReq('REGISTER', `sip:${sip_domain}`, {
+      const register = baseReq('REGISTER', `sip:${sip_domain};transport=${transportParam}`, {
         to: { uri: registerToUri },
         contact: [{ uri: contactUri, params: { expires: String(expires_sec) } }],
         expires: expires_sec
@@ -173,7 +202,7 @@ async function callOnce(cfg) {
             ...register.headers,
             [hdrName]: auth,
             cseq: { method: 'REGISTER', seq: 2 },
-            via: [ buildVia(local_ip, local_sip_port) ]
+            via: [ buildVia(local_ip, local_sip_port, transport) ]
           };
           logger('info', 'Send REGISTER with auth');
           sip.send(r2, res2 => {
@@ -219,7 +248,7 @@ async function callOnce(cfg) {
           from: invite.headers.from,
           'call-id': callId,
           cseq: { method: 'ACK', seq: ++cseq },
-          via: [ buildVia(public_ip, public_sip_port) ],
+          via: [ buildVia(public_ip, public_sip_port, transport) ],
           contact: invite.headers.contact
         }
       };
@@ -237,7 +266,7 @@ async function callOnce(cfg) {
             from: invite.headers.from,
             'call-id': callId,
             cseq: { method: 'BYE', seq: ++cseq },
-            via: [ buildVia(public_ip, public_sip_port) ],
+            via: [ buildVia(public_ip, public_sip_port, transport) ],
             contact: invite.headers.contact
           }
         };
@@ -353,4 +382,4 @@ function startRtpStream(ulaw, localIp, localPort, remote, onDone) {
   });
 }
 
-module.exports = { callOnce };
+module.exports = { callOnce, parseAuthHeader };
