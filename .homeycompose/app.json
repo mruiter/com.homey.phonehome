@@ -120,6 +120,23 @@
         "nl": "Invite timeout (s)"
       },
       "value": 45
+    },
+    {
+      "id": "stun_server",
+      "type": "text",
+      "title": {
+        "en": "STUN server (optional)",
+        "nl": "STUN-server (optioneel)"
+      }
+    },
+    {
+      "id": "stun_port",
+      "type": "number",
+      "title": {
+        "en": "STUN port",
+        "nl": "STUN-poort"
+      },
+      "value": 3478
     }
   ],
   "icon": "assets/icon.svg",

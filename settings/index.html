@@ -50,11 +50,17 @@
     <label>Invite timeout (s)
       <input id="invite_timeout" type="number" />
     </label>
+    <label>STUN server (optional)
+      <input id="stun_server" type="text" />
+    </label>
+    <label>STUN port
+      <input id="stun_port" type="number" />
+    </label>
     <button type="submit">Save</button>
   </form>
   <script>
     function onHomeyReady(Homey) {
-      const fields = ['sip_domain','sip_proxy','username','password','realm','display_name','from_user','local_ip','local_sip_port','local_rtp_port','expires_sec','invite_timeout'];
+      const fields = ['sip_domain','sip_proxy','username','password','realm','display_name','from_user','local_ip','local_sip_port','local_rtp_port','expires_sec','invite_timeout','stun_server','stun_port'];
       fields.forEach(key => {
         Homey.get(key, (err, value) => {
           if (!err && document.getElementById(key)) {
