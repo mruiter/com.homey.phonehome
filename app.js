@@ -46,6 +46,8 @@ class VoipPlayerApp extends Homey.App {
         stun_port: Number(this.homey.settings.get('stun_port') || 3478)
       };
 
+      const to = number.includes('@') ? number : `${number}@${cfg.sip_domain}`;
+
       for (const k of ['sip_domain','username','password','local_ip']) {
         if (!cfg[k]) throw new Error(`Ontbrekende instelling: ${k}`);
       }
@@ -70,7 +72,7 @@ class VoipPlayerApp extends Homey.App {
       try {
         result = await callOnce({
           ...cfg,
-          to: number,
+          to,
           wavPath,
           logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
         });
