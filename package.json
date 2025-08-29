@@ -6,6 +6,9 @@
   "engines": {
     "node": ">=16"
   },
+  "scripts": {
+    "test": "node --test"
+  },
   "dependencies": {
     "sip": "^0.0.6"
   },
