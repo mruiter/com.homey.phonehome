@@ -32,6 +32,7 @@ class VoipPlayerApp extends Homey.App {
         sip_proxy: this.homey.settings.get('sip_proxy') || null,
         username: this.homey.settings.get('username'),
         password: this.homey.settings.get('password'),
+        realm: this.homey.settings.get('realm') || '',
         display_name: this.homey.settings.get('display_name') || 'HomeyBot',
         from_user: this.homey.settings.get('from_user') || this.homey.settings.get('username'),
         local_ip: this.homey.settings.get('local_ip'),
