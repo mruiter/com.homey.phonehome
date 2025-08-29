@@ -6,8 +6,8 @@
   "class": "other",
   "capabilities": [],
   "images": {
-    "small": "assets/icon.svg",
-    "large": "assets/icon.svg"
+    "small": "/drivers/voip_player/assets/small.png",
+    "large": "/drivers/voip_player/assets/large.png"
   },
   "pair": [
     {

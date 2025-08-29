@@ -137,7 +137,13 @@ async function callOnce(cfg) {
         if (res.status === 401 || res.status === 407) {
           logger('info', `REGISTER challenge: ${res.status}`);
           const hdr = res.headers['www-authenticate'] || res.headers['proxy-authenticate'];
-          const auth = buildAuthHeader(hdr, { method: 'REGISTER', uri: register.uri }, username, password, realm);
+          const auth = buildAuthHeader(
+            hdr,
+            { method: 'REGISTER', uri: register.Uri },
+            username,
+            password,
+            realm
+          );
           const hdrName = res.status === 401 ? 'authorization' : 'proxy-authorization';
           const r2 = { ...register };
           r2.headers = {
