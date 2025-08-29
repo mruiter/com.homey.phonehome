@@ -104,8 +104,7 @@ class VoipPlayerApp extends Homey.App {
     } else if (s && s.data) {
       fs.writeFileSync(dest, Buffer.from(s.data, 'base64'));
     } else { throw new Error('Soundboard gaf geen url/data terug'); }
-    require('./lib/wav_utils').readWavPcm16Mono8k(dest);
-    return dest;
+    return await require('./lib/wav_utils').ensureWavPcm16Mono8k(dest);
   }
   async _ensureLocalWav(urlOrPath) {
     const fs = require('fs'); const path = require('path'); const os = require('os');
@@ -114,8 +113,7 @@ class VoipPlayerApp extends Homey.App {
       local = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
       await this._downloadToFile(urlOrPath, local);
     } else { if (!fs.existsSync(urlOrPath)) throw new Error('Bestand niet gevonden: '+urlOrPath); }
-    require('./lib/wav_utils').readWavPcm16Mono8k(local);
-    return local;
+    return await require('./lib/wav_utils').ensureWavPcm16Mono8k(local);
   }
   async _downloadToFile(url, destPath) {
     const fs = require('fs'); const http = require('http'); const https = require('https');
