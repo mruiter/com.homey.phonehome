@@ -45,6 +45,14 @@
       }
     },
     {
+      "id": "auth_id",
+      "type": "text",
+      "title": {
+        "en": "Authentication ID (optional)",
+        "nl": "Authenticatie ID (optioneel)"
+      }
+    },
+    {
       "id": "password",
       "type": "password",
       "title": {
