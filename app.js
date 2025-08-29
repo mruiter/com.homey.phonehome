@@ -36,6 +36,7 @@ class VoipPlayerApp extends Homey.App {
         display_name: this.homey.settings.get('display_name') || 'HomeyBot',
         from_user: this.homey.settings.get('from_user') || this.homey.settings.get('username'),
         local_ip: this.homey.settings.get('local_ip'),
+        sip_transport: (this.homey.settings.get('sip_transport') || 'UDP').toUpperCase(),
         local_sip_port: Number(this.homey.settings.get('local_sip_port') || 5070),
         local_rtp_port: Number(this.homey.settings.get('local_rtp_port') || 40000),
         expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
