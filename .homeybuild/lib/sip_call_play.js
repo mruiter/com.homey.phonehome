@@ -77,7 +77,12 @@ function buildSdpOffer(localIp, rtpPort) {
     `m=audio ${rtpPort} RTP/AVP 0`,
     'a=rtpmap:0 PCMU/8000',
     'a=ptime:20',
-    'a=sendonly'
+    // Request two-way audio by default. The RTP stream we generate is
+    // strictly one-way, but some SIP servers (e.g. 3CX) will refuse to
+    // negotiate media when the initial offer is marked as sendonly. Using
+    // sendrecv here ensures the server responds with a valid RTP address
+    // and port, after which we simply ignore any incoming audio.
+    'a=sendrecv'
   ].join('\\r\\n');
 }
 function parseRemoteRtp(sdp) {
@@ -103,7 +108,7 @@ function buildVia(ip, port, protocol = 'UDP') {
 
 async function callOnce(cfg) {
   const {
-    sip_domain, sip_proxy, username, password, realm, display_name, from_user,
+    sip_domain, sip_proxy, username, auth_id, password, realm, display_name, from_user,
     local_ip, local_sip_port, local_rtp_port, expires_sec, invite_timeout,
     stun_server, stun_port,
     sip_transport = 'UDP',
@@ -140,7 +145,8 @@ async function callOnce(cfg) {
   let reqUri = sip_proxy ? `sip:${sip_proxy.replace(/^sip:/,'')}` : toUri;
   if (!/;transport=/i.test(reqUri)) reqUri += `;transport=${transportParam}`;
 
-  logger('info', `REGISTER naar ${sip_domain} als ${username}`);
+  const authUser = auth_id || username;
+  logger('info', `REGISTER naar ${sip_domain} als ${authUser}`);
   logger('info', `Start SIP socket op ${local_ip}:${local_sip_port}`);
   try {
     await sip.start({ address: local_ip, port: local_sip_port, logger, transport });
@@ -192,7 +198,7 @@ async function callOnce(cfg) {
           const auth = buildAuthHeader(
             hdr,
             { method: 'REGISTER', uri: register.Uri },
-            username,
+            authUser,
             password,
             realm
           );
@@ -312,7 +318,7 @@ async function callOnce(cfg) {
         if (res.status === 401 || res.status === 407) {
           logger('info', `INVITE challenge: ${res.status}`);
           const hdr = res.headers['www-authenticate'] || res.headers['proxy-authenticate'];
-          const auth = buildAuthHeader(hdr, { method: 'INVITE', uri: msg.uri }, username, password, realm);
+          const auth = buildAuthHeader(hdr, { method: 'INVITE', uri: msg.uri }, authUser, password, realm);
           const hdrName = res.status === 401 ? 'authorization' : 'proxy-authorization';
           const reinvite = { ...msg };
           reinvite.headers = { ...msg.headers, [hdrName]: auth, cseq: { method: 'INVITE', seq: ++cseq } };
