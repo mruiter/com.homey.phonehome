@@ -26,6 +26,9 @@
     <label>Password
       <input id="password" type="password" />
     </label>
+    <label>Realm (optional)
+      <input id="realm" type="text" />
+    </label>
     <label>Display name (From)
       <input id="display_name" type="text" />
     </label>
@@ -51,7 +54,7 @@
   </form>
   <script>
     function onHomeyReady(Homey) {
-      const fields = ['sip_domain','sip_proxy','username','password','display_name','from_user','local_ip','local_sip_port','local_rtp_port','expires_sec','invite_timeout'];
+      const fields = ['sip_domain','sip_proxy','username','password','realm','display_name','from_user','local_ip','local_sip_port','local_rtp_port','expires_sec','invite_timeout'];
       fields.forEach(key => {
         Homey.get(key, (err, value) => {
           if (!err && document.getElementById(key)) {
