@@ -17,7 +17,8 @@
     "email": "dev@example.com"
   },
   "permissions": [
-    "homey:manager:api"
+    "homey:manager:api",
+    "homey:app:com.athom.soundboard"
   ],
   "compatibility": ">=5.0.0",
   "settings": [

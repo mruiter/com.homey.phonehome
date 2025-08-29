@@ -17,7 +17,8 @@
     "email": "dev@example.com"
   },
   "permissions": [
-    "homey:manager:api"
+    "homey:manager:api",
+    "homey:app:com.athom.soundboard"
   ],
   "compatibility": ">=5.0.0",
   "settings": [
@@ -244,6 +245,14 @@
             "title": {
               "en": "Fallback: URL or path to WAV (8kHz mono)",
               "nl": "Fallback: URL of pad naar WAV (8kHz mono)"
+            }
+          },
+          {
+            "name": "repeat",
+            "type": "number",
+            "title": {
+              "en": "Times to play audio",
+              "nl": "Aantal keer afspelen"
             }
           }
         ],

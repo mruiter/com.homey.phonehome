@@ -40,6 +40,7 @@ class VoipPlayerApp extends Homey.App {
         sip_transport: (this.homey.settings.get('sip_transport') || 'UDP').toUpperCase(),
         local_sip_port: Number(this.homey.settings.get('local_sip_port') || 5070),
         local_rtp_port: Number(this.homey.settings.get('local_rtp_port') || 40000),
+        codec: (this.homey.settings.get('codec') || 'PCMU').toUpperCase(),
         expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
         invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
         stun_server: this.homey.settings.get('stun_server') || '',
@@ -61,21 +62,24 @@ class VoipPlayerApp extends Homey.App {
           if (!args.file_url) throw new Error('Soundboard mislukt en geen URL/pad opgegeven');
         }
       }
-      if (!wavPath) {
-        const fileUrl = String(args.file_url || '').trim();
-        if (!fileUrl) throw new Error('Geen geluidsbron opgegeven');
-        wavPath = await this._ensureLocalWav(fileUrl);
-      }
+        if (!wavPath) {
+          const fileUrl = String(args.file_url || '').trim();
+          if (!fileUrl) throw new Error('Geen geluidsbron opgegeven');
+          wavPath = await this._ensureLocalWav(fileUrl);
+        }
 
-      const { callOnce } = require('./lib/sip_call_play');
-      let result;
-      try {
-        result = await callOnce({
-          ...cfg,
-          to,
-          wavPath,
-          logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
-        });
+        const repeat = Math.max(1, Number(args.repeat || 1));
+
+        const { callOnce } = require('./lib/sip_call_play');
+        let result;
+        try {
+          result = await callOnce({
+            ...cfg,
+            to,
+            wavPath,
+            repeat,
+            logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
+          });
       } catch (e) {
         await this._triggerCompleted.trigger({
           status: 'failed', duurMs: 0, callee: number, reason: e.message||'unknown'
@@ -103,8 +107,7 @@ class VoipPlayerApp extends Homey.App {
     } else if (s && s.data) {
       fs.writeFileSync(dest, Buffer.from(s.data, 'base64'));
     } else { throw new Error('Soundboard gaf geen url/data terug'); }
-    require('./lib/wav_utils').readWavPcm16Mono8k(dest);
-    return dest;
+    return await require('./lib/wav_utils').ensureWavPcm16Mono8k(dest);
   }
   async _ensureLocalWav(urlOrPath) {
     const fs = require('fs'); const path = require('path'); const os = require('os');
@@ -113,8 +116,7 @@ class VoipPlayerApp extends Homey.App {
       local = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
       await this._downloadToFile(urlOrPath, local);
     } else { if (!fs.existsSync(urlOrPath)) throw new Error('Bestand niet gevonden: '+urlOrPath); }
-    require('./lib/wav_utils').readWavPcm16Mono8k(local);
-    return local;
+    return await require('./lib/wav_utils').ensureWavPcm16Mono8k(local);
   }
   async _downloadToFile(url, destPath) {
     const fs = require('fs'); const http = require('http'); const https = require('https');

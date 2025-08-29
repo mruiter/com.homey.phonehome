@@ -1,5 +1,8 @@
 'use strict';
 const fs = require('fs');
+const { spawn } = require('child_process');
+const path = require('path');
+const os = require('os');
 
 function readWavPcm16Mono8k(path) {
   const buf = fs.readFileSync(path);
@@ -51,10 +54,55 @@ function linearToUlaw(sample) {
   return ~(sign | (exponent << 4) | mantissa) & 0xFF;
 }
 
+function linearToAlaw(sample) {
+  let s = sample;
+  if (s > 32767) s = 32767;
+  if (s < -32768) s = -32768;
+  const sign = (s < 0) ? 0x80 : 0x00;
+  if (s < 0) s = -s;
+  let exponent = 7;
+  for (let exp = 7; exp > 0; exp--) {
+    if (s & (1 << (exp + 4))) { exponent = exp; break; }
+  }
+  let mantissa;
+  if (s < 16) {
+    mantissa = s << 4;
+    exponent = -1;
+  } else {
+    mantissa = (s >> (exponent + 3)) & 0x0F;
+  }
+  const alaw = (exponent << 4) | mantissa;
+  return (alaw ^ 0x55) | sign;
+}
+
 function pcm16ToUlawBuffer(pcm) {
   const out = Buffer.allocUnsafe(pcm.length);
-  for (let i=0;i<pcm.length;i++) out[i] = linearToUlaw(pcm[i]);
+  for (let i = 0; i < pcm.length; i++) out[i] = linearToUlaw(pcm[i]);
   return out;
 }
 
-module.exports = { readWavPcm16Mono8k, pcm16ToUlawBuffer };
+function pcm16ToAlawBuffer(pcm) {
+  const out = Buffer.allocUnsafe(pcm.length);
+  for (let i = 0; i < pcm.length; i++) out[i] = linearToAlaw(pcm[i]);
+  return out;
+}
+
+async function ensureWavPcm16Mono8k(srcPath) {
+  try {
+    readWavPcm16Mono8k(srcPath);
+    return srcPath;
+  } catch (e) {
+    let ffmpegPath = 'ffmpeg';
+    try { ffmpegPath = require('ffmpeg-static') || 'ffmpeg'; } catch {}
+    const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
+    await new Promise((resolve, reject) => {
+      const proc = spawn(ffmpegPath, ['-y', '-i', srcPath, '-ac', '1', '-ar', '8000', '-sample_fmt', 's16', dest]);
+      proc.on('error', reject);
+      proc.on('close', code => code === 0 ? resolve() : reject(new Error('ffmpeg exit ' + code)));
+    });
+    readWavPcm16Mono8k(dest);
+    return dest;
+  }
+}
+
+module.exports = { readWavPcm16Mono8k, pcm16ToUlawBuffer, pcm16ToAlawBuffer, ensureWavPcm16Mono8k };

@@ -3,7 +3,7 @@
 const sip = require('./sipstack');
 const dgram = require('dgram');
 const crypto = require('crypto');
-const { readWavPcm16Mono8k, pcm16ToUlawBuffer } = require('./wav_utils');
+const { readWavPcm16Mono8k, pcm16ToUlawBuffer, pcm16ToAlawBuffer } = require('./wav_utils');
 const stun = require('./stun_client');
 
 function genBranch() { return 'z9hG4bK-' + crypto.randomBytes(8).toString('hex'); }
@@ -67,15 +67,18 @@ function buildAuthHeader(wwwAuth, { method, uri }, username, password, realmOver
   return `Digest ${params}`;
 }
 
-function buildSdpOffer(localIp, rtpPort) {
+function buildSdpOffer(localIp, rtpPort, codec = 'PCMU') {
+  const pt = codec === 'PCMA' ? 8 : 0;
+  const codecLine = codec === 'PCMA' ? 'a=rtpmap:8 PCMA/8000' : 'a=rtpmap:0 PCMU/8000';
   return [
     'v=0',
     `o=- 0 0 IN IP4 ${localIp}`,
     's=-',
     `c=IN IP4 ${localIp}`,
     't=0 0',
-    `m=audio ${rtpPort} RTP/AVP 0`,
-    'a=rtpmap:0 PCMU/8000',
+    `m=audio ${rtpPort} RTP/AVP ${pt} 101`,
+    codecLine,
+    'a=rtpmap:101 telephone-event/8000',
     'a=ptime:20',
     // Request two-way audio by default. The RTP stream we generate is
     // strictly one-way, but some SIP servers (e.g. 3CX) will refuse to
@@ -83,22 +86,32 @@ function buildSdpOffer(localIp, rtpPort) {
     // sendrecv here ensures the server responds with a valid RTP address
     // and port, after which we simply ignore any incoming audio.
     'a=sendrecv'
-  ].join('\\r\\n');
+  // RFC 4566 mandates that SDP lines are separated by CRLF. The previous
+  // implementation used the literal string "\\r\\n", which resulted in
+  // backslash characters being transmitted instead of actual newlines. This
+  // caused SIP peers to reject the offer with messages like
+  // "Geen bruikbare SDP/codec". Use real CRLF sequences instead.
+  ].join('\r\n');
 }
-function parseRemoteRtp(sdp) {
+function parseRemoteRtp(sdp, fallbackIp) {
   if (!sdp) return null;
-  const lines = sdp.split(/\\r?\\n/);
-  let ip = null, port = null, hasPcmu = false;
+  // Remote SDP may contain either CRLF or LF line endings. Parse both
+  // correctly by using a regex that matches real newline characters.
+  const lines = sdp.split(/\r?\n/);
+  let ip = null, port = null, pts = [];
   for (const ln of lines) {
     if (ln.startsWith('c=IN IP4')) ip = ln.split(' ')[2];
     if (ln.startsWith('m=audio')) {
       const parts = ln.split(' ');
       port = parseInt(parts[1], 10);
-      if (parts.slice(3).includes('0')) hasPcmu = true;
+      pts = parts.slice(3).map(p => parseInt(p, 10)).filter(n => !isNaN(n));
     }
   }
-  if (ip && port && hasPcmu) return { ip, port };
-  return null;
+  if (!ip || ip === '0.0.0.0') ip = fallbackIp || null;
+  if (!(ip && port && pts.length)) return null;
+  const pt = pts.find(p => p === 0 || p === 8);
+  if (!pt) return null;
+  return { ip, port, pt };
 }
 function buildVia(ip, port, protocol = 'UDP') {
   const params = { branch: genBranch() };
@@ -109,11 +122,13 @@ function buildVia(ip, port, protocol = 'UDP') {
 async function callOnce(cfg) {
   const {
     sip_domain, sip_proxy, username, auth_id, password, realm, display_name, from_user,
-    local_ip, local_sip_port, local_rtp_port, expires_sec, invite_timeout,
+    local_ip, local_sip_port, local_rtp_port, codec = 'PCMU', expires_sec, invite_timeout,
     stun_server, stun_port,
     sip_transport = 'UDP',
-    to, wavPath, logger = () => {}
+    to, wavPath, repeat: repeatRaw = 1, logger = () => {}
   } = cfg;
+
+  const repeat = Math.max(1, parseInt(repeatRaw, 10) || 1);
 
   const transport = (sip_transport || 'UDP').toUpperCase();
   const transportParam = transport.toLowerCase();
@@ -195,9 +210,14 @@ async function callOnce(cfg) {
         if (res.status === 401 || res.status === 407) {
           logger('info', `REGISTER challenge: ${res.status}`);
           const hdr = res.headers['www-authenticate'] || res.headers['proxy-authenticate'];
+          // Use the request's URI when calculating the digest response.
+          // The previous code mistakenly referenced `register.Uri` (capital
+          // "U"), which is undefined. Some SIP servers tolerate the
+          // resulting `uri="undefined"` value, but others reject the
+          // authentication challenge or behave unpredictably.
           const auth = buildAuthHeader(
             hdr,
-            { method: 'REGISTER', uri: register.Uri },
+            { method: 'REGISTER', uri: register.uri },
             authUser,
             password,
             realm
@@ -222,12 +242,11 @@ async function callOnce(cfg) {
     });
 
     // INVITE
-    const invite = baseReq('INVITE', reqUri, { 'content-type': 'application/sdp' }, buildSdpOffer(public_ip, public_rtp_port));
+    const invite = baseReq('INVITE', reqUri, { 'content-type': 'application/sdp' }, buildSdpOffer(public_ip, public_rtp_port, codec));
     let callId = invite.headers['call-id'];
     let cseq = invite.headers.cseq.seq;
 
     const pcm = readWavPcm16Mono8k(wavPath);
-    const ulaw = pcm16ToUlawBuffer(pcm);
 
     let answerTs = null;
     let endReason = 'OK';
@@ -239,11 +258,20 @@ async function callOnce(cfg) {
       }, invite_timeout * 1000);
 
     const handle2xx = (res) => {
-      const remote = parseRemoteRtp(res.content);
+      const fallbackIp = (sip_proxy || sip_domain).replace(/^sip:/, '').split(':')[0];
+      const remote = parseRemoteRtp(res.content, fallbackIp);
       if (!remote) {
         endReason = 'Bad SDP';
         clearTimeout(timer);
-        return reject(new Error('Geen bruikbare SDP/rtpmap:0'));
+        return reject(new Error('Geen bruikbare SDP/codec'));
+      }
+      let encoded;
+      if (remote.pt === 0) encoded = pcm16ToUlawBuffer(pcm);
+      else if (remote.pt === 8) encoded = pcm16ToAlawBuffer(pcm);
+      else {
+        endReason = 'Unsupported codec';
+        clearTimeout(timer);
+        return reject(new Error('Geen ondersteunde codec'));
       }
       // ACK
       const ack = {
@@ -263,7 +291,7 @@ async function callOnce(cfg) {
       answerTs = Date.now();
       logger('info', `Answered. RTP -> ${remote.ip}:${remote.port}`);
 
-      startRtpStream(ulaw, local_ip, local_rtp_port, remote, () => {
+      startRtpStream(encoded, local_ip, local_rtp_port, remote, repeat, () => {
         const bye = {
           method: 'BYE',
           uri: invite.uri,
@@ -342,14 +370,15 @@ async function callOnce(cfg) {
   }
 }
 
-function startRtpStream(ulaw, localIp, localPort, remote, onDone) {
+function startRtpStream(encoded, localIp, localPort, remote, repeats, onDone) {
   const sock = dgram.createSocket('udp4');
   const SSRC = crypto.randomBytes(4).readUInt32BE(0);
   let seq = Math.floor(Math.random() * 65535);
   let ts  = Math.floor(Math.random() * 0xffffffff);
 
   const frameSize = 160; // 20ms @8kHz
-  const totalFrames = Math.ceil(ulaw.length / frameSize);
+  const fullBuffer = Buffer.concat(Array(Math.max(1, repeats)).fill(encoded));
+  const totalFrames = Math.ceil(fullBuffer.length / frameSize);
 
   sock.bind(localPort, localIp, () => {
     const t0 = process.hrtime.bigint();
@@ -357,7 +386,7 @@ function startRtpStream(ulaw, localIp, localPort, remote, onDone) {
     function buildPkt(payload) {
       const h = Buffer.alloc(12);
       h[0] = 0x80;
-      h[1] = 0x00; // PT=0 (PCMU)
+      h[1] = remote.pt & 0x7f;
       h.writeUInt16BE(seq++ & 0xffff, 2);
       h.writeUInt32BE(ts >>> 0, 4);
       h.writeUInt32BE(SSRC >>> 0, 8);
@@ -375,7 +404,7 @@ function startRtpStream(ulaw, localIp, localPort, remote, onDone) {
         sock.close(); onDone && onDone(); return;
       }
       const startIdx = i * frameSize;
-      const chunk = ulaw.slice(startIdx, Math.min(startIdx + frameSize, ulaw.length));
+      const chunk = fullBuffer.slice(startIdx, Math.min(startIdx + frameSize, fullBuffer.length));
       const payload = (chunk.length === frameSize) ? chunk : Buffer.concat([chunk, Buffer.alloc(frameSize - chunk.length, 0xFF)]);
       sock.send(buildPkt(payload), remote.port, remote.ip);
 
