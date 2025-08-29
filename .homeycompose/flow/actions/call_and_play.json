@@ -4,6 +4,7 @@
   "args": [
     { "name": "number", "type": "text", "title": { "en": "Phone number or SIP URI", "nl": "Telefoonnummer of SIP URI" } },
     { "name": "sound", "type": "autocomplete", "title": { "en": "Soundboard file (optional)", "nl": "Soundboard-bestand (optioneel)" } },
-    { "name": "file_url", "type": "text", "title": { "en": "Fallback: URL or path to WAV (8kHz mono)", "nl": "Fallback: URL of pad naar WAV (8kHz mono)" } }
+    { "name": "file_url", "type": "text", "title": { "en": "Fallback: URL or path to WAV (8kHz mono)", "nl": "Fallback: URL of pad naar WAV (8kHz mono)" } },
+    { "name": "repeat", "type": "number", "title": { "en": "Times to play audio", "nl": "Aantal keer afspelen" } }
   ]
 }

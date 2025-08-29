@@ -62,21 +62,24 @@ class VoipPlayerApp extends Homey.App {
           if (!args.file_url) throw new Error('Soundboard mislukt en geen URL/pad opgegeven');
         }
       }
-      if (!wavPath) {
-        const fileUrl = String(args.file_url || '').trim();
-        if (!fileUrl) throw new Error('Geen geluidsbron opgegeven');
-        wavPath = await this._ensureLocalWav(fileUrl);
-      }
+        if (!wavPath) {
+          const fileUrl = String(args.file_url || '').trim();
+          if (!fileUrl) throw new Error('Geen geluidsbron opgegeven');
+          wavPath = await this._ensureLocalWav(fileUrl);
+        }
 
-      const { callOnce } = require('./lib/sip_call_play');
-      let result;
-      try {
-        result = await callOnce({
-          ...cfg,
-          to,
-          wavPath,
-          logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
-        });
+        const repeat = Math.max(1, Number(args.repeat || 1));
+
+        const { callOnce } = require('./lib/sip_call_play');
+        let result;
+        try {
+          result = await callOnce({
+            ...cfg,
+            to,
+            wavPath,
+            repeat,
+            logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
+          });
       } catch (e) {
         await this._triggerCompleted.trigger({
           status: 'failed', duurMs: 0, callee: number, reason: e.message||'unknown'
