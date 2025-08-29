@@ -1,9 +1,10 @@
 'use strict';
 
-const sip = require('./minisip');
+const sip = require('./sipstack');
 const dgram = require('dgram');
 const crypto = require('crypto');
 const { readWavPcm16Mono8k, pcm16ToUlawBuffer } = require('./wav_utils');
+const stun = require('./stun_client');
 
 function genBranch() { return 'z9hG4bK-' + crypto.randomBytes(8).toString('hex'); }
 function genTag()    { return crypto.randomBytes(8).toString('hex'); }
@@ -80,10 +81,32 @@ async function callOnce(cfg) {
   const {
     sip_domain, sip_proxy, username, password, realm, display_name, from_user,
     local_ip, local_sip_port, local_rtp_port, expires_sec, invite_timeout,
+    stun_server, stun_port,
     to, wavPath, logger = () => {}
   } = cfg;
 
-  const contactUri = `sip:${from_user}@${local_ip}:${local_sip_port}`;
+  let public_ip = local_ip;
+  let public_sip_port = local_sip_port;
+  let public_rtp_port = local_rtp_port;
+  if (stun_server) {
+    try {
+      const sipMap = await stun.discover(stun_server, stun_port || 3478, local_ip, local_sip_port);
+      if (sipMap && sipMap.address) {
+        public_ip = sipMap.address;
+        public_sip_port = sipMap.port;
+      }
+      const rtpMap = await stun.discover(stun_server, stun_port || 3478, local_ip, local_rtp_port);
+      if (rtpMap && rtpMap.address) {
+        public_ip = rtpMap.address;
+        public_rtp_port = rtpMap.port;
+      }
+      logger('info', `STUN public mapping: SIP ${public_ip}:${public_sip_port}, RTP ${public_rtp_port}`);
+    } catch (e) {
+      logger('error', `STUN failed: ${e.message || e}`);
+    }
+  }
+
+  const contactUri = `sip:${from_user}@${public_ip}:${public_sip_port}`;
   const toUri = /^\\d+$/.test(to) ? `sip:${to}@${sip_domain}` : (to.startsWith('sip:') ? to : `sip:${to}`);
   const registerToUri = `sip:${from_user}@${sip_domain}`;
   const reqUri = sip_proxy ? `sip:${sip_proxy.replace(/^sip:/,'')}` : toUri;
@@ -111,7 +134,7 @@ async function callOnce(cfg) {
           'call-id': callId,
           cseq: { method, seq: 1 },
           contact: [{ uri: contactUri }],
-          via: [ buildVia(local_ip, local_sip_port) ],
+          via: [ buildVia(public_ip, public_sip_port) ],
           'max-forwards': 70,
           'user-agent': 'HomeySIP-POC/0.2',
           ...extraHeaders
@@ -164,7 +187,7 @@ async function callOnce(cfg) {
     });
 
     // INVITE
-    const invite = baseReq('INVITE', reqUri, { 'content-type': 'application/sdp' }, buildSdpOffer(local_ip, local_rtp_port));
+    const invite = baseReq('INVITE', reqUri, { 'content-type': 'application/sdp' }, buildSdpOffer(public_ip, public_rtp_port));
     let callId = invite.headers['call-id'];
     let cseq = invite.headers.cseq.seq;
 
@@ -196,7 +219,7 @@ async function callOnce(cfg) {
           from: invite.headers.from,
           'call-id': callId,
           cseq: { method: 'ACK', seq: ++cseq },
-          via: [ buildVia(local_ip, local_sip_port) ],
+          via: [ buildVia(public_ip, public_sip_port) ],
           contact: invite.headers.contact
         }
       };
@@ -214,7 +237,7 @@ async function callOnce(cfg) {
             from: invite.headers.from,
             'call-id': callId,
             cseq: { method: 'BYE', seq: ++cseq },
-            via: [ buildVia(local_ip, local_sip_port) ],
+            via: [ buildVia(public_ip, public_sip_port) ],
             contact: invite.headers.contact
           }
         };
