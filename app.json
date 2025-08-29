@@ -245,6 +245,14 @@
               "en": "Fallback: URL or path to WAV (8kHz mono)",
               "nl": "Fallback: URL of pad naar WAV (8kHz mono)"
             }
+          },
+          {
+            "name": "repeat",
+            "type": "number",
+            "title": {
+              "en": "Times to play audio",
+              "nl": "Aantal keer afspelen"
+            }
           }
         ],
         "id": "call_and_play"
