@@ -54,6 +54,14 @@
       }
     },
     {
+      "id": "realm",
+      "type": "text",
+      "title": {
+        "en": "Realm (optional)",
+        "nl": "Realm (optioneel)"
+      }
+    },
+    {
       "id": "display_name",
       "type": "text",
       "title": {

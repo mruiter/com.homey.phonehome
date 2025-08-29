@@ -24,21 +24,22 @@ function makeDigestResponse({ username, password, method, uri, realm, nonce, qop
   return qop ? md5(`${HA1}:${nonce}:${nc}:${cnonce}:${qop}:${HA2}`)
              : md5(`${HA1}:${nonce}:${HA2}`);
 }
-function buildAuthHeader(wwwAuth, { method, uri }, username, password) {
+function buildAuthHeader(wwwAuth, { method, uri }, username, password, realmOverride) {
   const a = parseAuthHeader(wwwAuth);
   const cnonce = crypto.randomBytes(8).toString('hex');
   const nc = '00000001';
-  const response = makeDigestResponse({ username, password, method, uri, realm: a.realm, nonce: a.nonce, qop: a.qop, nc, cnonce });
+  const realm = realmOverride || a.realm;
+  const response = makeDigestResponse({ username, password, method, uri, realm, nonce: a.nonce, qop: a.qop, nc, cnonce });
   const params = [
     `username="${username}"`,
-    `realm="${a.realm}"`,
+    `realm="${realm}"`,
     `nonce="${a.nonce}"`,
     `uri="${uri}"`,
     `response="${response}"`,
     a.qop ? `qop=${a.qop}` : '',
     'algorithm=MD5',
-    `cnonce="${cnonce}"`,
-    `nc=${nc}`
+    a.qop ? `cnonce="${cnonce}"` : '',
+    a.qop ? `nc=${nc}` : ''
   ].filter(Boolean).join(', ');
   return `Digest ${params}`;
 }
@@ -77,13 +78,14 @@ function buildVia(ip, port) {
 
 async function callOnce(cfg) {
   const {
-    sip_domain, sip_proxy, username, password, display_name, from_user,
+    sip_domain, sip_proxy, username, password, realm, display_name, from_user,
     local_ip, local_sip_port, local_rtp_port, expires_sec, invite_timeout,
     to, wavPath, logger = () => {}
   } = cfg;
 
   const contactUri = `sip:${from_user}@${local_ip}:${local_sip_port}`;
   const toUri = /^\\d+$/.test(to) ? `sip:${to}@${sip_domain}` : (to.startsWith('sip:') ? to : `sip:${to}`);
+  const registerToUri = `sip:${from_user}@${sip_domain}`;
   const reqUri = sip_proxy ? `sip:${sip_proxy.replace(/^sip:/,'')}` : toUri;
 
   logger('info', `REGISTER naar ${sip_domain} als ${username}`);
@@ -121,6 +123,7 @@ async function callOnce(cfg) {
     // REGISTER
     await new Promise((resolve, reject) => {
       const register = baseReq('REGISTER', `sip:${sip_domain}`, {
+        to: { uri: registerToUri },
         contact: [{ uri: contactUri, params: { expires: String(expires_sec) } }],
         expires: expires_sec
       });
@@ -134,10 +137,15 @@ async function callOnce(cfg) {
         if (res.status === 401 || res.status === 407) {
           logger('info', `REGISTER challenge: ${res.status}`);
           const hdr = res.headers['www-authenticate'] || res.headers['proxy-authenticate'];
-          const auth = buildAuthHeader(hdr, { method: 'REGISTER', uri: register.uri }, username, password);
+          const auth = buildAuthHeader(hdr, { method: 'REGISTER', uri: register.uri }, username, password, realm);
           const hdrName = res.status === 401 ? 'authorization' : 'proxy-authorization';
           const r2 = { ...register };
-          r2.headers = { ...register.headers, [hdrName]: auth, cseq: { method: 'REGISTER', seq: 2 } };
+          r2.headers = {
+            ...register.headers,
+            [hdrName]: auth,
+            cseq: { method: 'REGISTER', seq: 2 },
+            via: [ buildVia(local_ip, local_sip_port) ]
+          };
           logger('info', 'Send REGISTER with auth');
           sip.send(r2, res2 => {
             logger('info', `REGISTER with auth response: ${res2.status} ${res2.reason || ''}`);
@@ -246,7 +254,7 @@ async function callOnce(cfg) {
         if (res.status === 401 || res.status === 407) {
           logger('info', `INVITE challenge: ${res.status}`);
           const hdr = res.headers['www-authenticate'] || res.headers['proxy-authenticate'];
-          const auth = buildAuthHeader(hdr, { method: 'INVITE', uri: msg.uri }, username, password);
+          const auth = buildAuthHeader(hdr, { method: 'INVITE', uri: msg.uri }, username, password, realm);
           const hdrName = res.status === 401 ? 'authorization' : 'proxy-authorization';
           const reinvite = { ...msg };
           reinvite.headers = { ...msg.headers, [hdrName]: auth, cseq: { method: 'INVITE', seq: ++cseq } };
