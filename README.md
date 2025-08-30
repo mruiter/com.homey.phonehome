@@ -13,3 +13,4 @@ Geluidsbestanden in WAV of MP3 worden automatisch geconverteerd naar het geschik
 Uiteraard des te groter de geluidsfile des te langer het duurt voor de start van de sip call
 
 Belangrijke meldingen kan je dus het beste al in het juiste formaat in soundboard of elders klaar hebben staan.
+Geconverteerde geluidsbestanden worden standaard 3 dagen in cache bewaard (instelbaar via de app-instellingen) zodat vaak gebruikte bestanden niet telkens opnieuw geconverteerd hoeven te worden.
