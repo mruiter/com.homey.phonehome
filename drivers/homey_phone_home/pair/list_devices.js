@@ -8,7 +8,7 @@ module.exports = async (session) = {
     return [
       {
         name 'VOIP Player',
-        data { id 'voip_player' }
+        data { id 'homey_phone_home' }
       }
     ];
   });

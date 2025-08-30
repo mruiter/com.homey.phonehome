@@ -6,8 +6,8 @@
   "class": "other",
   "capabilities": [],
   "images": {
-    "small": "/drivers/voip_player/assets/small.png",
-    "large": "/drivers/voip_player/assets/large.png"
+    "small": "/drivers/homey_phone_home/assets/small.png",
+    "large": "/drivers/homey_phone_home/assets/large.png"
   },
   "pair": [
     {
