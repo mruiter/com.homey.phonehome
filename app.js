@@ -40,7 +40,7 @@ class VoipPlayerApp extends Homey.App {
         sip_transport: (this.homey.settings.get('sip_transport') || 'UDP').toUpperCase(),
         local_sip_port: Number(this.homey.settings.get('local_sip_port') || 5070),
         local_rtp_port: Number(this.homey.settings.get('local_rtp_port') || 40000),
-        codec: (this.homey.settings.get('codec') || 'PCMU').toUpperCase(),
+        codec: (this.homey.settings.get('codec') || 'AUTO').toUpperCase(),
         expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
         invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
         stun_server: this.homey.settings.get('stun_server') || '',
