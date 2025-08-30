@@ -78,7 +78,12 @@
   <script>
     function onHomeyReady(Homey) {
       const fields = ['sip_domain','sip_proxy','username','auth_id','password','realm','display_name','from_user','local_ip','sip_transport','local_sip_port','local_rtp_port','codec','expires_sec','invite_timeout','stun_server','stun_port'];
-      const defaults = { sip_transport: 'UDP', codec: 'AUTO' };
+      const defaults = {
+        sip_transport: 'UDP',
+        codec: 'AUTO',
+        stun_server: 'stun.l.google.com',
+        stun_port: 3478
+      };
       fields.forEach(key => {
         Homey.get(key, (err, value) => {
           if (!err && document.getElementById(key)) {

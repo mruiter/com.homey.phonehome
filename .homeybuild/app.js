@@ -14,6 +14,8 @@ class HomeyPhoneHomeApp extends Homey.App {
   async onInit() {
     this.log('Homey Phone Home app init');
 
+    this._autoSetLocalIp();
+
     this._triggerCompleted = this.homey.flow.getTriggerCard('call_completed');
 
     const actionSb = this.homey.flow.getActionCard('call_and_play_soundboard');
@@ -52,7 +54,7 @@ class HomeyPhoneHomeApp extends Homey.App {
         codec: (this.homey.settings.get('codec') || 'AUTO').toUpperCase(),
         expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
         invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
-        stun_server: this.homey.settings.get('stun_server') || '',
+        stun_server: this.homey.settings.get('stun_server') || 'stun.l.google.com',
         stun_port: Number(this.homey.settings.get('stun_port') || 3478)
       };
 
@@ -117,7 +119,7 @@ class HomeyPhoneHomeApp extends Homey.App {
         codec: (this.homey.settings.get('codec') || 'AUTO').toUpperCase(),
         expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
         invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
-        stun_server: this.homey.settings.get('stun_server') || '',
+        stun_server: this.homey.settings.get('stun_server') || 'stun.l.google.com',
         stun_port: Number(this.homey.settings.get('stun_port') || 3478)
       };
 
@@ -151,14 +153,25 @@ class HomeyPhoneHomeApp extends Homey.App {
         throw e;
       }
 
-      await this._triggerCompleted.trigger({
-        status: result.status || 'answered',
-        duurMs: Number(result.durationMs||0),
-        callee: number,
-        reason: result.reason || 'OK'
-      });
-      return true;
+    await this._triggerCompleted.trigger({
+      status: result.status || 'answered',
+      duurMs: Number(result.durationMs||0),
+      callee: number,
+      reason: result.reason || 'OK'
     });
+    return true;
+  });
+  }
+
+  _autoSetLocalIp() {
+    const net = os.networkInterfaces();
+    const ip = Object.values(net)
+      .flat()
+      .find(i => i && i.family === 'IPv4' && !i.internal)?.address;
+    if (ip && this.homey.settings.get('local_ip') !== ip) {
+      this.log('Detected local IP:', ip);
+      this.homey.settings.set('local_ip', ip);
+    }
   }
 
   async _resolveSoundboardToWav(soundArg) {
