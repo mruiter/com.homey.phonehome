@@ -8,4 +8,4 @@ Optioneel kan een STUN-server opgegeven worden om het publieke IP-adres en poort
 
 In de instellingen kan tevens de gewenste codec (PCMU of PCMA) worden gekozen.
 
-Deze app gebruikt [`mpg123-decoder`](https://www.npmjs.com/package/mpg123-decoder) om MP3-bestanden naar het juiste WAV-formaat te converteren.
+Deze app gebruikt [`mpg123-decoder`](https://www.npmjs.com/package/mpg123-decoder) om MP3-bestanden naar het juiste WAV-formaat te converteren. WAV-bestanden met een ander sample rate of aantal kanalen worden automatisch omgezet naar 16-bit 8kHz mono voor gebruik in de SIP-gesprekken.
