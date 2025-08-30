@@ -147,10 +147,10 @@
         "nl": "Voorkeurscodec"
       },
       "values": [
-        { "id": "AUTO", "label": { "en": "AUTO", "nl": "AUTO" } },
-        { "id": "PCMU", "label": { "en": "PCMU", "nl": "PCMU" } },
-        { "id": "PCMA", "label": { "en": "PCMA", "nl": "PCMA" } },
-        { "id": "G722", "label": { "en": "G722", "nl": "G722" } }
+        { "id": "AUTO", "title": { "en": "AUTO", "nl": "AUTO" } },
+        { "id": "PCMU", "title": { "en": "PCMU", "nl": "PCMU" } },
+        { "id": "PCMA", "title": { "en": "PCMA", "nl": "PCMA" } },
+        { "id": "G722", "title": { "en": "G722", "nl": "G722" } }
       ],
       "value": "AUTO"
     },
