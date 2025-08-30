@@ -20,27 +20,32 @@ class HomeyPhoneHomeApp extends Homey.App {
     if (this.homey.settings.get('cache_days') === undefined) this.homey.settings.set('cache_days', 2);
     this._permanentCache = new Set(this.homey.settings.get('permanent_cache') || []);
 
-    this._triggerCompleted = this.homey.flow.getTriggerCard('call_completed');
+    try {
+      this._triggerCompleted = this.homey.flow.getTriggerCard('call_completed');
+    } catch (e) {
+      this.error('Flow trigger card call_completed not found:', e.message || e);
+    }
 
-    const actionSb = this.homey.flow.getActionCard('call_and_play_soundboard');
-    actionSb.registerArgumentAutocompleteListener('sound', async (query, args) => {
-      try {
-        const sb = await this.homey.api.getApiApp('com.athom.soundboard');
-        const sounds = await sb.get('/sounds');
-        const q = (query || '').toLowerCase();
-        return (sounds || [])
-          .filter(s => !q || (s.name || '').toLowerCase().includes(q))
-          .slice(0, 25)
-          .map(s => ({ id: s.id, name: s.name || s.id }));
-      } catch (e) {
-        this.error('Soundboard autocomplete mislukt:', e.message || e);
-        return [{ id: 'ERROR', name: '⚠ Soundboard API niet bereikbaar' }];
-      }
-    });
+    try {
+      const actionSb = this.homey.flow.getActionCard('call_and_play_soundboard');
+      await actionSb.registerArgumentAutocompleteListener('sound', async (query, args) => {
+        try {
+          const sb = await this.homey.api.getApiApp('com.athom.soundboard');
+          const sounds = await sb.get('/sounds');
+          const q = (query || '').toLowerCase();
+          return (sounds || [])
+            .filter(s => !q || (s.name || '').toLowerCase().includes(q))
+            .slice(0, 25)
+            .map(s => ({ id: s.id, name: s.name || s.id }));
+        } catch (e) {
+          this.error('Soundboard autocomplete mislukt:', e.message || e);
+          return [{ id: 'ERROR', name: '⚠ Soundboard API niet bereikbaar' }];
+        }
+      });
 
-    actionSb.registerRunListener(async (args) => {
-      const number = String(args.number || '').trim();
-      if (!number) throw new Error('Geen nummer opgegeven');
+      await actionSb.registerRunListener(async (args) => {
+        const number = String(args.number || '').trim();
+        if (!number) throw new Error('Geen nummer opgegeven');
 
       const cfg = {
         sip_domain: this.homey.settings.get('sip_domain'),
@@ -99,13 +104,17 @@ class HomeyPhoneHomeApp extends Homey.App {
         callee: number,
         reason: result.reason || 'OK'
       });
-      return true;
-    });
+        return true;
+      });
+    } catch (e) {
+      this.error('Failed to register flow card call_and_play_soundboard:', e.message || e);
+    }
 
-    const actionUrl = this.homey.flow.getActionCard('call_and_play_url');
-    actionUrl.registerRunListener(async (args) => {
-      const number = String(args.number || '').trim();
-      if (!number) throw new Error('Geen nummer opgegeven');
+    try {
+      const actionUrl = this.homey.flow.getActionCard('call_and_play_url');
+      await actionUrl.registerRunListener(async (args) => {
+        const number = String(args.number || '').trim();
+        if (!number) throw new Error('Geen nummer opgegeven');
 
       const cfg = {
         sip_domain: this.homey.settings.get('sip_domain'),
@@ -157,14 +166,17 @@ class HomeyPhoneHomeApp extends Homey.App {
         throw e;
       }
 
-      await this._triggerCompleted.trigger({
-        status: result.status || 'answered',
-        duurMs: Number(result.durationMs||0),
-        callee: number,
-        reason: result.reason || 'OK'
+        await this._triggerCompleted.trigger({
+          status: result.status || 'answered',
+          duurMs: Number(result.durationMs||0),
+          callee: number,
+          reason: result.reason || 'OK'
+        });
+        return true;
       });
-      return true;
-    });
+    } catch (e) {
+      this.error('Failed to register flow card call_and_play_url:', e.message || e);
+    }
     
     this.homey.api.get('/cache', async (req,res) => {
       try {
