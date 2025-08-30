@@ -3,6 +3,8 @@ const fs = require('fs');
 const { spawn } = require('child_process');
 const path = require('path');
 const os = require('os');
+const ffmpegPath = require('./ffmpeg-path');
+const { MPEGDecoder } = require('mpg123-decoder');
 
 function readWavPcm16Mono8k(path) {
   const buf = fs.readFileSync(path);
@@ -92,8 +94,14 @@ async function ensureWavPcm16Mono8k(srcPath) {
     readWavPcm16Mono8k(srcPath);
     return srcPath;
   } catch (e) {
-    let ffmpegPath = 'ffmpeg';
-    try { ffmpegPath = require('ffmpeg-static') || 'ffmpeg'; } catch {}
+    const ext = path.extname(srcPath).toLowerCase();
+    if (ext === '.mp3') {
+      const pcm = await decodeMp3ToPcm16Mono8k(srcPath);
+      const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
+      writeWavPcm16Mono8k(dest, pcm);
+      readWavPcm16Mono8k(dest);
+      return dest;
+    }
     const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
     await new Promise((resolve, reject) => {
       const proc = spawn(ffmpegPath, ['-y', '-i', srcPath, '-ac', '1', '-ar', '8000', '-sample_fmt', 's16', dest]);
@@ -103,6 +111,75 @@ async function ensureWavPcm16Mono8k(srcPath) {
     readWavPcm16Mono8k(dest);
     return dest;
   }
+}
+
+async function decodeMp3ToPcm16Mono8k(mp3Path) {
+  const decoder = new MPEGDecoder();
+  await decoder.ready;
+  const mp3 = fs.readFileSync(mp3Path);
+  const { channelData, sampleRate } = decoder.decode(mp3);
+  const mono = mergeChannels(channelData);
+  const resampled = resampleFloat32(mono, sampleRate, 8000);
+  return floatToInt16(resampled);
+}
+
+function mergeChannels(channels) {
+  if (channels.length === 1) return channels[0];
+  const length = channels[0].length;
+  const out = new Float32Array(length);
+  for (let i = 0; i < length; i++) {
+    let sum = 0;
+    for (const ch of channels) sum += ch[i];
+    out[i] = sum / channels.length;
+  }
+  return out;
+}
+
+function resampleFloat32(data, inRate, outRate) {
+  if (inRate === outRate) return data;
+  const ratio = inRate / outRate;
+  const newLen = Math.floor(data.length / ratio);
+  const out = new Float32Array(newLen);
+  for (let i = 0; i < newLen; i++) {
+    const pos = i * ratio;
+    const i0 = Math.floor(pos);
+    const i1 = Math.min(i0 + 1, data.length - 1);
+    const frac = pos - i0;
+    out[i] = data[i0] * (1 - frac) + data[i1] * frac;
+  }
+  return out;
+}
+
+function floatToInt16(data) {
+  const out = new Int16Array(data.length);
+  for (let i = 0; i < data.length; i++) {
+    let s = data[i];
+    if (s > 1) s = 1;
+    if (s < -1) s = -1;
+    out[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  return out;
+}
+
+function writeWavPcm16Mono8k(dest, pcm) {
+  const header = Buffer.alloc(44);
+  const dataSize = pcm.length * 2;
+  header.write('RIFF', 0);
+  header.writeUInt32LE(36 + dataSize, 4);
+  header.write('WAVE', 8);
+  header.write('fmt ', 12);
+  header.writeUInt32LE(16, 16);
+  header.writeUInt16LE(1, 20);
+  header.writeUInt16LE(1, 22);
+  header.writeUInt32LE(8000, 24);
+  header.writeUInt32LE(8000 * 2, 28);
+  header.writeUInt16LE(2, 32);
+  header.writeUInt16LE(16, 34);
+  header.write('data', 36);
+  header.writeUInt32LE(dataSize, 40);
+  const pcmBuf = Buffer.alloc(dataSize);
+  for (let i = 0; i < pcm.length; i++) pcmBuf.writeInt16LE(pcm[i], i * 2);
+  fs.writeFileSync(dest, Buffer.concat([header, pcmBuf]));
 }
 
 module.exports = { readWavPcm16Mono8k, pcm16ToUlawBuffer, pcm16ToAlawBuffer, ensureWavPcm16Mono8k };

@@ -10,6 +10,7 @@
     "test": "node --test"
   },
   "dependencies": {
+    "mpg123-decoder": "^1.0.2",
     "sip": "^0.0.6"
   },
   "homey": {
