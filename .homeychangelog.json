@@ -10,5 +10,8 @@
   },
   "1.0.3": {
     "en": "Added manual cache clear"
+  },
+  "1.0.4": {
+    "en": "Translations and more memory and code optimizations"
   }
 }
