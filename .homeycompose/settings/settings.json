@@ -4,7 +4,17 @@
     "type": "text",
     "title": {
       "en": "SIP Domain/Registrar",
-      "nl": "SIP Domein/Registrar"
+      "nl": "SIP Domein/Registrar",
+      "da": "SIP Domæne/Registrator",
+      "de": "SIP-Domain/Registrar",
+      "es": "Dominio SIP/Registrador",
+      "fr": "Domaine SIP/Registraire",
+      "it": "Dominio SIP/Registratore",
+      "no": "SIP Domene/Registrar",
+      "sv": "SIP Domän/Registrator",
+      "pl": "Domena SIP/Rejestrator",
+      "ru": "SIP-домен/Регистратор",
+      "ko": "SIP 도메인/레지스트라"
     }
   },
   {
@@ -12,7 +22,17 @@
     "type": "text",
     "title": {
       "en": "SIP Proxy/Request-URI host (optional)",
-      "nl": "SIP Proxy/Request-URI host (optioneel)"
+      "nl": "SIP Proxy/Request-URI host (optioneel)",
+      "da": "SIP Proxy/Request-URI-vært (valgfrit)",
+      "de": "SIP-Proxy/Request-URI-Host (optional)",
+      "es": "Proxy SIP/Host de Request-URI (opcional)",
+      "fr": "Proxy SIP/hôte Request-URI (optionnel)",
+      "it": "Proxy SIP/Host Request-URI (opzionale)",
+      "no": "SIP Proxy/Request-URI-vert (valgfritt)",
+      "sv": "SIP Proxy/Request-URI-värd (valfritt)",
+      "pl": "SIP Proxy/Host Request-URI (opcjonalnie)",
+      "ru": "SIP-прокси/хост Request-URI (необязательно)",
+      "ko": "SIP 프록시/요청 URI 호스트 (선택 사항)"
     }
   },
   {
@@ -20,7 +40,17 @@
     "type": "text",
     "title": {
       "en": "Username",
-      "nl": "Gebruikersnaam"
+      "nl": "Gebruikersnaam",
+      "da": "Brugernavn",
+      "de": "Benutzername",
+      "es": "Nombre de usuario",
+      "fr": "Nom d'utilisateur",
+      "it": "Nome utente",
+      "no": "Brukernavn",
+      "sv": "Användarnamn",
+      "pl": "Nazwa użytkownika",
+      "ru": "Имя пользователя",
+      "ko": "사용자 이름"
     }
   },
   {
@@ -28,7 +58,17 @@
     "type": "password",
     "title": {
       "en": "Password",
-      "nl": "Wachtwoord"
+      "nl": "Wachtwoord",
+      "da": "Adgangskode",
+      "de": "Passwort",
+      "es": "Contraseña",
+      "fr": "Mot de passe",
+      "it": "Password",
+      "no": "Passord",
+      "sv": "Lösenord",
+      "pl": "Hasło",
+      "ru": "Пароль",
+      "ko": "비밀번호"
     }
   },
   {
@@ -36,7 +76,17 @@
     "type": "text",
     "title": {
       "en": "Realm (optional)",
-      "nl": "Realm (optioneel)"
+      "nl": "Realm (optioneel)",
+      "da": "Rige (valgfrit)",
+      "de": "Bereich (optional)",
+      "es": "Reino (opcional)",
+      "fr": "Domaine (optionnel)",
+      "it": "Ambito (opzionale)",
+      "no": "Område (valgfritt)",
+      "sv": "Domän (valfritt)",
+      "pl": "Realm (opcjonalnie)",
+      "ru": "Область (необязательно)",
+      "ko": "영역 (선택 사항)"
     }
   },
   {
@@ -44,7 +94,17 @@
     "type": "text",
     "title": {
       "en": "Display name (From)",
-      "nl": "Weergavenaam (From)"
+      "nl": "Weergavenaam (From)",
+      "da": "Visningsnavn (Fra)",
+      "de": "Anzeigename (Von)",
+      "es": "Nombre a mostrar (De)",
+      "fr": "Nom d'affichage (De)",
+      "it": "Nome visualizzato (Da)",
+      "no": "Visningsnavn (Fra)",
+      "sv": "Visningsnamn (Från)",
+      "pl": "Nazwa wyświetlana (Od)",
+      "ru": "Отображаемое имя (От)",
+      "ko": "표시 이름 (발신자)"
     },
     "value": "HomeyBot"
   },
@@ -53,7 +113,17 @@
     "type": "text",
     "title": {
       "en": "From user",
-      "nl": "From user"
+      "nl": "From user",
+      "da": "Fra bruger",
+      "de": "Von Benutzer",
+      "es": "De usuario",
+      "fr": "De l'utilisateur",
+      "it": "Da utente",
+      "no": "Fra bruker",
+      "sv": "Från användare",
+      "pl": "Od użytkownika",
+      "ru": "От пользователя",
+      "ko": "사용자로부터"
     }
   },
   {
@@ -61,7 +131,17 @@
     "type": "text",
     "title": {
       "en": "Local IP (Homey)",
-      "nl": "Lokaal IP (Homey)"
+      "nl": "Lokaal IP (Homey)",
+      "da": "Lokalt IP (Homey)",
+      "de": "Lokale IP (Homey)",
+      "es": "IP local (Homey)",
+      "fr": "IP locale (Homey)",
+      "it": "IP locale (Homey)",
+      "no": "Lokal IP (Homey)",
+      "sv": "Lokal IP (Homey)",
+      "pl": "Lokalny IP (Homey)",
+      "ru": "Локальный IP (Homey)",
+      "ko": "로컬 IP (Homey)"
     }
   },
   {
@@ -69,7 +149,17 @@
     "type": "number",
     "title": {
       "en": "Local SIP port",
-      "nl": "Lokale SIP poort"
+      "nl": "Lokale SIP poort",
+      "da": "Lokal SIP port",
+      "de": "Lokaler SIP-Port",
+      "es": "Puerto SIP local",
+      "fr": "Port SIP local",
+      "it": "Porta SIP locale",
+      "no": "Lokal SIP-port",
+      "sv": "Lokal SIP-port",
+      "pl": "Lokalny port SIP",
+      "ru": "Локальный SIP-порт",
+      "ko": "로컬 SIP 포트"
     },
     "value": 5070
   },
@@ -78,7 +168,17 @@
     "type": "number",
     "title": {
       "en": "Local RTP port",
-      "nl": "Lokale RTP poort"
+      "nl": "Lokale RTP poort",
+      "da": "Lokal RTP-port",
+      "de": "Lokaler RTP-Port",
+      "es": "Puerto RTP local",
+      "fr": "Port RTP local",
+      "it": "Porta RTP locale",
+      "no": "Lokal RTP-port",
+      "sv": "Lokal RTP-port",
+      "pl": "Lokalny port RTP",
+      "ru": "Локальный RTP-порт",
+      "ko": "로컬 RTP 포트"
     },
     "value": 40000
   },
@@ -87,7 +187,17 @@
     "type": "number",
     "title": {
       "en": "REGISTER Expires (s)",
-      "nl": "REGISTER Expires (s)"
+      "nl": "REGISTER Expires (s)",
+      "da": "REGISTER Udløber (s)",
+      "de": "REGISTER läuft ab (s)",
+      "es": "El REGISTRO expira (s)",
+      "fr": "L'ENREGISTREMENT expire (s)",
+      "it": "REGISTRAZIONE scade (s)",
+      "no": "REGISTER utløper (s)",
+      "sv": "REGISTER går ut (s)",
+      "pl": "REGISTER wygasa (s)",
+      "ru": "REGISTER истекает (с)",
+      "ko": "REGISTER 만료 (초)"
     },
     "value": 300
   },
@@ -96,7 +206,17 @@
     "type": "number",
     "title": {
       "en": "Invite timeout (s)",
-      "nl": "Invite timeout (s)"
+      "nl": "Invite timeout (s)",
+      "da": "Invitere timeout (s)",
+      "de": "Einladungs-Timeout (s)",
+      "es": "Tiempo de espera de invitación (s)",
+      "fr": "Délai d'invitation (s)",
+      "it": "Timeout invito (s)",
+      "no": "Invitasjon timeout (s)",
+      "sv": "Inbjudan timeout (s)",
+      "pl": "Limit czasu zaproszenia (s)",
+      "ru": "Тайм-аут приглашения (с)",
+      "ko": "초대 시간 초과 (초)"
     },
     "value": 45
   },
@@ -105,9 +225,24 @@
     "type": "enum",
     "title": {
       "en": "Preferred codec",
-      "nl": "Voorkeurscodec"
+      "nl": "Voorkeurscodec",
+      "da": "Foretrukken codec",
+      "de": "Bevorzugter Codec",
+      "es": "Códec preferido",
+      "fr": "Codec préféré",
+      "it": "Codec preferito",
+      "no": "Foretrukket kodek",
+      "sv": "Föredragen codec",
+      "pl": "Preferowany kodek",
+      "ru": "Предпочтительный кодек",
+      "ko": "선호 코덱"
     },
-    "values": ["AUTO","PCMU","PCMA","G722"],
+    "values": [
+      "AUTO",
+      "PCMU",
+      "PCMA",
+      "G722"
+    ],
     "value": "AUTO"
   }
 ]

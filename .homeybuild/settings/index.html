@@ -55,8 +55,10 @@
     </label>
     <label>Codec
       <select id="codec">
+        <option value="AUTO">AUTO (prefer PCMA)</option>
         <option value="PCMU">PCMU (G711u)</option>
         <option value="PCMA">PCMA (G711a)</option>
+        <option value="G722">G722</option>
       </select>
     </label>
     <label>REGISTER Expires (s)
@@ -76,7 +78,7 @@
   <script>
     function onHomeyReady(Homey) {
       const fields = ['sip_domain','sip_proxy','username','auth_id','password','realm','display_name','from_user','local_ip','sip_transport','local_sip_port','local_rtp_port','codec','expires_sec','invite_timeout','stun_server','stun_port'];
-      const defaults = { sip_transport: 'UDP', codec: 'PCMU' };
+      const defaults = { sip_transport: 'UDP', codec: 'AUTO' };
       fields.forEach(key => {
         Homey.get(key, (err, value) => {
           if (!err && document.getElementById(key)) {

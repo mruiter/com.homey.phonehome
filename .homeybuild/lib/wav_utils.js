@@ -8,7 +8,7 @@ const os = require('os');
 // errors when decoding MP3 files.
 let MPEGDecoder;
 
-function readWavPcm16Mono8k(path) {
+function readWavPcm16Mono(path, expectedRate) {
   const buf = fs.readFileSync(path);
   if (buf.slice(0,4).toString() !== 'RIFF' || buf.slice(8,12).toString() !== 'WAVE') {
     throw new Error('Geen geldige WAV (RIFF/WAVE)');
@@ -29,7 +29,7 @@ function readWavPcm16Mono8k(path) {
   const bitsPerSample = buf.readUInt16LE(fmt.offset + 14);
   if (audioFormat !== 1) throw new Error('Alleen PCM ondersteund');
   if (numChannels !== 1) throw new Error('Mono vereist');
-  if (sampleRate !== 8000) throw new Error('8000 Hz vereist');
+  if (sampleRate !== expectedRate) throw new Error(`${expectedRate} Hz vereist`);
   if (bitsPerSample !== 16) throw new Error('16-bit PCM vereist');
 
   const available = Math.max(0, Math.min(data.size, buf.length - data.offset));
@@ -39,6 +39,14 @@ function readWavPcm16Mono8k(path) {
     pcm[i] = buf.readInt16LE(data.offset + i * 2);
   }
   return pcm;
+}
+
+function readWavPcm16Mono8k(path) {
+  return readWavPcm16Mono(path, 8000);
+}
+
+function readWavPcm16Mono16k(path) {
+  return readWavPcm16Mono(path, 16000);
 }
 
 function linearToUlaw(sample) {
@@ -91,9 +99,9 @@ function pcm16ToAlawBuffer(pcm) {
   return out;
 }
 
-async function ensureWavPcm16Mono8k(srcPath) {
+async function ensureWavPcm16Mono(srcPath, targetRate) {
   try {
-    readWavPcm16Mono8k(srcPath);
+    readWavPcm16Mono(srcPath, targetRate);
     return srcPath;
   } catch (e) {
     // If the file is a WAV but in the wrong format (e.g. stereo or
@@ -103,14 +111,15 @@ async function ensureWavPcm16Mono8k(srcPath) {
     if (e.message && (
       e.message.includes('Mono vereist') ||
       e.message.includes('8000 Hz vereist') ||
+      e.message.includes('16000 Hz vereist') ||
       e.message.includes('16-bit PCM vereist') ||
       e.message.includes('Alleen PCM ondersteund')
     )) {
       try {
-        const pcm = decodeWavToPcm16Mono8k(srcPath);
+        const pcm = targetRate === 8000 ? decodeWavToPcm16Mono8k(srcPath) : decodeWavToPcm16Mono16k(srcPath);
         const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
-        writeWavPcm16Mono8k(dest, pcm);
-        readWavPcm16Mono8k(dest);
+        (targetRate===8000?writeWavPcm16Mono8k:writeWavPcm16Mono16k)(dest, pcm);
+        readWavPcm16Mono(dest, targetRate);
         return dest;
       } catch (_) {
         // fall through to MP3 decoding
@@ -122,10 +131,10 @@ async function ensureWavPcm16Mono8k(srcPath) {
     // external sources or Homey soundboard entries).
     if (e.message && e.message.includes('Geen geldige WAV')) {
       try {
-        const pcm = await decodeMp3ToPcm16Mono8k(srcPath);
+        const pcm = await (targetRate===8000?decodeMp3ToPcm16Mono8k:decodeMp3ToPcm16Mono16k)(srcPath);
         const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
-        writeWavPcm16Mono8k(dest, pcm);
-        readWavPcm16Mono8k(dest); // throws if conversion failed
+        (targetRate===8000?writeWavPcm16Mono8k:writeWavPcm16Mono16k)(dest, pcm);
+        readWavPcm16Mono(dest, targetRate); // throws if conversion failed
         return dest;
       } catch (_) {
         // fall through and rethrow original error if MP3 decoding fails
@@ -134,6 +143,9 @@ async function ensureWavPcm16Mono8k(srcPath) {
     throw e;
   }
 }
+
+function ensureWavPcm16Mono8k(srcPath) { return ensureWavPcm16Mono(srcPath, 8000); }
+function ensureWavPcm16Mono16k(srcPath) { return ensureWavPcm16Mono(srcPath, 16000); }
 
 async function decodeMp3ToPcm16Mono8k(mp3Path) {
   if (!MPEGDecoder) {
@@ -145,6 +157,17 @@ async function decodeMp3ToPcm16Mono8k(mp3Path) {
   const { channelData, sampleRate } = decoder.decode(mp3);
   const mono = mergeChannels(channelData);
   const resampled = resampleFloat32(mono, sampleRate, 8000);
+  return floatToInt16(resampled);
+}
+
+async function decodeMp3ToPcm16Mono16k(mp3Path) {
+  if (!MPEGDecoder) ({ MPEGDecoder } = await import('mpg123-decoder'));
+  const decoder = new MPEGDecoder();
+  await decoder.ready;
+  const mp3 = fs.readFileSync(mp3Path);
+  const { channelData, sampleRate } = decoder.decode(mp3);
+  const mono = mergeChannels(channelData);
+  const resampled = resampleFloat32(mono, sampleRate, 16000);
   return floatToInt16(resampled);
 }
 
@@ -182,6 +205,42 @@ function decodeWavToPcm16Mono8k(wavPath) {
     mono[i] = sum / numChannels;
   }
   const resampled = resampleFloat32(mono, sampleRate, 8000);
+  return floatToInt16(resampled);
+}
+
+function decodeWavToPcm16Mono16k(wavPath) {
+  const buf = fs.readFileSync(wavPath);
+  if (buf.slice(0,4).toString() !== 'RIFF' || buf.slice(8,12).toString() !== 'WAVE') {
+    throw new Error('Geen geldige WAV (RIFF/WAVE)');
+  }
+  let offset = 12; let fmt, data;
+  while (offset < buf.length) {
+    const id = buf.slice(offset, offset + 4).toString();
+    const size = buf.readUInt32LE(offset + 4);
+    if (id === 'fmt ') fmt = { offset: offset + 8, size };
+    if (id === 'data') data = { offset: offset + 8, size };
+    offset += 8 + size + (size % 2);
+  }
+  if (!fmt || !data) throw new Error('fmt of data chunk ontbreekt');
+  const audioFormat = buf.readUInt16LE(fmt.offset + 0);
+  const numChannels = buf.readUInt16LE(fmt.offset + 2);
+  const sampleRate = buf.readUInt32LE(fmt.offset + 4);
+  const bitsPerSample = buf.readUInt16LE(fmt.offset + 14);
+  if (audioFormat !== 1) throw new Error('Alleen PCM ondersteund');
+  if (bitsPerSample !== 16) throw new Error('16-bit PCM vereist');
+
+  const available = Math.max(0, Math.min(data.size, buf.length - data.offset));
+  const frames = Math.floor(available / (numChannels * 2));
+  const mono = new Float32Array(frames);
+  for (let i = 0; i < frames; i++) {
+    let sum = 0;
+    for (let ch = 0; ch < numChannels; ch++) {
+      const sample = buf.readInt16LE(data.offset + (i * numChannels + ch) * 2);
+      sum += sample / 0x8000;
+    }
+    mono[i] = sum / numChannels;
+  }
+  const resampled = resampleFloat32(mono, sampleRate, 16000);
   return floatToInt16(resampled);
 }
 
@@ -244,4 +303,26 @@ function writeWavPcm16Mono8k(dest, pcm) {
   fs.writeFileSync(dest, Buffer.concat([header, pcmBuf]));
 }
 
-module.exports = { readWavPcm16Mono8k, pcm16ToUlawBuffer, pcm16ToAlawBuffer, ensureWavPcm16Mono8k, writeWavPcm16Mono8k };
+function writeWavPcm16Mono16k(dest, pcm) {
+  const header = Buffer.alloc(44);
+  const dataSize = pcm.length * 2;
+  header.write('RIFF',0); header.writeUInt32LE(36 + dataSize,4);
+  header.write('WAVE',8); header.write('fmt ',12);
+  header.writeUInt32LE(16,16); header.writeUInt16LE(1,20);
+  header.writeUInt16LE(1,22); header.writeUInt32LE(16000,24);
+  header.writeUInt32LE(16000 * 2,28);
+  header.writeUInt16LE(2,32); header.writeUInt16LE(16,34);
+  header.write('data',36); header.writeUInt32LE(dataSize,40);
+  const pcmBuf = Buffer.alloc(dataSize);
+  for (let i=0;i<pcm.length;i++) pcmBuf.writeInt16LE(pcm[i], i*2);
+  fs.writeFileSync(dest, Buffer.concat([header, pcmBuf]));
+}
+
+function pcm16Resample(pcm, inRate, outRate) {
+  const f = new Float32Array(pcm.length);
+  for (let i=0;i<pcm.length;i++) f[i]=pcm[i]/0x8000;
+  const resampled = resampleFloat32(f, inRate, outRate);
+  return floatToInt16(resampled);
+}
+
+module.exports = { readWavPcm16Mono8k, readWavPcm16Mono16k, pcm16ToUlawBuffer, pcm16ToAlawBuffer, ensureWavPcm16Mono8k, ensureWavPcm16Mono16k, writeWavPcm16Mono8k, writeWavPcm16Mono16k, pcm16Resample };

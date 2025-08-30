@@ -3,7 +3,8 @@
 const sip = require('./sipstack');
 const dgram = require('dgram');
 const crypto = require('crypto');
-const { readWavPcm16Mono8k, pcm16ToUlawBuffer, pcm16ToAlawBuffer } = require('./wav_utils');
+const { readWavPcm16Mono8k, readWavPcm16Mono16k, pcm16ToUlawBuffer, pcm16ToAlawBuffer, pcm16Resample } = require('./wav_utils');
+const { encode: pcm16ToG722Buffer } = require('./g722');
 const stun = require('./stun_client');
 
 function genBranch() { return 'z9hG4bK-' + crypto.randomBytes(8).toString('hex'); }
@@ -67,17 +68,27 @@ function buildAuthHeader(wwwAuth, { method, uri }, username, password, realmOver
   return `Digest ${params}`;
 }
 
-function buildSdpOffer(localIp, rtpPort, codec = 'PCMU') {
-  const pt = codec === 'PCMA' ? 8 : 0;
-  const codecLine = codec === 'PCMA' ? 'a=rtpmap:8 PCMA/8000' : 'a=rtpmap:0 PCMU/8000';
+function buildSdpOffer(localIp, rtpPort, codec = 'AUTO') {
+  let mLineCodecs = '0 101';
+  const codecLines = ['a=rtpmap:0 PCMU/8000'];
+  if (codec === 'PCMA') {
+    mLineCodecs = '8 101';
+    codecLines.splice(0,1,'a=rtpmap:8 PCMA/8000');
+  } else if (codec === 'G722') {
+    mLineCodecs = '9 101';
+    codecLines.splice(0,1,'a=rtpmap:9 G722/8000');
+  } else if (codec === 'AUTO') {
+    mLineCodecs = '9 8 0 101';
+    codecLines.unshift('a=rtpmap:9 G722/8000','a=rtpmap:8 PCMA/8000');
+  }
   return [
     'v=0',
     `o=- 0 0 IN IP4 ${localIp}`,
     's=-',
     `c=IN IP4 ${localIp}`,
     't=0 0',
-    `m=audio ${rtpPort} RTP/AVP ${pt} 101`,
-    codecLine,
+    `m=audio ${rtpPort} RTP/AVP ${mLineCodecs}`,
+    ...codecLines,
     'a=rtpmap:101 telephone-event/8000',
     'a=ptime:20',
     // Request two-way audio by default. The RTP stream we generate is
@@ -109,7 +120,7 @@ function parseRemoteRtp(sdp, fallbackIp) {
   }
   if (!ip || ip === '0.0.0.0') ip = fallbackIp || null;
   if (!(ip && port && pts.length)) return null;
-  const pt = pts.find(p => p === 0 || p === 8);
+  const pt = pts.find(p => p === 0 || p === 8 || p === 9);
   if (!pt) return null;
   return { ip, port, pt };
 }
@@ -122,7 +133,7 @@ function buildVia(ip, port, protocol = 'UDP') {
 async function callOnce(cfg) {
   const {
     sip_domain, sip_proxy, username, auth_id, password, realm, display_name, from_user,
-    local_ip, local_sip_port, local_rtp_port, codec = 'PCMU', expires_sec, invite_timeout,
+    local_ip, local_sip_port, local_rtp_port, codec = 'AUTO', expires_sec, invite_timeout,
     stun_server, stun_port,
     sip_transport = 'UDP',
     to, wavPath, repeat: repeatRaw = 1, delay: delaySec = 2, logger = () => {}
@@ -247,7 +258,8 @@ async function callOnce(cfg) {
     let callId = invite.headers['call-id'];
     let cseq = invite.headers.cseq.seq;
 
-    const pcm = readWavPcm16Mono8k(wavPath);
+    const pcm16 = readWavPcm16Mono16k(wavPath);
+    const pcm8 = pcm16Resample(pcm16, 16000, 8000);
 
     let answerTs = null;
     let endReason = 'OK';
@@ -267,8 +279,9 @@ async function callOnce(cfg) {
         return reject(new Error('Geen bruikbare SDP/codec'));
       }
       let encoded;
-      if (remote.pt === 0) encoded = pcm16ToUlawBuffer(pcm);
-      else if (remote.pt === 8) encoded = pcm16ToAlawBuffer(pcm);
+      if (remote.pt === 9) encoded = pcm16ToG722Buffer(pcm16);
+      else if (remote.pt === 0) encoded = pcm16ToUlawBuffer(pcm8);
+      else if (remote.pt === 8) encoded = pcm16ToAlawBuffer(pcm8);
       else {
         endReason = 'Unsupported codec';
         clearTimeout(timer);
@@ -432,4 +445,4 @@ function startRtpStream(encoded, localIp, localPort, remote, repeats, onDone) {
   });
 }
 
-module.exports = { callOnce, parseAuthHeader };
+module.exports = { callOnce, parseAuthHeader, buildSdpOffer };

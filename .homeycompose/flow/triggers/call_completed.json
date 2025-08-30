@@ -1,10 +1,104 @@
 {
-  "title": { "en": "Call completed (status)", "nl": "Call afgerond (status)" },
-  "titleFormatted": { "en": "Call completed: [[status]]", "nl": "Call afgerond: [[status]]" },
+  "title": {
+    "en": "Call completed (status)",
+    "nl": "Call afgerond (status)",
+    "da": "Opkaldet fuldført (status)",
+    "de": "Anruf abgeschlossen (Status)",
+    "es": "Llamada completada (estado)",
+    "fr": "Appel terminé (statut)",
+    "it": "Chiamata completata (stato)",
+    "no": "Samtale fullført (status)",
+    "sv": "Samtal slutfört (status)",
+    "pl": "Połączenie zakończone (status)",
+    "ru": "Вызов завершён (статус)",
+    "ko": "통화 완료 (상태)"
+  },
+  "titleFormatted": {
+    "en": "Call completed: [[status]]",
+    "nl": "Call afgerond: [[status]]",
+    "da": "Opkaldet fuldført: [[status]]",
+    "de": "Anruf abgeschlossen: [[status]]",
+    "es": "Llamada completada: [[status]]",
+    "fr": "Appel terminé : [[status]]",
+    "it": "Chiamata completata: [[status]]",
+    "no": "Samtale fullført: [[status]]",
+    "sv": "Samtal slutfört: [[status]]",
+    "pl": "Połączenie zakończone: [[status]]",
+    "ru": "Вызов завершён: [[status]]",
+    "ko": "통화 완료: [[status]]"
+  },
   "tokens": [
-    { "name": "status", "type": "string", "title": { "en": "Status", "nl": "Status" } },
-    { "name": "duurMs", "type": "number", "title": { "en": "Call duration (ms)", "nl": "Gespreksduur (ms)" } },
-    { "name": "callee", "type": "string", "title": { "en": "Callee", "nl": "Gebelde partij" } },
-    { "name": "reason", "type": "string", "title": { "en": "Reason / Cause", "nl": "Reden / Cause" } }
+    {
+      "name": "status",
+      "type": "string",
+      "title": {
+        "en": "Status",
+        "nl": "Status",
+        "da": "Status",
+        "de": "Status",
+        "es": "Estado",
+        "fr": "Statut",
+        "it": "Stato",
+        "no": "Status",
+        "sv": "Status",
+        "pl": "Status",
+        "ru": "Статус",
+        "ko": "상태"
+      }
+    },
+    {
+      "name": "duurMs",
+      "type": "number",
+      "title": {
+        "en": "Call duration (ms)",
+        "nl": "Gespreksduur (ms)",
+        "da": "Opkaldsvarighed (ms)",
+        "de": "Anrufdauer (ms)",
+        "es": "Duración de la llamada (ms)",
+        "fr": "Durée de l'appel (ms)",
+        "it": "Durata della chiamata (ms)",
+        "no": "Samtalevarighet (ms)",
+        "sv": "Samtalstid (ms)",
+        "pl": "Czas trwania połączenia (ms)",
+        "ru": "Продолжительность вызова (мс)",
+        "ko": "통화 시간 (ms)"
+      }
+    },
+    {
+      "name": "callee",
+      "type": "string",
+      "title": {
+        "en": "Callee",
+        "nl": "Gebelde partij",
+        "da": "Modtager",
+        "de": "Angerufener",
+        "es": "Destinatario",
+        "fr": "Appelé",
+        "it": "Destinatario",
+        "no": "Mottaker",
+        "sv": "Mottagare",
+        "pl": "Odbierający",
+        "ru": "Абонент",
+        "ko": "수신자"
+      }
+    },
+    {
+      "name": "reason",
+      "type": "string",
+      "title": {
+        "en": "Reason / Cause",
+        "nl": "Reden / Cause",
+        "da": "Årsag / Grund",
+        "de": "Grund / Ursache",
+        "es": "Razón / Causa",
+        "fr": "Raison / Cause",
+        "it": "Motivo / Causa",
+        "no": "Årsak / Grunn",
+        "sv": "Anledning / Orsak",
+        "pl": "Powód / Przyczyna",
+        "ru": "Причина",
+        "ko": "이유 / 원인"
+      }
+    }
   ]
 }

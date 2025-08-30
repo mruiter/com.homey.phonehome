@@ -4,10 +4,30 @@
   "sdk": 3,
   "name": {
     "en": "Homey Phone Home",
-    "nl": "Homey Phone Home"
+    "nl": "Homey Phone Home",
+    "da": "Homey Phone Home",
+    "de": "Homey Phone Home",
+    "es": "Homey Phone Home",
+    "fr": "Homey Phone Home",
+    "it": "Homey Phone Home",
+    "no": "Homey Phone Home",
+    "sv": "Homey Phone Home",
+    "pl": "Homey Phone Home",
+    "ru": "Homey Phone Home",
+    "ko": "Homey Phone Home"
   },
   "description": {
-    "en": "Because even E.T. needs a smart home to call home."
+    "en": "Because even E.T. needs a smart home to call home.",
+    "da": "Fordi selv E.T. har brug for et smart hjem at kalde hjem.",
+    "de": "Denn selbst E.T. braucht ein intelligentes Zuhause, das er Zuhause nennen kann.",
+    "es": "Porque incluso E.T. necesita un hogar inteligente al que llamar hogar.",
+    "fr": "Parce que même E.T. a besoin d'une maison intelligente pour rentrer chez lui.",
+    "it": "Perché anche E.T. ha bisogno di una casa intelligente da chiamare casa.",
+    "no": "Fordi selv E.T. trenger et smart hjem å kalle hjem.",
+    "sv": "För även E.T. behöver ett smart hem att kalla hem.",
+    "pl": "Ponieważ nawet E.T. potrzebuje inteligentnego domu, który może nazwać domem.",
+    "ru": "Потому что даже E.T. нужна умная дом, чтобы назвать домом.",
+    "ko": "심지어 E.T.도 스마트 홈이 필요하기 때문입니다."
   },
   "category": "tools",
   "version": "0.1.1",
@@ -26,7 +46,17 @@
       "type": "text",
       "title": {
         "en": "SIP Domain/Registrar",
-        "nl": "SIP Domein/Registrar"
+        "nl": "SIP Domein/Registrar",
+        "da": "SIP-domæne/Registrar",
+        "de": "SIP-Domain/Registrar",
+        "es": "Dominio/Registrador SIP",
+        "fr": "Domaine/enregistreur SIP",
+        "it": "Dominio/Registro SIP",
+        "no": "SIP-domene/Registrar",
+        "sv": "SIP-domän/Registrator",
+        "pl": "Domena/Registrar SIP",
+        "ru": "Домен/Регистратор SIP",
+        "ko": "SIP 도메인/등록 기관"
       }
     },
     {
@@ -34,7 +64,17 @@
       "type": "text",
       "title": {
         "en": "SIP Proxy/Request-URI host (optional)",
-        "nl": "SIP Proxy/Request-URI host (optioneel)"
+        "nl": "SIP Proxy/Request-URI host (optioneel)",
+        "da": "SIP-proxy/anmod URI-vært (valgfrit)",
+        "de": "SIP-Proxy/Request-URI-Host (optional)",
+        "es": "Proxy SIP/Anfitrión URI de solicitud (opcional)",
+        "fr": "Proxy SIP/hôte URI de demande (facultatif)",
+        "it": "Proxy SIP/Host URI richiesta (opzionale)",
+        "no": "SIP-proxy/Request-URI vert (valgfritt)",
+        "sv": "SIP-proxy/Request-URI värd (valfritt)",
+        "pl": "SIP Proxy/Żądanie-URI host (opcjonalne)",
+        "ru": "Прокси-сервер SIP/Запрос-URI хост (опционально)",
+        "ko": "SIP 프록시/요청-URI 호스트 (선택 사항)"
       }
     },
     {
@@ -42,7 +82,17 @@
       "type": "text",
       "title": {
         "en": "Username",
-        "nl": "Gebruikersnaam"
+        "nl": "Gebruikersnaam",
+        "da": "Brugernavn",
+        "de": "Benutzername",
+        "es": "Nombre de usuario",
+        "fr": "Nom d'utilisateur",
+        "it": "Nome utente",
+        "no": "Brukernavn",
+        "sv": "Användarnamn",
+        "pl": "Nazwa użytkownika",
+        "ru": "Имя пользователя",
+        "ko": "사용자 이름"
       }
     },
     {
@@ -50,7 +100,17 @@
       "type": "text",
       "title": {
         "en": "Authentication ID (optional)",
-        "nl": "Authenticatie ID (optioneel)"
+        "nl": "Authenticatie ID (optioneel)",
+        "da": "Autentifikations-ID (valgfrit)",
+        "de": "Authentifizierungs-ID (optional)",
+        "es": "ID de autenticación (opcional)",
+        "fr": "ID d'authentification (facultatif)",
+        "it": "ID di autenticazione (opzionale)",
+        "no": "Autentiserings-ID (valgfritt)",
+        "sv": "Autentiserings-ID (valfritt)",
+        "pl": "Identyfikator uwierzytelniania (opcjonalnie)",
+        "ru": "Идентификатор аутентификации (опционально)",
+        "ko": "인증 ID (선택 사항)"
       }
     },
     {
@@ -58,7 +118,17 @@
       "type": "password",
       "title": {
         "en": "Password",
-        "nl": "Wachtwoord"
+        "nl": "Wachtwoord",
+        "da": "Adgangskode",
+        "de": "Passwort",
+        "es": "Contraseña",
+        "fr": "Mot de passe",
+        "it": "Password",
+        "no": "Passord",
+        "sv": "Lösenord",
+        "pl": "Hasło",
+        "ru": "Пароль",
+        "ko": "비밀번호"
       }
     },
     {
@@ -66,7 +136,17 @@
       "type": "text",
       "title": {
         "en": "Realm (optional)",
-        "nl": "Realm (optioneel)"
+        "nl": "Realm (optioneel)",
+        "da": "Rige (valgfrit)",
+        "de": "Bereich (optional)",
+        "es": "Reino (opcional)",
+        "fr": "Royaume (facultatif)",
+        "it": "Dominio (opzionale)",
+        "no": "Domene (valgfritt)",
+        "sv": "Område (valfritt)",
+        "pl": "Realm (opcjonalnie)",
+        "ru": "Область (опционально)",
+        "ko": "영역 (선택 사항)"
       }
     },
     {
@@ -74,7 +154,17 @@
       "type": "text",
       "title": {
         "en": "Display name (From)",
-        "nl": "Weergavenaam (From)"
+        "nl": "Weergavenaam (From)",
+        "da": "Visningsnavn (Fra)",
+        "de": "Anzeigename (Von)",
+        "es": "Nombre para mostrar (De)",
+        "fr": "Nom d'affichage (De)",
+        "it": "Nome visualizzato (Da)",
+        "no": "Visningsnavn (Fra)",
+        "sv": "Visningsnamn (Från)",
+        "pl": "Nazwa wyświetlana (Od)",
+        "ru": "Отображаемое имя (От)",
+        "ko": "표시 이름 (발신)"
       },
       "value": "HomeyBot"
     },
@@ -83,7 +173,17 @@
       "type": "text",
       "title": {
         "en": "From user",
-        "nl": "From user"
+        "nl": "From user",
+        "da": "Fra bruger",
+        "de": "Vom Benutzer",
+        "es": "Del usuario",
+        "fr": "De l'utilisateur",
+        "it": "Da utente",
+        "no": "Fra bruker",
+        "sv": "Från användare",
+        "pl": "Od użytkownika",
+        "ru": "От пользователя",
+        "ko": "사용자로부터"
       }
     },
     {
@@ -91,7 +191,17 @@
       "type": "text",
       "title": {
         "en": "Local IP (Homey)",
-        "nl": "Lokaal IP (Homey)"
+        "nl": "Lokaal IP (Homey)",
+        "da": "Lokal IP (Homey)",
+        "de": "Lokale IP (Homey)",
+        "es": "IP local (Homey)",
+        "fr": "IP locale (Homey)",
+        "it": "IP locale (Homey)",
+        "no": "Lokal IP (Homey)",
+        "sv": "Lokal IP (Homey)",
+        "pl": "Lokalny IP (Homey)",
+        "ru": "Локальный IP (Homey)",
+        "ko": "로컬 IP (Homey)"
       }
     },
     {
@@ -99,7 +209,17 @@
       "type": "text",
       "title": {
         "en": "SIP transport (UDP or TCP)",
-        "nl": "SIP-transport (UDP of TCP)"
+        "nl": "SIP-transport (UDP of TCP)",
+        "da": "SIP-transport (UDP eller TCP)",
+        "de": "SIP-Transport (UDP oder TCP)",
+        "es": "Transporte SIP (UDP o TCP)",
+        "fr": "Transport SIP (UDP ou TCP)",
+        "it": "Trasporto SIP (UDP o TCP)",
+        "no": "SIP-transport (UDP eller TCP)",
+        "sv": "SIP-transport (UDP eller TCP)",
+        "pl": "Transport SIP (UDP lub TCP)",
+        "ru": "SIP транспорт (UDP или TCP)",
+        "ko": "SIP 전송 (UDP 또는 TCP)"
       },
       "value": "UDP"
     },
@@ -108,7 +228,17 @@
       "type": "number",
       "title": {
         "en": "Local SIP port",
-        "nl": "Lokale SIP poort"
+        "nl": "Lokale SIP poort",
+        "da": "Lokal SIP-port",
+        "de": "Lokaler SIP-Port",
+        "es": "Puerto SIP local",
+        "fr": "Port SIP local",
+        "it": "Porta SIP locale",
+        "no": "Lokal SIP-port",
+        "sv": "Lokal SIP-port",
+        "pl": "Lokalny port SIP",
+        "ru": "Локальный SIP порт",
+        "ko": "로컬 SIP 포트"
       },
       "value": 5070
     },
@@ -117,7 +247,17 @@
       "type": "number",
       "title": {
         "en": "Local RTP port",
-        "nl": "Lokale RTP poort"
+        "nl": "Lokale RTP poort",
+        "da": "Lokal RTP-port",
+        "de": "Lokaler RTP-Port",
+        "es": "Puerto RTP local",
+        "fr": "Port RTP local",
+        "it": "Porta RTP locale",
+        "no": "Lokal RTP-port",
+        "sv": "Lokal RTP-port",
+        "pl": "Lokalny port RTP",
+        "ru": "Локальный RTP порт",
+        "ko": "로컬 RTP 포트"
       },
       "value": 40000
     },
@@ -126,7 +266,17 @@
       "type": "number",
       "title": {
         "en": "REGISTER Expires (s)",
-        "nl": "REGISTER Expires (s)"
+        "nl": "REGISTER Expires (s)",
+        "da": "REGISTER udløber (s)",
+        "de": "REGISTER Expires (s)",
+        "es": "REGISTER Expira (s)",
+        "fr": "L'enregistrement expire (s)",
+        "it": "REGISTER Expires (s)",
+        "no": "REGISTER utløper (s)",
+        "sv": "REGISTER upphör (s)",
+        "pl": "REGISTER Wygasa (s)",
+        "ru": "REGISTER истекает (s)",
+        "ko": "REGISTER 만료 (초)"
       },
       "value": 300
     },
@@ -135,7 +285,17 @@
       "type": "number",
       "title": {
         "en": "Invite timeout (s)",
-        "nl": "Invite timeout (s)"
+        "nl": "Invite timeout (s)",
+        "da": "Invitation timeout (s)",
+        "de": "Einlade-Timeout (s)",
+        "es": "Tiempo de espera de invitación (s)",
+        "fr": "Délai d'invitation (s)",
+        "it": "Timeout di invito (s)",
+        "no": "Inviter tidsavbrudd (s)",
+        "sv": "Inbjudningstimeout (s)",
+        "pl": "Limit czasu zaproszenia (s)",
+        "ru": "Таймаут пригласить (s)",
+        "ko": "초대 시간 초과 (초)"
       },
       "value": 45
     },
@@ -144,13 +304,47 @@
       "type": "dropdown",
       "title": {
         "en": "Preferred codec",
-        "nl": "Voorkeurscodec"
+        "nl": "Voorkeurscodec",
+        "da": "Foretrukken codec",
+        "de": "Bevorzugtes Codec",
+        "es": "Codec preferido",
+        "fr": "Codec préféré",
+        "it": "Codec preferito",
+        "no": "Foretrukket codec",
+        "sv": "Föredragen codec",
+        "pl": "Preferowany kodek",
+        "ru": "Предпочтительный кодек",
+        "ko": "선호하는 코덱"
       },
       "values": [
-        { "id": "AUTO", "title": { "en": "AUTO", "nl": "AUTO" } },
-        { "id": "PCMU", "title": { "en": "PCMU", "nl": "PCMU" } },
-        { "id": "PCMA", "title": { "en": "PCMA", "nl": "PCMA" } },
-        { "id": "G722", "title": { "en": "G722", "nl": "G722" } }
+        {
+          "id": "AUTO",
+          "title": {
+            "en": "AUTO",
+            "nl": "AUTO"
+          }
+        },
+        {
+          "id": "PCMU",
+          "title": {
+            "en": "PCMU",
+            "nl": "PCMU"
+          }
+        },
+        {
+          "id": "PCMA",
+          "title": {
+            "en": "PCMA",
+            "nl": "PCMA"
+          }
+        },
+        {
+          "id": "G722",
+          "title": {
+            "en": "G722",
+            "nl": "G722"
+          }
+        }
       ],
       "value": "AUTO"
     },
@@ -159,7 +353,17 @@
       "type": "text",
       "title": {
         "en": "STUN server (optional)",
-        "nl": "STUN-server (optioneel)"
+        "nl": "STUN-server (optioneel)",
+        "da": "STUN-server (valgfrit)",
+        "de": "STUN-Server (optional)",
+        "es": "Servidor STUN (opcional)",
+        "fr": "Serveur STUN (facultatif)",
+        "it": "Server STUN (opzionale)",
+        "no": "STUN-server (valgfritt)",
+        "sv": "STUN-server (valfritt)",
+        "pl": "STUN server (opcjonalnie)",
+        "ru": "STUN сервер (опционально)",
+        "ko": "STUN 서버 (선택 사항)"
       }
     },
     {
@@ -167,7 +371,17 @@
       "type": "number",
       "title": {
         "en": "STUN port",
-        "nl": "STUN-poort"
+        "nl": "STUN-poort",
+        "da": "STUN-port",
+        "de": "STUN-Port",
+        "es": "Puerto STUN",
+        "fr": "Port STUN",
+        "it": "Porta STUN",
+        "no": "STUN-port",
+        "sv": "STUN-port",
+        "pl": "Port STUN",
+        "ru": "STUN порт",
+        "ko": "STUN 포트"
       },
       "value": 3478
     }
@@ -184,11 +398,31 @@
       {
         "title": {
           "en": "Call completed (status)",
-          "nl": "Call afgerond (status)"
+          "nl": "Call afgerond (status)",
+          "da": "Opkaldet fuldført (status)",
+          "de": "Anruf abgeschlossen (Status)",
+          "es": "Llamada completada (estado)",
+          "fr": "Appel terminé (statut)",
+          "it": "Chiamata completata (stato)",
+          "no": "Samtale fullført (status)",
+          "sv": "Samtal slutfört (status)",
+          "pl": "Połączenie zakończone (status)",
+          "ru": "Вызов завершён (статус)",
+          "ko": "통화 완료 (상태)"
         },
         "titleFormatted": {
           "en": "Call completed: [[status]]",
-          "nl": "Call afgerond: [[status]]"
+          "nl": "Call afgerond: [[status]]",
+          "da": "Opkaldet fuldført: [[status]]",
+          "de": "Anruf abgeschlossen: [[status]]",
+          "es": "Llamada completada: [[status]]",
+          "fr": "Appel terminé : [[status]]",
+          "it": "Chiamata completata: [[status]]",
+          "no": "Samtale fullført: [[status]]",
+          "sv": "Samtal slutfört: [[status]]",
+          "pl": "Połączenie zakończone: [[status]]",
+          "ru": "Вызов завершён: [[status]]",
+          "ko": "통화 완료: [[status]]"
         },
         "tokens": [
           {
@@ -196,7 +430,17 @@
             "type": "string",
             "title": {
               "en": "Status",
-              "nl": "Status"
+              "nl": "Status",
+              "da": "Status",
+              "de": "Status",
+              "es": "Estado",
+              "fr": "Statut",
+              "it": "Stato",
+              "no": "Status",
+              "sv": "Status",
+              "pl": "Status",
+              "ru": "Статус",
+              "ko": "상태"
             }
           },
           {
@@ -204,7 +448,17 @@
             "type": "number",
             "title": {
               "en": "Call duration (ms)",
-              "nl": "Gespreksduur (ms)"
+              "nl": "Gespreksduur (ms)",
+              "da": "Opkaldsvarighed (ms)",
+              "de": "Anrufdauer (ms)",
+              "es": "Duración de la llamada (ms)",
+              "fr": "Durée de l'appel (ms)",
+              "it": "Durata della chiamata (ms)",
+              "no": "Samtalevarighet (ms)",
+              "sv": "Samtalstid (ms)",
+              "pl": "Czas trwania połączenia (ms)",
+              "ru": "Продолжительность вызова (мс)",
+              "ko": "통화 시간 (ms)"
             }
           },
           {
@@ -212,7 +466,17 @@
             "type": "string",
             "title": {
               "en": "Callee",
-              "nl": "Gebelde partij"
+              "nl": "Gebelde partij",
+              "da": "Modtager",
+              "de": "Angerufener",
+              "es": "Destinatario",
+              "fr": "Appelé",
+              "it": "Destinatario",
+              "no": "Mottaker",
+              "sv": "Mottagare",
+              "pl": "Odbierający",
+              "ru": "Абонент",
+              "ko": "수신자"
             }
           },
           {
@@ -220,7 +484,17 @@
             "type": "string",
             "title": {
               "en": "Reason / Cause",
-              "nl": "Reden / Cause"
+              "nl": "Reden / Cause",
+              "da": "Årsag / Grund",
+              "de": "Grund / Ursache",
+              "es": "Razón / Causa",
+              "fr": "Raison / Cause",
+              "it": "Motivo / Causa",
+              "no": "Årsak / Grunn",
+              "sv": "Anledning / Orsak",
+              "pl": "Powód / Przyczyna",
+              "ru": "Причина",
+              "ko": "이유 / 원인"
             }
           }
         ],
@@ -231,11 +505,31 @@
       {
         "title": {
           "en": "Call number and play Soundboard/URL audio",
-          "nl": "Bel nummer en speel Soundboard/URL-geluid"
+          "nl": "Bel nummer en speel Soundboard/URL-geluid",
+          "da": "Ring nummeret op og afspil Soundboard/URL-lyd",
+          "de": "Nummer anrufen und Soundboard/URL-Audio abspielen",
+          "es": "Llamar al número y reproducir audio de Soundboard/URL",
+          "fr": "Appeler le numéro et lire l'audio Soundboard/URL",
+          "it": "Chiama il numero e riproduci l'audio Soundboard/URL",
+          "no": "Ring nummeret og spill lyd fra Soundboard/URL",
+          "sv": "Ring upp numret och spela Soundboard/URL-ljud",
+          "pl": "Zadzwoń pod numer i odtwórz dźwięk Soundboard/URL",
+          "ru": "Позвоните по номеру и воспроизведите звук Soundboard/URL",
+          "ko": "번호로 전화하고 사운드보드/URL 오디오 재생"
         },
         "titleFormatted": {
           "en": "Call [[number]] and play [[sound]] / [[file_url]] [[repeat]] times, wait [[delay]]s before hangup",
-          "nl": "Bel [[number]] en speel [[sound]] / [[file_url]] [[repeat]] keer, wacht [[delay]]s voor ophangen"
+          "nl": "Bel [[number]] en speel [[sound]] / [[file_url]] [[repeat]] keer, wacht [[delay]]s voor ophangen",
+          "da": "Ring [[number]] og afspil [[sound]] / [[file_url]] [[repeat]] gange, vent [[delay]] sekunder før afbrydelse",
+          "de": "Rufe [[number]] an und spiele [[sound]] / [[file_url]] [[repeat]] Mal ab, warte [[delay]] Sekunden vor dem Auflegen",
+          "es": "Llama a [[number]] y reproduce [[sound]] / [[file_url]] [[repeat]] veces, espera [[delay]] segundos antes de colgar",
+          "fr": "Appelez [[number]] et jouez [[sound]] / [[file_url]] [[repeat]] fois, attendez [[delay]] s avant de raccrocher",
+          "it": "Chiama [[number]] e riproduci [[sound]] / [[file_url]] [[repeat]] volte, attendi [[delay]] secondi prima di riagganciare",
+          "no": "Ring [[number]] og spill av [[sound]] / [[file_url]] [[repeat]] ganger, vent [[delay]] sekunder før du legger på",
+          "sv": "Ring [[number]] och spela [[sound]] / [[file_url]] [[repeat]] gånger, vänta [[delay]] sekunder innan avstängning",
+          "pl": "Zadzwoń pod [[number]] i odtwórz [[sound]] / [[file_url]] [[repeat]] razy, poczekaj [[delay]] sekund przed rozłączeniem",
+          "ru": "Позвоните на [[number]] и воспроизведите [[sound]] / [[file_url]] [[repeat]] раз, подождите [[delay]] секунд перед отключением",
+          "ko": "[[number]]로 전화하고 [[sound]] / [[file_url]]을 [[repeat]]번 재생한 후, [[delay]]초 기다린 후 끊기"
         },
         "args": [
           {
@@ -243,7 +537,17 @@
             "type": "text",
             "title": {
               "en": "Phone number or SIP URI",
-              "nl": "Telefoonnummer of SIP URI"
+              "nl": "Telefoonnummer of SIP URI",
+              "da": "Telefonnummer eller SIP URI",
+              "de": "Telefonnummer oder SIP URI",
+              "es": "Número de teléfono o URI SIP",
+              "fr": "Numéro de téléphone ou URI SIP",
+              "it": "Numero di telefono o URI SIP",
+              "no": "Telefonnummer eller SIP URI",
+              "sv": "Telefonnummer eller SIP URI",
+              "pl": "Numer telefonu lub SIP URI",
+              "ru": "Номер телефона или SIP URI",
+              "ko": "전화번호 또는 SIP URI"
             }
           },
           {
@@ -251,7 +555,17 @@
             "type": "autocomplete",
             "title": {
               "en": "Soundboard file (optional)",
-              "nl": "Soundboard-bestand (optioneel)"
+              "nl": "Soundboard-bestand (optioneel)",
+              "da": "Soundboard-fil (valgfri)",
+              "de": "Soundboard-Datei (optional)",
+              "es": "Archivo de Soundboard (opcional)",
+              "fr": "Fichier Soundboard (optionnel)",
+              "it": "File Soundboard (opzionale)",
+              "no": "Soundboard-fil (valgfritt)",
+              "sv": "Soundboard-fil (valfritt)",
+              "pl": "Plik Soundboard (opcjonalnie)",
+              "ru": "Файл Soundboard (опционально)",
+              "ko": "사운드보드 파일 (선택 사항)"
             }
           },
           {
@@ -259,7 +573,17 @@
             "type": "text",
             "title": {
               "en": "Fallback: URL or path to WAV (8kHz mono)",
-              "nl": "Fallback: URL of pad naar WAV (8kHz mono)"
+              "nl": "Fallback: URL of pad naar WAV (8kHz mono)",
+              "da": "Fallback: URL eller sti til WAV (8kHz mono)",
+              "de": "Fallback: URL oder Pfad zu WAV (8kHz mono)",
+              "es": "Alternativa: URL o ruta a WAV (8kHz mono)",
+              "fr": "Relais : URL ou chemin vers WAV (8kHz mono)",
+              "it": "Ripiego: URL o percorso a WAV (8kHz mono)",
+              "no": "Fallback: URL eller bane til WAV (8kHz mono)",
+              "sv": "Fallback: URL eller sökväg till WAV (8kHz mono)",
+              "pl": "Zapasowe: URL lub ścieżka do WAV (8kHz mono)",
+              "ru": "Запасной вариант: URL или путь к WAV (8kHz mono)",
+              "ko": "대체: WAV (8kHz 모노)로의 URL 또는 경로"
             }
           },
           {
@@ -267,7 +591,17 @@
             "type": "number",
             "title": {
               "en": "Times to play audio",
-              "nl": "Aantal keer afspelen"
+              "nl": "Aantal keer afspelen",
+              "da": "Antal gange at afspille lyd",
+              "de": "Häufigkeit der Audiowiedergabe",
+              "es": "Veces que se reproduce el audio",
+              "fr": "Nombre de fois pour jouer l'audio",
+              "it": "Numero di volte da riprodurre l'audio",
+              "no": "Antall ganger å spille av lyd",
+              "sv": "Antal gånger att spela upp ljud",
+              "pl": "Liczba odtworzeń audio",
+              "ru": "Количество воспроизведений аудио",
+              "ko": "오디오 재생 횟수"
             }
           },
           {
@@ -275,7 +609,17 @@
             "type": "number",
             "title": {
               "en": "Delay before hangup (s)",
-              "nl": "Vertraging voor ophangen (s)"
+              "nl": "Vertraging voor ophangen (s)",
+              "da": "Forsinkelse før afbrydelse (s)",
+              "de": "Verzögerung vor dem Auflegen (s)",
+              "es": "Retraso antes de colgar (s)",
+              "fr": "Délai avant de raccrocher (s)",
+              "it": "Ritardo prima di riagganciare (s)",
+              "no": "Forsinkelse før avstenging (s)",
+              "sv": "Fördröjning innan avstängning (s)",
+              "pl": "Opóźnienie przed rozłączeniem (s)",
+              "ru": "Задержка перед отключением (s)",
+              "ko": "종료 전 지연 시간 (s)"
             }
           }
         ],
@@ -287,7 +631,17 @@
     {
       "name": {
         "en": "Homey Phone Home",
-        "nl": "Homey Phone Home"
+        "nl": "Homey Phone Home",
+        "da": "Homey Telefon Hjem",
+        "de": "Homey Telefoniert Nach Hause",
+        "es": "Homey Llama a Casa",
+        "fr": "Homey Téléphone à la Maison",
+        "it": "Homey Chiama Casa",
+        "no": "Homey Telefon Hjem",
+        "sv": "Homey Ringer Hem",
+        "pl": "Homey Dzwoni do Domu",
+        "ru": "Homey Звонит Домой",
+        "ko": "Homey 폰 홈"
       },
       "class": "other",
       "capabilities": [],
