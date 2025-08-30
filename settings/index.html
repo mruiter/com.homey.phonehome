@@ -7,76 +7,117 @@
   <style>
     body { font-family: sans-serif; margin: 20px; }
     label { display: block; margin-top: 10px; }
-    input { width: 100%; box-sizing: border-box; }
+    input, select { width: 100%; box-sizing: border-box; }
     button { margin-top: 20px; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+    .tab { padding: 5px 10px; border: 1px solid #ccc; cursor: pointer; }
+    .tab.active { background: #eee; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 4px; text-align: left; }
   </style>
 </head>
 <body>
-  <h1>SIP Settings</h1>
-  <form id="settings-form">
-    <label>SIP Domain/Registrar
-      <input id="sip_domain" type="text" />
-    </label>
-    <label>SIP Proxy/Request-URI host (optional)
-      <input id="sip_proxy" type="text" />
-    </label>
-    <label>Username
-      <input id="username" type="text" />
-    </label>
-    <label>Authentication ID (optional)
-      <input id="auth_id" type="text" />
-    </label>
-    <label>Password
-      <input id="password" type="password" />
-    </label>
-    <label>Realm (optional)
-      <input id="realm" type="text" />
-    </label>
-    <label>Display name (From)
-      <input id="display_name" type="text" />
-    </label>
-    <label>From user
-      <input id="from_user" type="text" />
-    </label>
-    <label>Local IP (Homey)
-      <input id="local_ip" type="text" />
-    </label>
-    <label>SIP Transport
-      <select id="sip_transport">
-        <option value="UDP">UDP</option>
-        <option value="TCP">TCP</option>
-      </select>
-    </label>
-    <label>Local SIP port
-      <input id="local_sip_port" type="number" />
-    </label>
-    <label>Local RTP port
-      <input id="local_rtp_port" type="number" />
-    </label>
-    <label>Codec
-      <select id="codec">
-        <option value="AUTO">AUTO (prefer PCMA)</option>
-        <option value="PCMU">PCMU (G711u)</option>
-        <option value="PCMA">PCMA (G711a)</option>
-        <option value="G722">G722</option>
-      </select>
-    </label>
-    <label>REGISTER Expires (s)
-      <input id="expires_sec" type="number" />
-    </label>
-    <label>Invite timeout (s)
-      <input id="invite_timeout" type="number" />
-    </label>
-    <label>STUN server (optional)
-      <input id="stun_server" type="text" />
-    </label>
-    <label>STUN port
-      <input id="stun_port" type="number" />
-    </label>
-    <button type="submit">Save</button>
-  </form>
+  <div class="tabs">
+    <div class="tab active" data-tab="sip">SIP</div>
+    <div class="tab" data-tab="cache">Cache</div>
+  </div>
+
+  <div id="tab-sip" class="tab-content active">
+    <h1>SIP Settings</h1>
+    <form id="settings-form">
+      <label>SIP Domain/Registrar
+        <input id="sip_domain" type="text" />
+      </label>
+      <label>SIP Proxy/Request-URI host (optional)
+        <input id="sip_proxy" type="text" />
+      </label>
+      <label>Username
+        <input id="username" type="text" />
+      </label>
+      <label>Authentication ID (optional)
+        <input id="auth_id" type="text" />
+      </label>
+      <label>Password
+        <input id="password" type="password" />
+      </label>
+      <label>Realm (optional)
+        <input id="realm" type="text" />
+      </label>
+      <label>Display name (From)
+        <input id="display_name" type="text" />
+      </label>
+      <label>From user
+        <input id="from_user" type="text" />
+      </label>
+      <label>Local IP (Homey)
+        <input id="local_ip" type="text" />
+      </label>
+      <label>SIP Transport
+        <select id="sip_transport">
+          <option value="UDP">UDP</option>
+          <option value="TCP">TCP</option>
+        </select>
+      </label>
+      <label>Local SIP port
+        <input id="local_sip_port" type="number" />
+      </label>
+      <label>Local RTP port
+        <input id="local_rtp_port" type="number" />
+      </label>
+      <label>Codec
+        <select id="codec">
+          <option value="AUTO">AUTO (prefer PCMA)</option>
+          <option value="PCMU">PCMU (G711u)</option>
+          <option value="PCMA">PCMA (G711a)</option>
+          <option value="G722">G722</option>
+        </select>
+      </label>
+      <label>REGISTER Expires (s)
+        <input id="expires_sec" type="number" />
+      </label>
+      <label>Invite timeout (s)
+        <input id="invite_timeout" type="number" />
+      </label>
+      <label>STUN server (optional)
+        <input id="stun_server" type="text" />
+      </label>
+      <label>STUN port
+        <input id="stun_port" type="number" />
+      </label>
+      <button type="submit">Save</button>
+    </form>
+  </div>
+
+  <div id="tab-cache" class="tab-content">
+    <h1>Cache</h1>
+    <form id="cache-form">
+      <label>Keep converted files (days)
+        <input id="cache_days" type="number" min="0" />
+      </label>
+      <button type="submit">Save</button>
+    </form>
+    <h2>Cached Files</h2>
+    <table id="cache-table">
+      <thead>
+        <tr><th>Key</th><th>Size</th><th>Modified</th><th>Permanent</th><th>Actions</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
   <script>
     function onHomeyReady(Homey) {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(t => t.addEventListener('click', () => {
+        tabs.forEach(tt => tt.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById('tab-' + t.dataset.tab).classList.add('active');
+        if (t.dataset.tab === 'cache') loadCache();
+      }));
+
       const fields = ['sip_domain','sip_proxy','username','auth_id','password','realm','display_name','from_user','local_ip','sip_transport','local_sip_port','local_rtp_port','codec','expires_sec','invite_timeout','stun_server','stun_port'];
       const defaults = { sip_transport: 'UDP', codec: 'AUTO' };
       fields.forEach(key => {
@@ -96,14 +137,61 @@
             val = Number(val);
             if (isNaN(val)) val = 0;
           }
-          Homey.set(key, val, err => {
-            if (err) console.error(err);
-          });
+          Homey.set(key, val, err => { if (err) console.error(err); });
         });
         Homey.alert('Settings saved');
       });
+
+      const cacheDaysInput = document.getElementById('cache_days');
+      Homey.get('cache_days', (err, value) => {
+        cacheDaysInput.value = value !== undefined && value !== null && value !== '' ? value : 2;
+      });
+      document.getElementById('cache-form').addEventListener('submit', e => {
+        e.preventDefault();
+        let days = Number(cacheDaysInput.value);
+        if (isNaN(days)) days = 0;
+        Homey.set('cache_days', days, err => {
+          if (err) console.error(err);
+          else Homey.alert('Cache settings saved');
+        });
+      });
+
+      function loadCache() {
+        Homey.api('GET', '/cache', (err, files) => {
+          if (err) return console.error(err);
+          const tbody = document.querySelector('#cache-table tbody');
+          tbody.innerHTML = '';
+          (files || []).forEach(f => {
+            const tr = document.createElement('tr');
+            const date = new Date(f.mtime).toLocaleString();
+            tr.innerHTML = `<td>${f.key}</td><td>${f.size}</td><td>${date}</td>`+
+              `<td><input type="checkbox" class="perm" data-key="${f.key}" ${f.permanent?'checked':''}></td>`+
+              `<td><button data-key="${f.key}" class="del">Delete</button></td>`;
+            tbody.appendChild(tr);
+          });
+          tbody.querySelectorAll('.del').forEach(btn => {
+            btn.addEventListener('click', () => {
+              const key = btn.dataset.key;
+              Homey.api('DELETE', '/cache/' + encodeURIComponent(key), err => {
+                if (err) return console.error(err);
+                loadCache();
+              });
+            });
+          });
+          tbody.querySelectorAll('.perm').forEach(chk => {
+            chk.addEventListener('change', () => {
+              const key = chk.dataset.key;
+              Homey.api('POST', '/cache/' + encodeURIComponent(key) + '/permanent', { permanent: chk.checked }, err => {
+                if (err) console.error(err);
+              });
+            });
+          });
+        });
+      }
+
       Homey.ready();
     }
   </script>
 </body>
 </html>
+
