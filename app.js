@@ -174,7 +174,7 @@ class HomeyPhoneHomeApp extends Homey.App {
       // peak memory usage when handling bigger sound files.
       await fs.promises.writeFile(dest, s.data, { encoding: 'base64' });
     } else { throw new Error('Soundboard gaf geen url/data terug'); }
-    return await ensureWavPcm16Mono16k(dest);
+    return await ensureWavPcm16Mono16k(dest, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)));
   }
   async _ensureLocalWav(urlOrPath) {
     let local = urlOrPath;
@@ -182,7 +182,7 @@ class HomeyPhoneHomeApp extends Homey.App {
       local = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
       await this._downloadToFile(urlOrPath, local);
     } else { if (!fs.existsSync(urlOrPath)) throw new Error('Bestand niet gevonden: '+urlOrPath); }
-    return await ensureWavPcm16Mono16k(local);
+    return await ensureWavPcm16Mono16k(local, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)));
   }
   async _downloadToFile(url, destPath) {
     const client = url.startsWith('https')?https:http;
