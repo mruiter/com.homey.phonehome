@@ -1,9 +1,9 @@
 'use strict';
 const Homey = require('homey');
 
-class VoipPlayerApp extends Homey.App {
+class HomeyPhoneHomeApp extends Homey.App {
   async onInit() {
-    this.log('VOIP Player app init');
+    this.log('homeyphonehome app init');
 
     this._triggerCompleted = this.homey.flow.getTriggerCard('call_completed');
     const action = this.homey.flow.getActionCard('call_and_play');
@@ -138,4 +138,4 @@ class VoipPlayerApp extends Homey.App {
     });
   }
 }
-module.exports = VoipPlayerApp;
+module.exports = HomeyPhoneHomeApp;
