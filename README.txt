@@ -2,6 +2,8 @@ VOIP Support voor Homey.
 
 Configureer uw SIP accountgegevens via de instellingen van de app in Homey zodat domein, gebruikersnaam, authenticatie-ID, wachtwoord, realm en poorten naar wens aanpasbaar zijn.
 
+Pas op met grote media bestanden. Dit verbruikt veel geheugen en kan zorgen dat Homey de app afsluit als er te lang te veel geheugen gebruikt wordt.
+
 Optioneel kan een STUN-server opgegeven worden om het publieke IP-adres en poorten te bepalen.
 Dit kan helpen bij NAT-problemen bij inkomende SIP en RTP.
 
