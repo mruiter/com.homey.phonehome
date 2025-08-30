@@ -1,11 +1,13 @@
-Support VOIP pour Homey.
+Prise en charge de VOIP pour Homey.
 
-Configurez les détails de votre compte SIP via les paramètres de l'application dans Homey afin que le domaine, le nom d'utilisateur, l'ID d'authentification, le mot de passe, le domaine et les ports soient ajustables selon vos besoins.
+Configurez vos informations de compte SIP via les paramètres de l'application Homey afin de rendre le domaine, le nom d'utilisateur, l'ID d'authentification, le mot de passe, le domaine et les ports personnalisables selon vos préférences.
 
-Une serveur STUN peut éventuellement être spécifié pour déterminer l'adresse IP publique et les ports. Cela peut aider à résoudre les problèmes NAT pour les SIP et RTP entrants.
+Faites attention aux fichiers médias volumineux. Cela consomme beaucoup de mémoire et peut entraîner la fermeture de l'application par Homey si elle utilise trop de mémoire pendant trop longtemps.
 
-Dans les paramètres, vous pouvez définir le codec. Par défaut, l'application essaie automatiquement d'utiliser la meilleure qualité (G722 > PCMA > PCMU) et passe à une qualité inférieure si le serveur SIP l'exige.
+Optionnellement, un serveur STUN peut être spécifié pour déterminer l'adresse IP publique et les ports. Cela peut aider à résoudre les problèmes NAT avec les SIP et RTP entrants.
 
-Les fichiers audio en WAV ou MP3 sont automatiquement convertis au format 8kHz mono approprié. Bien entendu, plus le fichier audio est grand, plus il faut de temps pour démarrer l'appel SIP.
+Dans les paramètres, le codec peut être configuré. Par défaut, l'application essaie automatiquement d'utiliser la meilleure qualité (G722 > PCMA > PCMU) et revient à une qualité inférieure si le serveur SIP l'exige.
 
-Il est donc préférable d'avoir les notifications importantes déjà prêtes dans le bon format sur le tableau sonore ou ailleurs.
+Les fichiers audio au format WAV ou MP3 sont automatiquement convertis en mono 8kHz ou plus si la centrale SIP prend en charge les codecs disponibles. Bien sûr, plus le fichier audio est grand, plus il met de temps à démarrer l'appel SIP.
+
+Il est donc préférable d'avoir les messages importants dans le bon format déjà enregistrés sur une table sonore ou ailleurs.

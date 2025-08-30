@@ -1,12 +1,13 @@
-Wsparcie VOIP dla Homey.
+Obsługa VOIP dla Homey.
 
-Skonfiguruj swoje dane konta SIP w ustawieniach aplikacji w Homey, aby domena, nazwa użytkownika, ID uwierzytelniania, hasło, obszar i porty były dostosowane do Twoich potrzeb.
+Skonfiguruj dane swojego konta SIP w ustawieniach aplikacji Homey, aby dostosować domenę, nazwę użytkownika, ID uwierzytelniania, hasło, obszar i porty zgodnie z potrzebami.
 
-Opcjonalnie można podać serwer STUN, aby określić publiczny adres IP i porty.
-Może to pomóc w problemach NAT przychodzących SIP i RTP.
+Uważaj na duże pliki multimedialne. Zużywają one dużo pamięci i mogą spowodować, że Homey wyłączy aplikację, jeśli pamięć będzie używana zbyt długo.
 
-W ustawieniach można ustawić kodek. Domyślnie aplikacja próbuje automatycznie użyć najlepszej jakości (G722 > PCMA > PCMU) i przełącza się na niższą jakość, jeśli wymaga tego serwer SIP.
+Opcjonalnie można podać serwer STUN, aby określić publiczny adres IP i porty. Może to pomóc w problemach z NAT przy przychodzących połączeniach SIP i RTP.
 
-Pliki dźwiękowe w formacie WAV lub MP3 są automatycznie konwertowane na odpowiednie 8kHz mono. Oczywiście, im większy plik dźwiękowy, tym dłużej trwa rozpoczęcie połączenia SIP.
+W ustawieniach można ustawić kodek. Domyślnie aplikacja próbuje automatycznie użyć najlepszej jakości (G722 > PCMA > PCMU) i obniży jakość, jeśli wymaga tego serwer SIP.
 
-Ważne powiadomienia najlepiej mieć już gotowe w odpowiednim formacie w soundboardzie lub gdzie indziej.
+Pliki dźwiękowe w formatach WAV lub MP3 są automatycznie konwertowane do odpowiedniego 8kHz mono lub wyższej jakości, jeśli centrala SIP obsługuje dostępne kodeki. Oczywiście, im większy plik dźwiękowy, tym dłużej trwa rozpoczęcie połączenia SIP.
+
+Ważne komunikaty najlepiej mieć gotowe w odpowiednim formacie na soundboardzie lub w innym miejscu.

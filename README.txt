@@ -11,7 +11,7 @@ In de instellingen kan de codec worden ingesteld. Standaard probeert de app
 automatisch de beste kwaliteit te gebruiken (G722 \> PCMA \> PCMU) en valt terug
 op een lagere kwaliteit als de SIP-server dit vereist.
 
-Geluidsbestanden in WAV of MP3 worden automatisch geconverteerd naar het geschikte 8kHz mono
+Geluidsbestanden in WAV of MP3 worden automatisch geconverteerd naar het geschikte 8kHz mono of hoger als de sip centrale de aanwezige codecs ondersteund.
 Uiteraard des te groter de geluidsfile des te langer het duurt voor de start van de sip call
 
 Belangrijke meldingen kan je dus het beste al in het juiste formaat in soundboard of elders klaar hebben staan.

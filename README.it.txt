@@ -1,11 +1,13 @@
 Supporto VOIP per Homey.
 
-Configura i dati del tuo account SIP tramite le impostazioni dell'app in Homey, in modo da poter personalizzare dominio, nome utente, ID di autenticazione, password, realm e porte secondo le tue preferenze.
+Configura i dati del tuo account SIP tramite le impostazioni dell'app in Homey in modo che dominio, nome utente, ID di autenticazione, password, realm e porte siano personalizzabili secondo le tue esigenze.
 
-Facoltativamente, può essere specificato un server STUN per determinare l'indirizzo IP pubblico e le porte. Questo può aiutare a risolvere problemi NAT per SIP e RTP in ingresso.
+Fai attenzione con i file multimediali di grandi dimensioni. Questo consuma molta memoria e potrebbe portare Homey a chiudere l'app se viene utilizzata troppa memoria per troppo tempo.
 
-Nelle impostazioni, è possibile selezionare il codec. Di default, l'app tenta automaticamente di utilizzare la migliore qualità (G722 > PCMA > PCMU) e si adatta a una qualità inferiore se richiesto dal server SIP.
+Opzionalmente, può essere specificato un server STUN per determinare l'indirizzo IP pubblico e le porte. Ciò può aiutare con i problemi NAT su SIP e RTP in ingresso.
 
-I file audio in formato WAV o MP3 vengono automaticamente convertiti al formato mono 8kHz appropriato. Naturalmente, più grande è il file audio, più tempo impiegherà l'avvio della chiamata SIP.
+Nelle impostazioni è possibile impostare il codec. Di default l'app tenta automaticamente di utilizzare la qualità migliore (G722 > PCMA > PCMU) e ripiega su una qualità inferiore se richiesto dal server SIP.
 
-Pertanto, è meglio avere pronte notifiche importanti già nel formato corretto nel soundboard o altrove.
+I file audio in formato WAV o MP3 vengono automaticamente convertiti nel formato adatto, 8kHz mono o superiore, se la centrale SIP supporta i codec disponibili. Ovviamente, più grande è il file audio, più tempo ci vorrà per l'avvio della chiamata SIP.
+
+Le notifiche importanti quindi sarebbe meglio averle già pronte nel formato giusto su soundboard o altrove.

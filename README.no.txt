@@ -1,14 +1,13 @@
 VOIP-støtte for Homey.
 
-Konfigurer SIP-kontoinformasjonen din via appinnstillingene i Homey, slik at domene, brukernavn, autentiserings-ID, passord, område og porter kan tilpasses etter ønske.
+Konfigurér SIP-kontoopplysningene dine via appens innstillinger i Homey, slik at domenet, brukernavnet, autentiserings-ID-en, passordet, realm og porter kan tilpasses etter eget ønske.
 
-Valgfritt kan du spesifisere en STUN-server for å bestemme den offentlige IP-adressen og portene. Dette kan hjelpe med NAT-problemer ved innkommende SIP og RTP.
+Vær forsiktig med store mediefiler. Dette bruker mye minne og kan føre til at Homey avslutter appen hvis for mye minne brukes for lenge.
 
-I innstillingene kan du angi kodeken. Som standard prøver appen
-automatisk å bruke den beste kvaliteten (G722 \> PCMA \> PCMU) og faller tilbake
-til lavere kvalitet hvis SIP-serveren krever det.
+En STUN-server kan oppgis valgfritt for å bestemme den offentlige IP-adressen og portene. Dette kan hjelpe med NAT-problemer ved innkommende SIP og RTP.
 
-Lydfiler i WAV eller MP3 blir automatisk konvertert til den passende 8kHz mono
-Jo større lydfilen er, desto lengre tid tar det før starten av SIP-samtalen.
+I innstillingene kan du angi kodeken. Som standard forsøker appen automatisk å bruke best mulig kvalitet (G722 > PCMA > PCMU) og faller tilbake til lavere kvalitet hvis SIP-serveren krever det.
 
-Viktige meldinger kan du derfor ha klar i riktig format i lydbrettet eller andre steder.
+Lydfiler i WAV eller MP3 konverteres automatisk til passende 8kHz mono eller høyere hvis sentralen støtter tilgjengelige kodeker. Jo større lydfilen er, desto lengre tid tar det før samtalen startes.
+
+Viktige meldinger bør derfor helst være klare i riktig format i lydplanken eller et annet sted.
