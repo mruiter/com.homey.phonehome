@@ -178,7 +178,7 @@ class HomeyPhoneHomeApp extends Homey.App {
       this.error('Failed to register flow card call_and_play_url:', e.message || e);
     }
     
-    this.homey.api.get('/cache', async (req,res) => {
+    this.homey.router.get('/cache', async (req,res) => {
       try {
         const files = await fs.promises.readdir(this._cacheDir);
         const out = [];
@@ -192,14 +192,14 @@ class HomeyPhoneHomeApp extends Homey.App {
         res.status(500).json({ error: e.message });
       }
     });
-    this.homey.api.delete('/cache/:key', async (req,res) => {
+    this.homey.router.delete('/cache/:key', async (req,res) => {
       const key = req.params.key;
       await fs.promises.unlink(path.join(this._cacheDir, `${key}.wav`)).catch(()=>{});
       this._permanentCache.delete(key);
       this.homey.settings.set('permanent_cache', [...this._permanentCache]);
       res.json({ ok: true });
     });
-    this.homey.api.post('/cache/:key/permanent', async (req,res) => {
+    this.homey.router.post('/cache/:key/permanent', async (req,res) => {
       const key = req.params.key;
       const permanent = !!req.body.permanent;
       if (permanent) this._permanentCache.add(key); else this._permanentCache.delete(key);
