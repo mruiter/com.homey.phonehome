@@ -504,32 +504,32 @@
     "actions": [
       {
         "title": {
-          "en": "Call number and play Soundboard/URL audio",
-          "nl": "Bel nummer en speel Soundboard/URL-geluid",
-          "da": "Ring nummeret op og afspil Soundboard/URL-lyd",
-          "de": "Nummer anrufen und Soundboard/URL-Audio abspielen",
-          "es": "Llamar al número y reproducir audio de Soundboard/URL",
-          "fr": "Appeler le numéro et lire l'audio Soundboard/URL",
-          "it": "Chiama il numero e riproduci l'audio Soundboard/URL",
-          "no": "Ring nummeret og spill lyd fra Soundboard/URL",
-          "sv": "Ring upp numret och spela Soundboard/URL-ljud",
-          "pl": "Zadzwoń pod numer i odtwórz dźwięk Soundboard/URL",
-          "ru": "Позвоните по номеру и воспроизведите звук Soundboard/URL",
-          "ko": "번호로 전화하고 사운드보드/URL 오디오 재생"
+          "en": "Call number and play Soundboard audio",
+          "nl": "Bel nummer en speel Soundboard-geluid",
+          "da": "Ring nummeret op og afspil Soundboard-lyd",
+          "de": "Nummer anrufen und Soundboard-Audio abspielen",
+          "es": "Llamar al número y reproducir audio de Soundboard",
+          "fr": "Appeler le numéro et lire l'audio Soundboard",
+          "it": "Chiama il numero e riproduci l'audio Soundboard",
+          "no": "Ring nummeret og spill av Soundboard-lyd",
+          "sv": "Ring upp numret och spela Soundboard-ljud",
+          "pl": "Zadzwoń pod numer i odtwórz dźwięk Soundboard",
+          "ru": "Позвоните по номеру и воспроизведите звук Soundboard",
+          "ko": "번호로 전화하고 사운드보드 오디오 재생"
         },
         "titleFormatted": {
-          "en": "Call [[number]] and play [[sound]] / [[file_url]] [[repeat]] times, wait [[delay]]s before hangup",
-          "nl": "Bel [[number]] en speel [[sound]] / [[file_url]] [[repeat]] keer, wacht [[delay]]s voor ophangen",
-          "da": "Ring [[number]] og afspil [[sound]] / [[file_url]] [[repeat]] gange, vent [[delay]] sekunder før afbrydelse",
-          "de": "Rufe [[number]] an und spiele [[sound]] / [[file_url]] [[repeat]] Mal ab, warte [[delay]] Sekunden vor dem Auflegen",
-          "es": "Llama a [[number]] y reproduce [[sound]] / [[file_url]] [[repeat]] veces, espera [[delay]] segundos antes de colgar",
-          "fr": "Appelez [[number]] et jouez [[sound]] / [[file_url]] [[repeat]] fois, attendez [[delay]] s avant de raccrocher",
-          "it": "Chiama [[number]] e riproduci [[sound]] / [[file_url]] [[repeat]] volte, attendi [[delay]] secondi prima di riagganciare",
-          "no": "Ring [[number]] og spill av [[sound]] / [[file_url]] [[repeat]] ganger, vent [[delay]] sekunder før du legger på",
-          "sv": "Ring [[number]] och spela [[sound]] / [[file_url]] [[repeat]] gånger, vänta [[delay]] sekunder innan avstängning",
-          "pl": "Zadzwoń pod [[number]] i odtwórz [[sound]] / [[file_url]] [[repeat]] razy, poczekaj [[delay]] sekund przed rozłączeniem",
-          "ru": "Позвоните на [[number]] и воспроизведите [[sound]] / [[file_url]] [[repeat]] раз, подождите [[delay]] секунд перед отключением",
-          "ko": "[[number]]로 전화하고 [[sound]] / [[file_url]]을 [[repeat]]번 재생한 후, [[delay]]초 기다린 후 끊기"
+          "en": "Call [[number]] and play [[sound]] [[repeat]] times, wait [[delay]]s before hangup",
+          "nl": "Bel [[number]] en speel [[sound]] [[repeat]] keer, wacht [[delay]]s voor ophangen",
+          "da": "Ring [[number]] og afspil [[sound]] [[repeat]] gange, vent [[delay]] sekunder før afbrydelse",
+          "de": "Rufe [[number]] an und spiele [[sound]] [[repeat]] Mal ab, warte [[delay]] Sekunden vor dem Auflegen",
+          "es": "Llama a [[number]] y reproduce [[sound]] [[repeat]] veces, espera [[delay]] segundos antes de colgar",
+          "fr": "Appelez [[number]] et jouez [[sound]] [[repeat]] fois, attendez [[delay]] s avant de raccrocher",
+          "it": "Chiama [[number]] e riproduci [[sound]] [[repeat]] volte, attendi [[delay]] secondi prima di riagganciare",
+          "no": "Ring [[number]] og spill av [[sound]] [[repeat]] ganger, vent [[delay]] sekunder før du legger på",
+          "sv": "Ring [[number]] och spela [[sound]] [[repeat]] gånger, vänta [[delay]] sekunder innan avstängning",
+          "pl": "Zadzwoń pod [[number]] i odtwórz [[sound]] [[repeat]] razy, poczekaj [[delay]] sekund przed rozłączeniem",
+          "ru": "Позвоните на [[number]] и воспроизведите [[sound]] [[repeat]] раз, подождите [[delay]] секунд перед отключением",
+          "ko": "[[number]]로 전화하고 [[sound]]를 [[repeat]]번 재생한 후, [[delay]]초 기다린 후 끊기"
         },
         "args": [
           {
@@ -554,36 +554,18 @@
             "name": "sound",
             "type": "autocomplete",
             "title": {
-              "en": "Soundboard file (optional)",
-              "nl": "Soundboard-bestand (optioneel)",
-              "da": "Soundboard-fil (valgfri)",
-              "de": "Soundboard-Datei (optional)",
-              "es": "Archivo de Soundboard (opcional)",
-              "fr": "Fichier Soundboard (optionnel)",
-              "it": "File Soundboard (opzionale)",
-              "no": "Soundboard-fil (valgfritt)",
-              "sv": "Soundboard-fil (valfritt)",
-              "pl": "Plik Soundboard (opcjonalnie)",
-              "ru": "Файл Soundboard (опционально)",
-              "ko": "사운드보드 파일 (선택 사항)"
-            }
-          },
-          {
-            "name": "file_url",
-            "type": "text",
-            "title": {
-              "en": "Fallback: URL or path to WAV (8kHz mono)",
-              "nl": "Fallback: URL of pad naar WAV (8kHz mono)",
-              "da": "Fallback: URL eller sti til WAV (8kHz mono)",
-              "de": "Fallback: URL oder Pfad zu WAV (8kHz mono)",
-              "es": "Alternativa: URL o ruta a WAV (8kHz mono)",
-              "fr": "Relais : URL ou chemin vers WAV (8kHz mono)",
-              "it": "Ripiego: URL o percorso a WAV (8kHz mono)",
-              "no": "Fallback: URL eller bane til WAV (8kHz mono)",
-              "sv": "Fallback: URL eller sökväg till WAV (8kHz mono)",
-              "pl": "Zapasowe: URL lub ścieżka do WAV (8kHz mono)",
-              "ru": "Запасной вариант: URL или путь к WAV (8kHz mono)",
-              "ko": "대체: WAV (8kHz 모노)로의 URL 또는 경로"
+              "en": "Soundboard file",
+              "nl": "Soundboard-bestand",
+              "da": "Soundboard-fil",
+              "de": "Soundboard-Datei",
+              "es": "Archivo de Soundboard",
+              "fr": "Fichier Soundboard",
+              "it": "File Soundboard",
+              "no": "Soundboard-fil",
+              "sv": "Soundboard-fil",
+              "pl": "Plik Soundboard",
+              "ru": "Файл Soundboard",
+              "ko": "사운드보드 파일"
             }
           },
           {
@@ -623,7 +605,112 @@
             }
           }
         ],
-        "id": "call_and_play"
+        "id": "call_and_play_soundboard"
+      },
+      {
+        "title": {
+          "en": "Call number and play URL audio",
+          "nl": "Bel nummer en speel URL-geluid",
+          "da": "Ring nummeret op og afspil URL-lyd",
+          "de": "Nummer anrufen und URL-Audio abspielen",
+          "es": "Llamar al número y reproducir audio desde URL",
+          "fr": "Appeler le numéro et lire l'audio URL",
+          "it": "Chiama il numero e riproduci l'audio da URL",
+          "no": "Ring nummeret og spill av URL-lyd",
+          "sv": "Ring upp numret och spela URL-ljud",
+          "pl": "Zadzwoń pod numer i odtwórz dźwięk z URL",
+          "ru": "Позвоните по номеру и воспроизведите звук по URL",
+          "ko": "번호로 전화하고 URL 오디오 재생"
+        },
+        "titleFormatted": {
+          "en": "Call [[number]] and play [[file_url]] [[repeat]] times, wait [[delay]]s before hangup",
+          "nl": "Bel [[number]] en speel [[file_url]] [[repeat]] keer, wacht [[delay]]s voor ophangen",
+          "da": "Ring [[number]] og afspil [[file_url]] [[repeat]] gange, vent [[delay]] sekunder før afbrydelse",
+          "de": "Rufe [[number]] an und spiele [[file_url]] [[repeat]] Mal ab, warte [[delay]] Sekunden vor dem Auflegen",
+          "es": "Llama a [[number]] y reproduce [[file_url]] [[repeat]] veces, espera [[delay]] segundos antes de colgar",
+          "fr": "Appelez [[number]] et jouez [[file_url]] [[repeat]] fois, attendez [[delay]] s avant de raccrocher",
+          "it": "Chiama [[number]] e riproduci [[file_url]] [[repeat]] volte, attendi [[delay]] secondi prima di riagganciare",
+          "no": "Ring [[number]] og spill av [[file_url]] [[repeat]] ganger, vent [[delay]] sekunder før du legger på",
+          "sv": "Ring [[number]] och spela [[file_url]] [[repeat]] gånger, vänta [[delay]] sekunder innan avstängning",
+          "pl": "Zadzwoń pod [[number]] i odtwórz [[file_url]] [[repeat]] razy, poczekaj [[delay]] sekund przed rozłączeniem",
+          "ru": "Позвоните на [[number]] и воспроизведите [[file_url]] [[repeat]] раз, подождите [[delay]] секунд перед отключением",
+          "ko": "[[number]]로 전화하고 [[file_url]]을 [[repeat]]번 재생한 후, [[delay]]초 기다린 후 끊기"
+        },
+        "args": [
+          {
+            "name": "number",
+            "type": "text",
+            "title": {
+              "en": "Phone number or SIP URI",
+              "nl": "Telefoonnummer of SIP URI",
+              "da": "Telefonnummer eller SIP URI",
+              "de": "Telefonnummer oder SIP URI",
+              "es": "Número de teléfono o URI SIP",
+              "fr": "Numéro de téléphone ou URI SIP",
+              "it": "Numero di telefono o URI SIP",
+              "no": "Telefonnummer eller SIP URI",
+              "sv": "Telefonnummer eller SIP URI",
+              "pl": "Numer telefonu lub SIP URI",
+              "ru": "Номер телефона или SIP URI",
+              "ko": "전화번호 또는 SIP URI"
+            }
+          },
+          {
+            "name": "file_url",
+            "type": "text",
+            "title": {
+              "en": "URL or path to WAV (8kHz mono)",
+              "nl": "URL of pad naar WAV (8kHz mono)",
+              "da": "URL eller sti til WAV (8kHz mono)",
+              "de": "URL oder Pfad zu WAV (8kHz mono)",
+              "es": "URL o ruta a WAV (8kHz mono)",
+              "fr": "URL ou chemin vers WAV (8kHz mono)",
+              "it": "URL o percorso a WAV (8kHz mono)",
+              "no": "URL eller bane til WAV (8kHz mono)",
+              "sv": "URL eller sökväg till WAV (8kHz mono)",
+              "pl": "URL lub ścieżka do WAV (8kHz mono)",
+              "ru": "URL или путь к WAV (8kHz mono)",
+              "ko": "WAV(8kHz 모노)로의 URL 또는 경로"
+            }
+          },
+          {
+            "name": "repeat",
+            "type": "number",
+            "title": {
+              "en": "Times to play audio",
+              "nl": "Aantal keer afspelen",
+              "da": "Antal gange at afspille lyd",
+              "de": "Häufigkeit der Audiowiedergabe",
+              "es": "Veces que se reproduce el audio",
+              "fr": "Nombre de fois pour jouer l'audio",
+              "it": "Numero di volte da riprodurre l'audio",
+              "no": "Antall ganger å spille av lyd",
+              "sv": "Antal gånger att spela upp ljud",
+              "pl": "Liczba odtworzeń audio",
+              "ru": "Количество воспроизведений аудио",
+              "ko": "오디오 재생 횟수"
+            }
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "title": {
+              "en": "Delay before hangup (s)",
+              "nl": "Vertraging voor ophangen (s)",
+              "da": "Forsinkelse før afbrydelse (s)",
+              "de": "Verzögerung vor dem Auflegen (s)",
+              "es": "Retraso antes de colgar (s)",
+              "fr": "Délai avant de raccrocher (s)",
+              "it": "Ritardo prima di riagganciare (s)",
+              "no": "Forsinkelse før avstenging (s)",
+              "sv": "Fördröjning innan avstängning (s)",
+              "pl": "Opóźnienie przed rozłączeniem (s)",
+              "ru": "Задержка перед отключением (s)",
+              "ko": "종료 전 지연 시간 (s)"
+            }
+          }
+        ],
+        "id": "call_and_play_url"
       }
     ]
   }
