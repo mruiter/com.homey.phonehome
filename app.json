@@ -663,18 +663,7 @@
             "name": "file_url",
             "type": "text",
             "title": {
-              "en": "URL or path to WAV (8kHz mono)",
-              "nl": "URL of pad naar WAV (8kHz mono)",
-              "da": "URL eller sti til WAV (8kHz mono)",
-              "de": "URL oder Pfad zu WAV (8kHz mono)",
-              "es": "URL o ruta a WAV (8kHz mono)",
-              "fr": "URL ou chemin vers WAV (8kHz mono)",
-              "it": "URL o percorso a WAV (8kHz mono)",
-              "no": "URL eller bane til WAV (8kHz mono)",
-              "sv": "URL eller sökväg till WAV (8kHz mono)",
-              "pl": "URL lub ścieżka do WAV (8kHz mono)",
-              "ru": "URL или путь к WAV (8kHz mono)",
-              "ko": "WAV(8kHz 모노)로의 URL 또는 경로"
+              "en": "URL or path to WAV/MP3/OGG/FLAC"
             }
           },
           {

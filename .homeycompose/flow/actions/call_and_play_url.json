@@ -50,8 +50,7 @@
       "name": "file_url",
       "type": "text",
       "title": {
-        "en": "URL or path to WAV/MP3/OGG/FLAC",
-
+        "en": "URL or path to WAV/MP3/OGG/FLAC"
       }
     },
     {
