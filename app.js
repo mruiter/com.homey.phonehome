@@ -4,6 +4,7 @@ import fs from 'fs';
 import os from 'os';
 import http from 'http';
 import https from 'https';
+import crypto from 'crypto';
 import sipCallPlay from './lib/sip_call_play.cjs';
 import wavUtils from './lib/wav_utils.cjs';
 
@@ -13,6 +14,22 @@ const { ensureWavPcm16Mono16k } = wavUtils;
 class HomeyPhoneHomeApp extends Homey.App {
   async onInit() {
     this.log('Homey Phone Home app init');
+
+    this._cacheDir = path.join(os.tmpdir(), 'phonehome_cache');
+    await fs.promises.mkdir(this._cacheDir, { recursive: true });
+    this._cacheIndex = this.homey.settings.get('cache_index') || {};
+    this._purgeCache();
+    this.homey.api.registerGet('/cache', async (req, res) => {
+      res.json(await this._listCache());
+    });
+    this.homey.api.registerPost('/cache/:id/delete', async (req, res) => {
+      await this._deleteCache(req.params.id);
+      res.json({ success: true });
+    });
+    this.homey.api.registerPost('/cache/:id/permanent', async (req, res) => {
+      await this._setPermanent(req.params.id, !!(req.body && req.body.permanent));
+      res.json({ success: true });
+    });
 
     this._triggerCompleted = this.homey.flow.getTriggerCard('call_completed');
 
@@ -162,27 +179,39 @@ class HomeyPhoneHomeApp extends Homey.App {
   }
 
   async _resolveSoundboardToWav(soundArg) {
-    const sb = await this.homey.api.getApiApp('com.athom.soundboard');
-    const s = await sb.get(`/sounds/${encodeURIComponent(soundArg.id)}`);
-    const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
-    if (s && s.url) {
-      await this._downloadToFile(s.url, dest);
-    } else if (s && s.data) {
-      // Writing large base64 blobs via Buffer.from() temporarily allocates
-      // an additional copy of the decoded data in memory. By writing the
-      // base64 string directly to disk we avoid this duplication and reduce
-      // peak memory usage when handling bigger sound files.
-      await fs.promises.writeFile(dest, s.data, { encoding: 'base64' });
-    } else { throw new Error('Soundboard gaf geen url/data terug'); }
-    return await ensureWavPcm16Mono16k(dest, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)));
+    return this._getCachedOrCreate(`sb:${soundArg.id}`, async (cachePath) => {
+      const sb = await this.homey.api.getApiApp('com.athom.soundboard');
+      const s = await sb.get(`/sounds/${encodeURIComponent(soundArg.id)}`);
+      const tmp = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
+      if (s && s.url) {
+        await this._downloadToFile(s.url, tmp);
+      } else if (s && s.data) {
+        await fs.promises.writeFile(tmp, s.data, { encoding: 'base64' });
+      } else { throw new Error('Soundboard gaf geen url/data terug'); }
+      const wav = await ensureWavPcm16Mono16k(tmp, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)));
+      if (wav !== cachePath) await fs.promises.copyFile(wav, cachePath);
+      if (wav !== tmp) { try { await fs.promises.unlink(wav); } catch(e){} }
+      try { await fs.promises.unlink(tmp); } catch(e){}
+    });
   }
   async _ensureLocalWav(urlOrPath) {
-    let local = urlOrPath;
-    if (/^https?:\/\//i.test(urlOrPath)) {
-      local = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
-      await this._downloadToFile(urlOrPath, local);
-    } else { if (!fs.existsSync(urlOrPath)) throw new Error('Bestand niet gevonden: '+urlOrPath); }
-    return await ensureWavPcm16Mono16k(local, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)));
+    const isUrl = /^https?:\/\//i.test(urlOrPath);
+    const key = isUrl ? `url:${urlOrPath}` : `path:${path.resolve(urlOrPath)}`;
+    return this._getCachedOrCreate(key, async (cachePath) => {
+      let src = urlOrPath;
+      let tmp;
+      if (isUrl) {
+        tmp = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
+        await this._downloadToFile(urlOrPath, tmp);
+        src = tmp;
+      } else {
+        if (!fs.existsSync(urlOrPath)) throw new Error('Bestand niet gevonden: '+urlOrPath);
+      }
+      const wav = await ensureWavPcm16Mono16k(src, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)));
+      if (wav !== cachePath) await fs.promises.copyFile(wav, cachePath);
+      if (wav !== src) { try { await fs.promises.unlink(wav); } catch(e){} }
+      if (isUrl && src && fs.existsSync(src)) { try { await fs.promises.unlink(src); } catch(e){} }
+    });
   }
   async _downloadToFile(url, destPath) {
     const client = url.startsWith('https')?https:http;
@@ -193,6 +222,68 @@ class HomeyPhoneHomeApp extends Homey.App {
         res.pipe(file); file.on('finish', ()=>file.close(resolve));
       }); req.on('error', reject);
     });
+  }
+
+  _cacheDays() {
+    return Number(this.homey.settings.get('cache_days') || 2);
+  }
+
+  _saveCacheIndex() {
+    this.homey.settings.set('cache_index', this._cacheIndex);
+  }
+
+  _purgeCache() {
+    const maxAge = this._cacheDays() * 24 * 60 * 60 * 1000;
+    const now = Date.now();
+    for (const [id, meta] of Object.entries(this._cacheIndex)) {
+      if (!meta.permanent && now - (meta.lastUsed || 0) > maxAge) {
+        try { fs.unlinkSync(path.join(this._cacheDir, meta.file)); } catch(e){}
+        delete this._cacheIndex[id];
+      }
+    }
+    this._saveCacheIndex();
+  }
+
+  async _listCache() {
+    return Object.entries(this._cacheIndex).map(([id, meta]) => ({
+      id,
+      key: meta.key,
+      permanent: !!meta.permanent,
+      lastUsed: meta.lastUsed
+    }));
+  }
+
+  async _deleteCache(id) {
+    const meta = this._cacheIndex[id];
+    if (meta) {
+      try { await fs.promises.unlink(path.join(this._cacheDir, meta.file)); } catch(e){}
+      delete this._cacheIndex[id];
+      this._saveCacheIndex();
+    }
+  }
+
+  async _setPermanent(id, val) {
+    if (this._cacheIndex[id]) {
+      this._cacheIndex[id].permanent = !!val;
+      this._saveCacheIndex();
+    }
+  }
+
+  async _getCachedOrCreate(key, creator) {
+    await fs.promises.mkdir(this._cacheDir, { recursive: true });
+    this._purgeCache();
+    const id = crypto.createHash('sha1').update(key).digest('hex');
+    const file = path.join(this._cacheDir, `${id}.wav`);
+    const meta = this._cacheIndex[id];
+    if (meta && fs.existsSync(file)) {
+      meta.lastUsed = Date.now();
+      this._saveCacheIndex();
+      return file;
+    }
+    await creator(file);
+    this._cacheIndex[id] = { key, file: path.basename(file), permanent: false, lastUsed: Date.now() };
+    this._saveCacheIndex();
+    return file;
   }
 }
 export default HomeyPhoneHomeApp;
