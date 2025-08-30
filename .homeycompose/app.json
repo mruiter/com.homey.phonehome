@@ -140,12 +140,17 @@
     },
     {
       "id": "codec",
-      "type": "enum",
+      "type": "dropdown",
       "title": {
         "en": "Preferred codec",
         "nl": "Voorkeurscodec"
       },
-      "values": ["AUTO","PCMU","PCMA","G722"],
+      "values": [
+        { "id": "AUTO", "label": { "en": "AUTO", "nl": "AUTO" } },
+        { "id": "PCMU", "label": { "en": "PCMU", "nl": "PCMU" } },
+        { "id": "PCMA", "label": { "en": "PCMA", "nl": "PCMA" } },
+        { "id": "G722", "label": { "en": "G722", "nl": "G722" } }
+      ],
       "value": "AUTO"
     },
     {
