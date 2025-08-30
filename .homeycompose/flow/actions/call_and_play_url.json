@@ -50,7 +50,18 @@
       "name": "file_url",
       "type": "text",
       "title": {
-        "en": "URL or path to WAV/MP3/OGG/FLAC"
+        "en": "URL or path to WAV/MP3/OGG/FLAC",
+        "nl": "URL of pad naar WAV/MP3/OGG/FLAC",
+        "da": "URL eller sti til WAV/MP3/OGG/FLAC",
+        "de": "URL oder Pfad zu WAV/MP3/OGG/FLAC",
+        "es": "URL o ruta a WAV/MP3/OGG/FLAC",
+        "fr": "URL ou chemin vers WAV/MP3/OGG/FLAC",
+        "it": "URL o percorso verso WAV/MP3/OGG/FLAC",
+        "no": "URL eller sti til WAV/MP3/OGG/FLAC",
+        "sv": "URL eller sökväg till WAV/MP3/OGG/FLAC",
+        "pl": "URL lub ścieżka do WAV/MP3/OGG/FLAC",
+        "ru": "URL или путь к WAV/MP3/OGG/FLAC",
+        "ko": "WAV/MP3/OGG/FLAC의 URL 또는 경로"
       }
     },
     {
