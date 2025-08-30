@@ -77,6 +77,7 @@
       <input id="cache_days" type="number" />
     </label>
     <button type="submit">Save</button>
+    <button type="button" id="clear-cache">Clear cache</button>
   </form>
   <script>
     function onHomeyReady(Homey) {
@@ -110,6 +111,15 @@
           });
         });
         Homey.alert('Settings saved');
+      });
+      document.getElementById('clear-cache').addEventListener('click', () => {
+        Homey.emit('clear_cache', null, err => {
+          if (err) {
+            Homey.alert('Failed to clear cache: ' + err.message);
+          } else {
+            Homey.alert('Cache cleared');
+          }
+        });
       });
       Homey.ready();
     }

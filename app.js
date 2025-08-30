@@ -18,6 +18,16 @@ class HomeyPhoneHomeApp extends Homey.App {
 
     this._triggerCompleted = this.homey.flow.getTriggerCard('call_completed');
 
+    this.homey.on('clear_cache', async (_data, callback) => {
+      try {
+        const cacheDir = path.join(os.tmpdir(), 'voip_cache');
+        await fs.promises.rm(cacheDir, { recursive: true, force: true });
+        callback(null, true);
+      } catch (e) {
+        callback(e);
+      }
+    });
+
     const actionSb = this.homey.flow.getActionCard('call_and_play_soundboard');
     actionSb.registerArgumentAutocompleteListener('sound', async (query, args) => {
       try {
