@@ -1,5 +1,14 @@
-'use strict';
-const Homey = require('homey');
+import Homey from 'homey';
+import path from 'path';
+import fs from 'fs';
+import os from 'os';
+import http from 'http';
+import https from 'https';
+import sipCallPlay from './lib/sip_call_play.cjs';
+import wavUtils from './lib/wav_utils.cjs';
+
+const { callOnce } = sipCallPlay;
+const { ensureWavPcm16Mono16k } = wavUtils;
 
 class HomeyPhoneHomeApp extends Homey.App {
   async onInit() {
@@ -61,7 +70,6 @@ class HomeyPhoneHomeApp extends Homey.App {
       const repeat = Math.max(1, Number(args.repeat || 1));
       const delay = Math.max(0, Number(args.delay || 2));
 
-      const { callOnce } = require('./lib/sip_call_play');
       let result;
       try {
         result = await callOnce({
@@ -126,7 +134,6 @@ class HomeyPhoneHomeApp extends Homey.App {
       const repeat = Math.max(1, Number(args.repeat || 1));
       const delay = Math.max(0, Number(args.delay || 2));
 
-      const { callOnce } = require('./lib/sip_call_play');
       let result;
       try {
         result = await callOnce({
@@ -155,7 +162,6 @@ class HomeyPhoneHomeApp extends Homey.App {
   }
 
   async _resolveSoundboardToWav(soundArg) {
-    const path = require('path'); const fs = require('fs'); const os = require('os');
     const sb = await this.homey.api.getApiApp('com.athom.soundboard');
     const s = await sb.get(`/sounds/${encodeURIComponent(soundArg.id)}`);
     const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
@@ -168,19 +174,17 @@ class HomeyPhoneHomeApp extends Homey.App {
       // peak memory usage when handling bigger sound files.
       await fs.promises.writeFile(dest, s.data, { encoding: 'base64' });
     } else { throw new Error('Soundboard gaf geen url/data terug'); }
-    return await require('./lib/wav_utils').ensureWavPcm16Mono16k(dest);
+    return await ensureWavPcm16Mono16k(dest);
   }
   async _ensureLocalWav(urlOrPath) {
-    const fs = require('fs'); const path = require('path'); const os = require('os');
     let local = urlOrPath;
     if (/^https?:\/\//i.test(urlOrPath)) {
       local = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
       await this._downloadToFile(urlOrPath, local);
     } else { if (!fs.existsSync(urlOrPath)) throw new Error('Bestand niet gevonden: '+urlOrPath); }
-    return await require('./lib/wav_utils').ensureWavPcm16Mono16k(local);
+    return await ensureWavPcm16Mono16k(local);
   }
   async _downloadToFile(url, destPath) {
-    const fs = require('fs'); const http = require('http'); const https = require('https');
     const client = url.startsWith('https')?https:http;
     await new Promise((resolve,reject)=>{
       const file = fs.createWriteStream(destPath);
@@ -191,4 +195,4 @@ class HomeyPhoneHomeApp extends Homey.App {
     });
   }
 }
-module.exports = HomeyPhoneHomeApp;
+export default HomeyPhoneHomeApp;
