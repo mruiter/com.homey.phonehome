@@ -17,6 +17,16 @@ test('ensureWavPcm16Mono8k converts mp3 to wav', async () => {
   fs.unlinkSync(mp3);
 });
 
+test('ensureWavPcm16Mono8k handles mp3 with wav extension', async () => {
+  const fakeWav = path.join(os.tmpdir(), `tone_${Date.now()}.wav`);
+  fs.writeFileSync(fakeWav, Buffer.from(TONE_MP3_BASE64, 'base64'));
+  const out = await ensureWavPcm16Mono8k(fakeWav);
+  const pcm = readWavPcm16Mono8k(out);
+  assert.ok(pcm.length > 0);
+  fs.unlinkSync(out);
+  fs.unlinkSync(fakeWav);
+});
+
 test('ensureWavPcm16Mono8k returns original for valid wav', async () => {
   const wav = path.join(os.tmpdir(), `tone_${Date.now()}.wav`);
   const samples = new Int16Array(800);
