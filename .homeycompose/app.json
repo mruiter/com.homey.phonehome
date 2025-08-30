@@ -28,7 +28,7 @@
     "ru": "Потому что даже E.T. нужна умная дом, чтобы назвать домом.",
     "ko": "심지어 E.T.도 스마트 홈이 필요하기 때문입니다."
   },
-  "category": "tools",
+  "category": ["tools","appliances"],
   "version": "0.1.1",
   "author": {
     "name": "Marco Ruiter",
@@ -38,7 +38,7 @@
     "homey:manager:api",
     "homey:app:com.athom.soundboard"
   ],
-  "compatibility": ">=5.0.0",
+  "compatibility": ">=12.0.1",
   "settings": [
     {
       "id": "sip_domain",
@@ -391,5 +391,6 @@
     "large": "assets/images/large.png",
     "xlarge": "assets/images/xlarge.png"
   },
-  "brandColor": "#3A7BD5"
+  "brandColor": "#785607",
+  "esm": true
 }
