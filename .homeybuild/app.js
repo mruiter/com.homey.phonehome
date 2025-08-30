@@ -69,6 +69,7 @@ class VoipPlayerApp extends Homey.App {
         }
 
         const repeat = Math.max(1, Number(args.repeat || 1));
+        const delay = Math.max(0, Number(args.delay || 2));
 
         const { callOnce } = require('./lib/sip_call_play');
         let result;
@@ -78,6 +79,7 @@ class VoipPlayerApp extends Homey.App {
             to,
             wavPath,
             repeat,
+            delay,
             logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
           });
       } catch (e) {

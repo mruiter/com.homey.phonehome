@@ -1,19 +1,18 @@
 {
-  "id": "com.marco.voipplayer",
+  "id": "com.homey.phonehome",
   "sdk": 3,
   "name": {
-    "en": "VOIP Player",
-    "nl": "VOIP Speler"
+    "en": "Homey Phone Home",
+    "nl": "Homey Phone Home"
   },
   "description": {
-    "en": "Place a SIP call and play a Soundboard/URL audio when answered",
-    "nl": "Zet een SIP-gesprek op en speel een Soundboard/URL-audio bij beantwoording"
+    "en": "Because even E.T. needs a smart home to call home."
   },
   "category": "tools",
   "version": "0.1.1",
   "author": {
-    "name": "Marco",
-    "email": "dev@example.com"
+    "name": "Marco Ruiter",
+    "email": "mruiter@eslaan24.nl"
   },
   "permissions": [
     "homey:manager:api",
@@ -160,7 +159,8 @@
   "icon": "assets/icon.svg",
   "images": {
     "small": "assets/images/small.png",
-    "large": "assets/images/large.png"
+    "large": "assets/images/large.png",
+	"xlarge": "assets/images/xlarge.png"
   },
   "brandColor": "#3A7BD5"
 }

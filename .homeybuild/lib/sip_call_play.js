@@ -125,10 +125,11 @@ async function callOnce(cfg) {
     local_ip, local_sip_port, local_rtp_port, codec = 'PCMU', expires_sec, invite_timeout,
     stun_server, stun_port,
     sip_transport = 'UDP',
-    to, wavPath, repeat: repeatRaw = 1, logger = () => {}
+    to, wavPath, repeat: repeatRaw = 1, delay: delaySec = 2, logger = () => {}
   } = cfg;
 
   const repeat = Math.max(1, parseInt(repeatRaw, 10) || 1);
+  const hangupDelay = Math.max(0, Number(delaySec) || 0);
 
   const transport = (sip_transport || 'UDP').toUpperCase();
   const transportParam = transport.toLowerCase();
@@ -273,10 +274,12 @@ async function callOnce(cfg) {
         clearTimeout(timer);
         return reject(new Error('Geen ondersteunde codec'));
       }
+      const contactHeader = Array.isArray(res.headers.contact) ? res.headers.contact[0] : res.headers.contact;
+      const remoteTarget = contactHeader && (contactHeader.uri || contactHeader);
       // ACK
       const ack = {
         method: 'ACK',
-        uri: invite.uri,
+        uri: remoteTarget || invite.uri,
         headers: {
           to: res.headers.to,
           from: invite.headers.from,
@@ -294,7 +297,7 @@ async function callOnce(cfg) {
       startRtpStream(encoded, local_ip, local_rtp_port, remote, repeat, () => {
         const bye = {
           method: 'BYE',
-          uri: invite.uri,
+          uri: remoteTarget || invite.uri,
           headers: {
             to: res.headers.to,
             from: invite.headers.from,
@@ -304,14 +307,26 @@ async function callOnce(cfg) {
             contact: invite.headers.contact
           }
         };
-        logger('info', 'Send BYE');
-        sip.send(bye);
-        clearTimeout(timer);
-        resolve({
-          status: 'answered',
-          durationMs: answerTs ? (Date.now() - answerTs) : 0,
-          reason: endReason
-        });
+        const sendBye = () => {
+          logger('info', 'Send BYE');
+          try { sip.send(bye); } catch (_) {}
+          // Give the stack a moment to transmit the BYE before closing the socket.
+          setTimeout(() => {
+            try { sip.stop(); } catch (e) {}
+            clearTimeout(timer);
+            resolve({
+              status: 'answered',
+              durationMs: answerTs ? (Date.now() - answerTs) : 0,
+              reason: endReason
+            });
+          }, 100);
+        };
+        if (hangupDelay > 0) {
+          logger('info', `Waiting ${hangupDelay}s before hangup`);
+          setTimeout(sendBye, hangupDelay * 1000);
+        } else {
+          sendBye();
+        }
       });
 
       sip.recv(req => {

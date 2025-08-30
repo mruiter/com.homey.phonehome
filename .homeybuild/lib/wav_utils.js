@@ -1,10 +1,12 @@
 'use strict';
 const fs = require('fs');
-const { spawn } = require('child_process');
 const path = require('path');
 const os = require('os');
-const ffmpegPath = require('./ffmpeg-path');
-const { MPEGDecoder } = require('mpg123-decoder');
+
+// `mpg123-decoder` is an ES module. In a CommonJS environment we
+// need to use a dynamic import to load it. This avoids `require()`
+// errors when decoding MP3 files.
+let MPEGDecoder;
 
 function readWavPcm16Mono8k(path) {
   const buf = fs.readFileSync(path);
@@ -94,26 +96,29 @@ async function ensureWavPcm16Mono8k(srcPath) {
     readWavPcm16Mono8k(srcPath);
     return srcPath;
   } catch (e) {
-    const ext = path.extname(srcPath).toLowerCase();
-    if (ext === '.mp3') {
-      const pcm = await decodeMp3ToPcm16Mono8k(srcPath);
-      const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
-      writeWavPcm16Mono8k(dest, pcm);
-      readWavPcm16Mono8k(dest);
-      return dest;
+    // When the source isn't a valid WAV file, attempt to treat it as an MP3
+    // regardless of the file extension. This covers scenarios where MP3
+    // content is stored with a `.wav` extension (e.g. files downloaded from
+    // external sources or Homey soundboard entries).
+    if (e.message && e.message.includes('Geen geldige WAV')) {
+      try {
+        const pcm = await decodeMp3ToPcm16Mono8k(srcPath);
+        const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
+        writeWavPcm16Mono8k(dest, pcm);
+        readWavPcm16Mono8k(dest); // throws if conversion failed
+        return dest;
+      } catch (_) {
+        // fall through and rethrow original error if MP3 decoding fails
+      }
     }
-    const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
-    await new Promise((resolve, reject) => {
-      const proc = spawn(ffmpegPath, ['-y', '-i', srcPath, '-ac', '1', '-ar', '8000', '-sample_fmt', 's16', dest]);
-      proc.on('error', reject);
-      proc.on('close', code => code === 0 ? resolve() : reject(new Error('ffmpeg exit ' + code)));
-    });
-    readWavPcm16Mono8k(dest);
-    return dest;
+    throw e;
   }
 }
 
 async function decodeMp3ToPcm16Mono8k(mp3Path) {
+  if (!MPEGDecoder) {
+    ({ MPEGDecoder } = await import('mpg123-decoder'));
+  }
   const decoder = new MPEGDecoder();
   await decoder.ready;
   const mp3 = fs.readFileSync(mp3Path);
@@ -182,4 +187,4 @@ function writeWavPcm16Mono8k(dest, pcm) {
   fs.writeFileSync(dest, Buffer.concat([header, pcmBuf]));
 }
 
-module.exports = { readWavPcm16Mono8k, pcm16ToUlawBuffer, pcm16ToAlawBuffer, ensureWavPcm16Mono8k };
+module.exports = { readWavPcm16Mono8k, pcm16ToUlawBuffer, pcm16ToAlawBuffer, ensureWavPcm16Mono8k, writeWavPcm16Mono8k };

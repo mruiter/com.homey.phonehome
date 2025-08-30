@@ -1,10 +1,10 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
-  "id": "com.marco.voipplayer",
+  "id": "com.homey.phonehome",
   "sdk": 3,
   "name": {
-    "en": "VOIP Player",
-    "nl": "VOIP Speler"
+    "en": "Homey Phone Home",
+    "nl": "Homey Phone Home"
   },
   "description": {
     "en": "Place a SIP call and play a Soundboard/URL audio when answered",
@@ -13,8 +13,8 @@
   "category": "tools",
   "version": "0.1.1",
   "author": {
-    "name": "Marco",
-    "email": "dev@example.com"
+    "name": "Marco Ruiter",
+    "email": "mruiter@eslaan24.nl"
   },
   "permissions": [
     "homey:manager:api",
@@ -219,8 +219,8 @@
           "nl": "Bel nummer en speel Soundboard/URL-geluid"
         },
         "titleFormatted": {
-          "en": "Call [[number]] and play [[sound]] / [[file_url]] [[repeat]] times",
-          "nl": "Bel [[number]] en speel [[sound]] / [[file_url]] [[repeat]] keer"
+          "en": "Call [[number]] and play [[sound]] / [[file_url]] [[repeat]] times, wait [[delay]]s before hangup",
+          "nl": "Bel [[number]] en speel [[sound]] / [[file_url]] [[repeat]] keer, wacht [[delay]]s voor ophangen"
         },
         "args": [
           {
@@ -254,6 +254,14 @@
               "en": "Times to play audio",
               "nl": "Aantal keer afspelen"
             }
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "title": {
+              "en": "Delay before hangup (s)",
+              "nl": "Vertraging voor ophangen (s)"
+            }
           }
         ],
         "id": "call_and_play"
@@ -263,14 +271,14 @@
   "drivers": [
     {
       "name": {
-        "en": "VOIP Player",
-        "nl": "VOIP Speler"
+        "en": "Homey Phone Home",
+        "nl": "Homey Phone Home"
       },
       "class": "other",
       "capabilities": [],
       "images": {
-        "small": "/drivers/voip_player/assets/small.png",
-        "large": "/drivers/voip_player/assets/large.png"
+        "small": "/drivers/homey_phone_home/assets/small.png",
+        "large": "/drivers/homey_phone_home/assets/large.png"
       },
       "pair": [
         {
@@ -278,7 +286,7 @@
           "template": "list_devices"
         }
       ],
-      "id": "voip_player"
+      "id": "homey_phone_home"
     }
   ]
 }

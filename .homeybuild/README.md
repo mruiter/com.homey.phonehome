@@ -8,4 +8,4 @@ Optioneel kan een STUN-server opgegeven worden om het publieke IP-adres en poort
 
 In de instellingen kan tevens de gewenste codec (PCMU of PCMA) worden gekozen.
 
-Deze app gebruikt [`ffmpeg`](https://ffmpeg.org/) om geluidsbestanden naar het juiste formaat te converteren. Wanneer `ffmpeg` niet op het systeem aanwezig is, probeert de app automatisch het pad van de npm-module [`ffmpeg-static`](https://www.npmjs.com/package/ffmpeg-static) te gebruiken.
+Deze app gebruikt [`mpg123-decoder`](https://www.npmjs.com/package/mpg123-decoder) om MP3-bestanden naar het juiste WAV-formaat te converteren.
