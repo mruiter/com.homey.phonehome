@@ -54,7 +54,7 @@ class HomeyPhoneHomeApp extends Homey.App {
         codec: (this.homey.settings.get('codec') || 'AUTO').toUpperCase(),
         expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
         invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
-        stun_server: this.homey.settings.get('stun_server') || '',
+        stun_server: this.homey.settings.get('stun_server') || 'stun.l.google.com',
         stun_port: Number(this.homey.settings.get('stun_port') || 3478)
       };
 
@@ -119,7 +119,7 @@ class HomeyPhoneHomeApp extends Homey.App {
         codec: (this.homey.settings.get('codec') || 'AUTO').toUpperCase(),
         expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
         invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
-        stun_server: this.homey.settings.get('stun_server') || '',
+        stun_server: this.homey.settings.get('stun_server') || 'stun.l.google.com',
         stun_port: Number(this.homey.settings.get('stun_port') || 3478)
       };
 
