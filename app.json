@@ -140,6 +140,16 @@
       "value": 45
     },
     {
+      "id": "codec",
+      "type": "enum",
+      "title": {
+        "en": "Preferred codec",
+        "nl": "Voorkeurscodec"
+      },
+      "values": ["AUTO","PCMU","PCMA","G722"],
+      "value": "AUTO"
+    },
+    {
       "id": "stun_server",
       "type": "text",
       "title": {

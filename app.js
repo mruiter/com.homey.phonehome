@@ -56,7 +56,7 @@ class VoipPlayerApp extends Homey.App {
       let wavPath = null;
       if (args.sound && args.sound.id && args.sound.id !== 'ERROR') {
         try {
-          wavPath = await this._resolveSoundboardToWav(args.sound);
+          wavPath = await this._resolveSoundboardToWav(args.sound, cfg.codec);
         } catch (e) {
           this.error('Soundboard-resolve faalde:', e.message || e);
           if (!args.file_url) throw new Error('Soundboard mislukt en geen URL/pad opgegeven');
@@ -65,7 +65,7 @@ class VoipPlayerApp extends Homey.App {
         if (!wavPath) {
           const fileUrl = String(args.file_url || '').trim();
           if (!fileUrl) throw new Error('Geen geluidsbron opgegeven');
-          wavPath = await this._ensureLocalWav(fileUrl);
+          wavPath = await this._ensureLocalWav(fileUrl, cfg.codec);
         }
 
         const repeat = Math.max(1, Number(args.repeat || 1));
@@ -99,7 +99,7 @@ class VoipPlayerApp extends Homey.App {
     });
   }
 
-  async _resolveSoundboardToWav(soundArg) {
+  async _resolveSoundboardToWav(soundArg, codec) {
     const path = require('path'); const fs = require('fs'); const os = require('os');
     const sb = await this.homey.api.getApiApp('com.athom.soundboard');
     const s = await sb.get(`/sounds/${encodeURIComponent(soundArg.id)}`);
@@ -109,16 +109,22 @@ class VoipPlayerApp extends Homey.App {
     } else if (s && s.data) {
       fs.writeFileSync(dest, Buffer.from(s.data, 'base64'));
     } else { throw new Error('Soundboard gaf geen url/data terug'); }
-    return await require('./lib/wav_utils').ensureWavPcm16Mono8k(dest);
+    const rate = (codec === 'PCMA' || codec === 'PCMU') ? 8000 : 16000;
+    return rate === 8000
+      ? await require('./lib/wav_utils').ensureWavPcm16Mono8k(dest)
+      : await require('./lib/wav_utils').ensureWavPcm16Mono16k(dest);
   }
-  async _ensureLocalWav(urlOrPath) {
+  async _ensureLocalWav(urlOrPath, codec) {
     const fs = require('fs'); const path = require('path'); const os = require('os');
     let local = urlOrPath;
     if (/^https?:\/\//i.test(urlOrPath)) {
       local = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
       await this._downloadToFile(urlOrPath, local);
     } else { if (!fs.existsSync(urlOrPath)) throw new Error('Bestand niet gevonden: '+urlOrPath); }
-    return await require('./lib/wav_utils').ensureWavPcm16Mono8k(local);
+    const rate = (codec === 'PCMA' || codec === 'PCMU') ? 8000 : 16000;
+    return rate === 8000
+      ? await require('./lib/wav_utils').ensureWavPcm16Mono8k(local)
+      : await require('./lib/wav_utils').ensureWavPcm16Mono16k(local);
   }
   async _downloadToFile(url, destPath) {
     const fs = require('fs'); const http = require('http'); const https = require('https');

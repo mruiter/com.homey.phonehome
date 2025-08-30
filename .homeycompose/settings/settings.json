@@ -99,5 +99,15 @@
       "nl": "Invite timeout (s)"
     },
     "value": 45
+  },
+  {
+    "id": "codec",
+    "type": "enum",
+    "title": {
+      "en": "Preferred codec",
+      "nl": "Voorkeurscodec"
+    },
+    "values": ["AUTO","PCMU","PCMA","G722"],
+    "value": "AUTO"
   }
 ]
