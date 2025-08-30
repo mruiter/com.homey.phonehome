@@ -219,8 +219,8 @@
           "nl": "Bel nummer en speel Soundboard/URL-geluid"
         },
         "titleFormatted": {
-          "en": "Call [[number]] and play [[sound]] / [[file_url]] [[repeat]] times",
-          "nl": "Bel [[number]] en speel [[sound]] / [[file_url]] [[repeat]] keer"
+          "en": "Call [[number]] and play [[sound]] / [[file_url]] [[repeat]] times, wait [[delay]]s before hangup",
+          "nl": "Bel [[number]] en speel [[sound]] / [[file_url]] [[repeat]] keer, wacht [[delay]]s voor ophangen"
         },
         "args": [
           {
@@ -253,6 +253,14 @@
             "title": {
               "en": "Times to play audio",
               "nl": "Aantal keer afspelen"
+            }
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "title": {
+              "en": "Delay before hangup (s)",
+              "nl": "Vertraging voor ophangen (s)"
             }
           }
         ],
