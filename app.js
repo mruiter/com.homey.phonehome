@@ -3,7 +3,7 @@ const Homey = require('homey');
 
 class HomeyPhoneHomeApp extends Homey.App {
   async onInit() {
-    this.log('homeyphonehome app init');
+    this.log('Homey Phone Home app init');
 
     this._triggerCompleted = this.homey.flow.getTriggerCard('call_completed');
     const action = this.homey.flow.getActionCard('call_and_play');
