@@ -162,7 +162,11 @@ class HomeyPhoneHomeApp extends Homey.App {
     if (s && s.url) {
       await this._downloadToFile(s.url, dest);
     } else if (s && s.data) {
-      fs.writeFileSync(dest, Buffer.from(s.data, 'base64'));
+      // Writing large base64 blobs via Buffer.from() temporarily allocates
+      // an additional copy of the decoded data in memory. By writing the
+      // base64 string directly to disk we avoid this duplication and reduce
+      // peak memory usage when handling bigger sound files.
+      await fs.promises.writeFile(dest, s.data, { encoding: 'base64' });
     } else { throw new Error('Soundboard gaf geen url/data terug'); }
     return await require('./lib/wav_utils').ensureWavPcm16Mono16k(dest);
   }
