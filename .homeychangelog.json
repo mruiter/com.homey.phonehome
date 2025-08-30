@@ -1,5 +1,8 @@
 {
   "1.0.0": {
     "en": "First appstore release"
+  },
+  "1.0.1": {
+    "en": "Added prefilled HomeyIP and Google Stun"
   }
 }
