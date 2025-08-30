@@ -35,6 +35,13 @@
     "name": "Marco Ruiter",
     "email": "mruiter@eslaan24.nl"
   },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "MarcoRuiter"
+      }
+    }
+  },
   "permissions": [
     "homey:manager:api",
     "homey:app:com.athom.soundboard"
