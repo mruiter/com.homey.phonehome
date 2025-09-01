@@ -14,3 +14,4 @@ Uiteraard des te groter de geluidsfile des te langer het duurt voor de start van
 
 Belangrijke meldingen kan je dus het beste al in het juiste formaat in soundboard of elders klaar hebben staan.
 Geconverteerde geluidsbestanden worden standaard 3 dagen in cache bewaard (instelbaar via de app-instellingen) zodat vaak gebruikte bestanden niet telkens opnieuw geconverteerd hoeven te worden.
+De spreek-snelheid van de TTS stem kan via de app-instellingen worden ingesteld op langzaam, normaal of snel.

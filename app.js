@@ -293,11 +293,17 @@ class HomeyPhoneHomeApp extends Homey.App {
     const quality = this.homey.settings.get('tts_quality') || 'normal';
     const model = quality === 'high' ? 'tts-1-hd' : 'gpt-4o-mini-tts';
     const voice = this.homey.settings.get('voice') || 'alloy';
+    const speedSetting = this.homey.settings.get('tts_speed') || 'normal';
+    const speedMap = { slow: 0.75, normal: 1, fast: 1.25 };
+    const speed = speedMap[speedSetting] !== undefined
+      ? speedMap[speedSetting]
+      : Math.min(4, Math.max(0.25, Number(speedSetting)));
     const speech = await client.audio.speech.create({
       model,
       voice,
       input: text,
-      format: 'wav'
+      format: 'wav',
+      speed
     });
     const buffer = Buffer.from(await speech.arrayBuffer());
     const tmp = path.join(os.tmpdir(), `tts_${Date.now()}.wav`);
