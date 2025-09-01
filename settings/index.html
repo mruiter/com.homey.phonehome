@@ -79,26 +79,79 @@
     <label>OpenAI API Key
       <input id="openai_api_key" type="password" />
     </label>
+    <label>Voice Gender
+      <select id="voice_gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </label>
+    <label>Voice
+      <select id="voice"></select>
+    </label>
+    <label>TTS Quality
+      <select id="tts_quality">
+        <option value="normal">Normal</option>
+        <option value="high">High</option>
+      </select>
+    </label>
     <button type="submit">Save</button>
     <button type="button" id="clear-cache">Clear cache</button>
   </form>
   <script>
     function onHomeyReady(Homey) {
-      const fields = ['sip_domain','sip_proxy','username','auth_id','password','realm','display_name','from_user','local_ip','sip_transport','local_sip_port','local_rtp_port','codec','expires_sec','invite_timeout','stun_server','stun_port','cache_days','openai_api_key'];
+      const fields = ['sip_domain','sip_proxy','username','auth_id','password','realm','display_name','from_user','local_ip','sip_transport','local_sip_port','local_rtp_port','codec','expires_sec','invite_timeout','stun_server','stun_port','cache_days','openai_api_key','voice_gender','voice','tts_quality'];
       const defaults = {
         sip_transport: 'UDP',
         codec: 'AUTO',
         stun_server: 'stun.l.google.com',
         stun_port: 19302,
-        cache_days: 3
+        cache_days: 3,
+        voice_gender: 'male',
+        voice: 'alloy',
+        tts_quality: 'normal'
       };
+      const voiceOptions = {
+        male: ['alloy','onyx'],
+        female: ['shimmer','verse']
+      };
+      let savedVoice = defaults.voice;
+      function updateVoiceOptions() {
+        const gender = document.getElementById('voice_gender').value || 'male';
+        const voiceSelect = document.getElementById('voice');
+        voiceSelect.innerHTML = '';
+        (voiceOptions[gender] || []).forEach(v => {
+          const opt = document.createElement('option');
+          opt.value = v;
+          opt.textContent = v.charAt(0).toUpperCase() + v.slice(1);
+          voiceSelect.appendChild(opt);
+        });
+        if (!(voiceOptions[gender] || []).includes(savedVoice)) {
+          savedVoice = (voiceOptions[gender] || [])[0];
+        }
+        voiceSelect.value = savedVoice;
+      }
       fields.forEach(key => {
         Homey.get(key, (err, value) => {
           if (!err && document.getElementById(key)) {
             const v = value !== undefined && value !== null && value !== '' ? value : (defaults[key] || '');
-            document.getElementById(key).value = v;
+            if (key === 'voice') {
+              savedVoice = v;
+              updateVoiceOptions();
+            } else {
+              document.getElementById(key).value = v;
+              if (key === 'voice_gender') {
+                updateVoiceOptions();
+              }
+            }
           }
         });
+      });
+      document.getElementById('voice_gender').addEventListener('change', () => {
+        savedVoice = voiceOptions[document.getElementById('voice_gender').value][0];
+        updateVoiceOptions();
+      });
+      document.getElementById('voice').addEventListener('change', () => {
+        savedVoice = document.getElementById('voice').value;
       });
       document.getElementById('settings-form').addEventListener('submit', e => {
         e.preventDefault();
