@@ -76,12 +76,15 @@
     <label>Cache days
       <input id="cache_days" type="number" />
     </label>
+    <label>OpenAI API Key
+      <input id="openai_api_key" type="password" />
+    </label>
     <button type="submit">Save</button>
     <button type="button" id="clear-cache">Clear cache</button>
   </form>
   <script>
     function onHomeyReady(Homey) {
-      const fields = ['sip_domain','sip_proxy','username','auth_id','password','realm','display_name','from_user','local_ip','sip_transport','local_sip_port','local_rtp_port','codec','expires_sec','invite_timeout','stun_server','stun_port','cache_days'];
+      const fields = ['sip_domain','sip_proxy','username','auth_id','password','realm','display_name','from_user','local_ip','sip_transport','local_sip_port','local_rtp_port','codec','expires_sec','invite_timeout','stun_server','stun_port','cache_days','openai_api_key'];
       const defaults = {
         sip_transport: 'UDP',
         codec: 'AUTO',
