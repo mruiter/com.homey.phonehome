@@ -1,15 +1,17 @@
 VOIP-stöd för Homey.
 
-Konfigurera dina SIP-kontouppgifter via appens inställningar i Homey så att domän, användarnamn, autentiserings-ID, lösenord, område och portar kan anpassas efter önskemål.
+Med en SIP-anslutning kan Homey sätta upp ett telefonsamtal till ditt angivna nummer eller SIP.
 
-Var försiktig med stora mediefiler. De förbrukar mycket minne och kan få Homey att stänga av appen om det används för mycket minne under för lång tid.
+Detta kan göras med en fil från SoundBoard, en online ljudfil eller helt från text eller en tagg-genererad TTS.
 
-Valfritt kan en STUN-server anges för att bestämma den offentliga IP-adressen och portarna.
-Detta kan hjälpa till med NAT-problem vid inkommande SIP och RTP.
+För Text2Speech behöver du en API-nyckel för ChatGPT. ChatGPT hanterar nämligen avslutet av TTS.
 
-I inställningarna kan codec ställas in. Som standard försöker appen automatiskt använda den bästa kvaliteten (G722 \> PCMA \> PCMU) och faller tillbaka till lägre kvalitet om SIP-servern kräver det.
+SIP-anslutningar är knepiga. Codecen har auto-detektering men kan väljas manuellt. Det finns en STUN-server inställd för att undvika så många NAT-problem som möjligt på routern. Portarna för Homey är också konfigurerbara, så du kan fånga dem på din router via en port-forward om så önskas.
 
-Ljudfiler i WAV eller MP3 konverteras automatiskt till lämplig 8kHz mono eller högre om telefonväxeln stödjer de tillgängliga codecs.
-Självklart, ju större ljudfilen är, desto längre tid tar det innan SIP-samtalet startar.
+Var försiktig med stora mediefiler som behöver konverteras. Homey stänger av applikationer som använder mycket minne under en längre tid. En lång konvertering kan använda mycket minne och därmed stänga av appen.
 
-Viktiga meddelanden bör därför helst vara redo i rätt format på soundboard eller någon annanstans.
+Om du ändå vill spela upp en lång ljudfil, se till att den är i ett native SIP-format. Detta är exempelvis PCM (okomprimerat) 8 bit mono.
+
+Vissa konverteringar från MP3 misslyckas. Orsaken är förmodligen ett problem med konverteringsbiblioteket. Det kan lösas i en uppdatering; att använda ett annat bibliotek skulle öka minnesanvändningen och göra att appen stoppas för ofta av Homey.
+
+Konfigurera ditt SIP-kontoinformation: domän, användarnamn, autentiserings-ID (valfritt), lösenord, realm och portar efter önskemål. Konfigurera din ChatGPT API-nyckel, kön (Nej, det finns inga "hes" eller "vie" tillgängliga, bara Man eller Kvinna), rösten och talhastigheten.

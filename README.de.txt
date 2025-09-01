@@ -1,14 +1,17 @@
 VOIP-Unterstützung für Homey.
 
-Konfiguriere deine SIP-Kontodaten über die Einstellungen der App in Homey, sodass Domain, Benutzername, Authentifizierungs-ID, Passwort, Realm und Ports nach Belieben anpassbar sind.
+Mithilfe einer SIP-Verbindung kann Homey ein Telefongespräch zu deiner angegebenen Nummer oder SIP aufbauen.
 
-Vorsicht bei großen Mediendateien. Diese verbrauchen viel Speicher und können dazu führen, dass Homey die App beendet, wenn zu lange zu viel Speicher genutzt wird.
+Dies kann mit einer Datei von SoundBoard, einer Online-Audiodatei oder vollständig aus Text oder einer taggenerierten TTS erfolgen.
 
-Optional kann ein STUN-Server angegeben werden, um die öffentliche IP-Adresse und die Ports zu bestimmen. Dies kann bei NAT-Problemen mit eingehendem SIP und RTP helfen.
+Für Text2Speech benötigst du einen API-Schlüssel für ChatGPT. ChatGPT übernimmt nämlich den TTS-Abschluss.
 
-In den Einstellungen kann der Codec eingestellt werden. Standardmäßig versucht die App automatisch, die beste Qualität zu verwenden (G722 \> PCMA \> PCMU) und wechselt zu einer niedrigeren Qualität, wenn der SIP-Server dies erfordert.
+SIP-Verbindungen sind knifflig. Der Codec hat eine automatische Erkennung, kann aber manuell ausgewählt werden. Es ist ein STUN-Server eingerichtet, um so viele nat-bezogene Probleme wie möglich zu vermeiden. Die Ports für Homey selbst sind ebenfalls konfigurierbar, sodass du diese eventuell noch auf deinem Router per Port-Forwarding einrichten kannst.
 
-Audiodateien in WAV oder MP3 werden automatisch in das geeignete 8kHz Mono oder höher konvertiert, wenn die Telefonanlage die vorhandenen Codecs unterstützt.
-Natürlich gilt: Je größer die Audiodatei, desto länger dauert es, bis der SIP-Anruf startet.
+Vorsicht bei großen Mediendateien, die konvertiert werden müssen. Homey schließt Anwendungen automatisch, wenn diese zu lange zu viel Speicher nutzen. Eine lange Konvertierung wird viel Speicher benötigen und somit die App zum Schließen bringen.
 
-Wichtige Mitteilungen solltest du am besten bereits im richtigen Format im Soundboard oder anderswo bereit haben.
+Falls du dennoch eine lange Audiodatei abspielen möchtest, stelle sicher, dass sie im nativen SIP-Format vorliegt. Dies wäre beispielsweise PCM (unkomprimiert) 8-Bit Mono.
+
+Einige MP3-Konvertierungen schlagen fehl, die Ursache ist wahrscheinlich ein Problem mit der Konvertierungsbibliothek. Möglicherweise wird dies in einem Update behoben, die Verwendung einer anderen Bibliothek führt jedoch zu einem größeren Speicherverbrauch und könnte die App zu häufig von Homey stoppen lassen.
+
+Konfiguriere deine SIP-Kontodaten: Domain, Benutzername, Authentifizierungs-ID (optional), Passwort, Realm und Ports nach Wunsch. Konfiguriere deinen ChatGPT-API-Schlüssel, das Geschlecht (Nein, ich habe keine hes oder wie-en verfügbar, nur Mann oder Frau), die Stimme und die Sprechgeschwindigkeit.
