@@ -1,0 +1,104 @@
+{
+  "title": {
+    "en": "Call number and play TTS audio",
+    "nl": "Bel nummer en speel TTS-geluid",
+    "da": "Ring nummeret op og afspil TTS-lyd",
+    "de": "Nummer anrufen und TTS-Audio abspielen",
+    "es": "Llamar al número y reproducir audio TTS",
+    "fr": "Appeler le numéro et lire l'audio TTS",
+    "it": "Chiama il numero e riproduci l'audio TTS",
+    "no": "Ring nummeret og spill av TTS-lyd",
+    "sv": "Ring upp numret och spela TTS-ljud",
+    "pl": "Zadzwoń pod numer i odtwórz dźwięk TTS",
+    "ru": "Позвоните по номеру и воспроизведите TTS-звук",
+    "ko": "번호로 전화하고 TTS 오디오 재생"
+  },
+  "titleFormatted": {
+    "en": "Call [[number]] and speak [[text]] [[repeat]] times, wait [[delay]]s before hangup",
+    "nl": "Bel [[number]] en spreek [[text]] [[repeat]] keer, wacht [[delay]]s voor ophangen",
+    "da": "Ring [[number]] og tal [[text]] [[repeat]] gange, vent [[delay]] sekunder før afbrydelse",
+    "de": "Rufe [[number]] an und sprich [[text]] [[repeat]] Mal, warte [[delay]] Sekunden vor dem Auflegen",
+    "es": "Llama a [[number]] y dice [[text]] [[repeat]] veces, espera [[delay]] segundos antes de colgar",
+    "fr": "Appelez [[number]] et prononcez [[text]] [[repeat]] fois, attendez [[delay]] s avant de raccrocher",
+    "it": "Chiama [[number]] e pronuncia [[text]] [[repeat]] volte, attendi [[delay]] secondi prima di riagganciare",
+    "no": "Ring [[number]] og si [[text]] [[repeat]] ganger, vent [[delay]] sekunder før du legger på",
+    "sv": "Ring [[number]] och säg [[text]] [[repeat]] gånger, vänta [[delay]] sekunder innan avstängning",
+    "pl": "Zadzwoń pod [[number]] i wypowiedz [[text]] [[repeat]] razy, poczekaj [[delay]] sekund przed rozłączeniem",
+    "ru": "Позвоните на [[number]] и произнесите [[text]] [[repeat]] раз, подождите [[delay]] секунд перед отключением",
+    "ko": "[[number]]로 전화하고 [[text]]를 [[repeat]]번 말한 후, [[delay]]초 기다린 후 끊기"
+  },
+  "args": [
+    {
+      "name": "number",
+      "type": "text",
+      "title": {
+        "en": "Phone number or SIP URI",
+        "nl": "Telefoonnummer of SIP URI",
+        "da": "Telefonnummer eller SIP URI",
+        "de": "Telefonnummer oder SIP URI",
+        "es": "Número de teléfono o URI SIP",
+        "fr": "Numéro de téléphone ou URI SIP",
+        "it": "Numero di telefono o URI SIP",
+        "no": "Telefonnummer eller SIP URI",
+        "sv": "Telefonnummer eller SIP URI",
+        "pl": "Numer telefonu lub SIP URI",
+        "ru": "Номер телефона или SIP URI",
+        "ko": "전화번호 또는 SIP URI"
+      }
+    },
+    {
+      "name": "text",
+      "type": "text",
+      "title": {
+        "en": "Text to speak",
+        "nl": "Tekst om uit te spreken",
+        "da": "Tekst at tale",
+        "de": "Text zum Sprechen",
+        "es": "Texto a decir",
+        "fr": "Texte à dire",
+        "it": "Testo da pronunciare",
+        "no": "Tekst å si",
+        "sv": "Text att säga",
+        "pl": "Tekst do wypowiedzenia",
+        "ru": "Текст для произнесения",
+        "ko": "말할 텍스트"
+      }
+    },
+    {
+      "name": "repeat",
+      "type": "number",
+      "title": {
+        "en": "Times to play audio",
+        "nl": "Aantal keer afspelen",
+        "da": "Antal gange at afspille lyd",
+        "de": "Häufigkeit der Audiowiedergabe",
+        "es": "Veces que se reproduce el audio",
+        "fr": "Nombre de fois pour jouer l'audio",
+        "it": "Numero di volte da riprodurre l'audio",
+        "no": "Antall ganger å spille av lyd",
+        "sv": "Antal gånger att spela upp ljud",
+        "pl": "Liczba odtworzeń audio",
+        "ru": "Количество воспроизведений аудио",
+        "ko": "오디오 재생 횟수"
+      }
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "title": {
+        "en": "Delay before hangup (s)",
+        "nl": "Vertraging voor ophangen (s)",
+        "da": "Forsinkelse før afbrydelse (s)",
+        "de": "Verzögerung vor dem Auflegen (s)",
+        "es": "Retraso antes de colgar (s)",
+        "fr": "Délai avant de raccrocher (s)",
+        "it": "Ritardo prima di riagganciare (s)",
+        "no": "Forsinkelse før avstenging (s)",
+        "sv": "Fördröjning innan avstängning (s)",
+        "pl": "Opóźnienie przed rozłączeniem (s)",
+        "ru": "Задержка перед отключением (s)",
+        "ko": "종료 전 지연 시간 (s)"
+      }
+    }
+  ]
+}

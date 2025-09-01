@@ -355,6 +355,24 @@
       "value": "AUTO"
     },
     {
+      "id": "openai_api_key",
+      "type": "password",
+      "title": {
+        "en": "OpenAI API key",
+        "nl": "OpenAI API-sleutel",
+        "da": "OpenAI API-nøgle",
+        "de": "OpenAI-API-Schlüssel",
+        "es": "Clave API de OpenAI",
+        "fr": "Clé API OpenAI",
+        "it": "Chiave API OpenAI",
+        "no": "OpenAI API-nøkkel",
+        "sv": "OpenAI API-nyckel",
+        "pl": "Klucz API OpenAI",
+        "ru": "Ключ API OpenAI",
+        "ko": "OpenAI API 키"
+      }
+    },
+    {
       "id": "stun_server",
       "type": "text",
       "title": {
