@@ -31,13 +31,15 @@ class HomeyPhoneHomeApp extends Homey.App {
     const actionSb = this.homey.flow.getActionCard('call_and_play_soundboard');
     actionSb.registerArgumentAutocompleteListener('sound', async (query, args) => {
       try {
-        const sb = await this.homey.api.getApiApp('com.athom.soundboard');
-        const sounds = await sb.get('/sounds');
+        const sb = this.homey.api.getApiApp('com.athom.soundboard');
+        if (!await sb.getInstalled()) throw new Error('Soundboard app niet geïnstalleerd');
+        const root = await sb.get('/');
+        const sounds = Array.isArray(root) ? root : (root?.sounds || []);
         const q = (query || '').toLowerCase();
-        return (sounds || [])
+        return sounds
           .filter(s => !q || (s.name || '').toLowerCase().includes(q))
           .slice(0, 25)
-          .map(s => ({ id: s.id, name: s.name || s.id }));
+          .map(s => ({ id: s.id || s.path, name: s.name || s.id || s.path }));
       } catch (e) {
         this.error('Soundboard autocomplete mislukt:', e.message || e);
         return [{ id: 'ERROR', name: '⚠ Soundboard API niet bereikbaar' }];
@@ -185,18 +187,16 @@ class HomeyPhoneHomeApp extends Homey.App {
   }
 
   async _resolveSoundboardToWav(soundArg) {
-    const sb = await this.homey.api.getApiApp('com.athom.soundboard');
-    const s = await sb.get(`/sounds/${encodeURIComponent(soundArg.id)}`);
+    const sb = this.homey.api.getApiApp('com.athom.soundboard');
+    if (!await sb.getInstalled()) throw new Error('Soundboard app niet geïnstalleerd');
+    const root = await sb.get('/');
+    const sounds = Array.isArray(root) ? root : (root?.sounds || []);
+    const s = sounds.find(x => x.id === soundArg.id || x.path === soundArg.id || x.name === soundArg.id);
+    if (!s || !s.path) throw new Error('Soundboard geluid niet gevonden');
+    const localAddress = await this.homey.cloud.getLocalAddress();
+    const url = `http://${localAddress}/app/com.athom.soundboard/${s.path}`.replace(/\.\//g, '');
     const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
-    if (s && s.url) {
-      await this._downloadToFile(s.url, dest);
-    } else if (s && s.data) {
-      // Writing large base64 blobs via Buffer.from() temporarily allocates
-      // an additional copy of the decoded data in memory. By writing the
-      // base64 string directly to disk we avoid this duplication and reduce
-      // peak memory usage when handling bigger sound files.
-      await fs.promises.writeFile(dest, s.data, { encoding: 'base64' });
-    } else { throw new Error('Soundboard gaf geen url/data terug'); }
+    await this._downloadToFile(url, dest);
     const cacheDays = Number(this.homey.settings.get('cache_days') || 3);
     return await ensureWavPcm16Mono16k(dest, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)), cacheDays);
   }
