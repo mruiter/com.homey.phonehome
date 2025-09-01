@@ -327,7 +327,7 @@ class HomeyPhoneHomeApp extends Homey.App {
     } catch (e) {
       this.error('Soundboard form length failed:', e.message || e);
     }
-    await sb.post('/sounds', form, headers);
+    await sb.post('/sounds', form, null, { headers });
   }
   async _downloadToFile(url, destPath) {
     const client = url.startsWith('https')?https:http;
