@@ -290,9 +290,12 @@ class HomeyPhoneHomeApp extends Homey.App {
     const apiKey = this.homey.settings.get('openai_api_key') || process.env.OPENAI_API_KEY;
     if (!apiKey) throw new Error('Ontbrekende OpenAI API key');
     const client = new OpenAI({ apiKey });
+    const quality = this.homey.settings.get('tts_quality') || 'normal';
+    const model = quality === 'high' ? 'tts-1-hd' : 'gpt-4o-mini-tts';
+    const voice = this.homey.settings.get('voice') || 'alloy';
     const speech = await client.audio.speech.create({
-      model: 'gpt-4o-mini-tts',
-      voice: 'alloy',
+      model,
+      voice,
       input: text,
       format: 'wav'
     });
