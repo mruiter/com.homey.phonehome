@@ -11,10 +11,12 @@
     "test": "node --test"
   },
   "dependencies": {
-    "mpg123-decoder": "^1.0.2",
-    "sip": "^0.0.6",
+    "@wasm-audio-decoders/flac": "^0.2.8",
     "@wasm-audio-decoders/ogg-vorbis": "^0.1.18",
-    "@wasm-audio-decoders/flac": "^0.2.8"
+    "form-data": "^4.0.4",
+    "mpg123-decoder": "^1.0.2",
+    "openai": "^4.104.0",
+    "sip": "^0.0.6"
   },
   "homey": {
     "compose": true
