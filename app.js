@@ -52,25 +52,7 @@ class HomeyPhoneHomeApp extends Homey.App {
       const number = String(args.number || '').trim();
       if (!number) throw new Error('Geen nummer opgegeven');
 
-      const cfg = {
-        sip_domain: this.homey.settings.get('sip_domain'),
-        sip_proxy: this.homey.settings.get('sip_proxy') || null,
-        username: this.homey.settings.get('username'),
-        auth_id: this.homey.settings.get('auth_id') || this.homey.settings.get('username'),
-        password: this.homey.settings.get('password'),
-        realm: this.homey.settings.get('realm') || '',
-        display_name: this.homey.settings.get('display_name') || 'HomeyBot',
-        from_user: this.homey.settings.get('from_user') || this.homey.settings.get('username'),
-        local_ip: this.homey.settings.get('local_ip'),
-        sip_transport: (this.homey.settings.get('sip_transport') || 'UDP').toUpperCase(),
-        local_sip_port: Number(this.homey.settings.get('local_sip_port') || 5070),
-        local_rtp_port: Number(this.homey.settings.get('local_rtp_port') || 40000),
-        codec: (this.homey.settings.get('codec') || 'AUTO').toUpperCase(),
-        expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
-        invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
-        stun_server: this.homey.settings.get('stun_server') || 'stun.l.google.com',
-        stun_port: Number(this.homey.settings.get('stun_port') || 19302)
-      };
+      const cfg = this._getSipConfig();
 
       const to = number.includes('@') ? number : `${number}@${cfg.sip_domain}`;
 
@@ -101,6 +83,8 @@ class HomeyPhoneHomeApp extends Homey.App {
           status: 'failed', duurMs: 0, callee: number, reason: e.message||'unknown'
         });
         throw e;
+      } finally {
+        if (wavPath.startsWith(os.tmpdir())) fs.unlink(wavPath, () => {});
       }
 
       await this._triggerCompleted.trigger({
@@ -117,25 +101,7 @@ class HomeyPhoneHomeApp extends Homey.App {
       const number = String(args.number || '').trim();
       if (!number) throw new Error('Geen nummer opgegeven');
 
-      const cfg = {
-        sip_domain: this.homey.settings.get('sip_domain'),
-        sip_proxy: this.homey.settings.get('sip_proxy') || null,
-        username: this.homey.settings.get('username'),
-        auth_id: this.homey.settings.get('auth_id') || this.homey.settings.get('username'),
-        password: this.homey.settings.get('password'),
-        realm: this.homey.settings.get('realm') || '',
-        display_name: this.homey.settings.get('display_name') || 'HomeyBot',
-        from_user: this.homey.settings.get('from_user') || this.homey.settings.get('username'),
-        local_ip: this.homey.settings.get('local_ip'),
-        sip_transport: (this.homey.settings.get('sip_transport') || 'UDP').toUpperCase(),
-        local_sip_port: Number(this.homey.settings.get('local_sip_port') || 5070),
-        local_rtp_port: Number(this.homey.settings.get('local_rtp_port') || 40000),
-        codec: (this.homey.settings.get('codec') || 'AUTO').toUpperCase(),
-        expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
-        invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
-        stun_server: this.homey.settings.get('stun_server') || 'stun.l.google.com',
-        stun_port: Number(this.homey.settings.get('stun_port') || 19302)
-      };
+      const cfg = this._getSipConfig();
 
       const to = number.includes('@') ? number : `${number}@${cfg.sip_domain}`;
 
@@ -165,6 +131,8 @@ class HomeyPhoneHomeApp extends Homey.App {
           status: 'failed', duurMs: 0, callee: number, reason: e.message||'unknown'
         });
         throw e;
+      } finally {
+        if (wavPath.startsWith(os.tmpdir())) fs.unlink(wavPath, () => {});
       }
 
     await this._triggerCompleted.trigger({
@@ -183,25 +151,7 @@ class HomeyPhoneHomeApp extends Homey.App {
       const text = String(args.text || '').trim();
       if (!text) throw new Error('Geen tekst opgegeven');
 
-      const cfg = {
-        sip_domain: this.homey.settings.get('sip_domain'),
-        sip_proxy: this.homey.settings.get('sip_proxy') || null,
-        username: this.homey.settings.get('username'),
-        auth_id: this.homey.settings.get('auth_id') || this.homey.settings.get('username'),
-        password: this.homey.settings.get('password'),
-        realm: this.homey.settings.get('realm') || '',
-        display_name: this.homey.settings.get('display_name') || 'HomeyBot',
-        from_user: this.homey.settings.get('from_user') || this.homey.settings.get('username'),
-        local_ip: this.homey.settings.get('local_ip'),
-        sip_transport: (this.homey.settings.get('sip_transport') || 'UDP').toUpperCase(),
-        local_sip_port: Number(this.homey.settings.get('local_sip_port') || 5070),
-        local_rtp_port: Number(this.homey.settings.get('local_rtp_port') || 40000),
-        codec: (this.homey.settings.get('codec') || 'AUTO').toUpperCase(),
-        expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
-        invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
-        stun_server: this.homey.settings.get('stun_server') || 'stun.l.google.com',
-        stun_port: Number(this.homey.settings.get('stun_port') || 19302)
-      };
+      const cfg = this._getSipConfig();
 
       const to = number.includes('@') ? number : `${number}@${cfg.sip_domain}`;
 
@@ -229,6 +179,8 @@ class HomeyPhoneHomeApp extends Homey.App {
           status: 'failed', duurMs: 0, callee: number, reason: e.message||'unknown'
         });
         throw e;
+      } finally {
+        if (wavPath.startsWith(os.tmpdir())) fs.unlink(wavPath, () => {});
       }
 
       await this._triggerCompleted.trigger({
@@ -246,7 +198,11 @@ class HomeyPhoneHomeApp extends Homey.App {
       const name = String(args.name || '').trim() || `tts_${Date.now()}`;
       if (!text) throw new Error('Geen tekst opgegeven');
       const wavPath = await this._openAiTextToWav(text);
-      await this._saveToSoundboard(wavPath, name);
+      try {
+        await this._saveToSoundboard(wavPath, name);
+      } finally {
+        if (wavPath.startsWith(os.tmpdir())) fs.unlink(wavPath, () => {});
+      }
       return true;
     });
   }
@@ -262,6 +218,28 @@ class HomeyPhoneHomeApp extends Homey.App {
     }
   }
 
+  _getSipConfig() {
+    return {
+      sip_domain: this.homey.settings.get('sip_domain'),
+      sip_proxy: this.homey.settings.get('sip_proxy') || null,
+      username: this.homey.settings.get('username'),
+      auth_id: this.homey.settings.get('auth_id') || this.homey.settings.get('username'),
+      password: this.homey.settings.get('password'),
+      realm: this.homey.settings.get('realm') || '',
+      display_name: this.homey.settings.get('display_name') || 'HomeyBot',
+      from_user: this.homey.settings.get('from_user') || this.homey.settings.get('username'),
+      local_ip: this.homey.settings.get('local_ip'),
+      sip_transport: (this.homey.settings.get('sip_transport') || 'UDP').toUpperCase(),
+      local_sip_port: Number(this.homey.settings.get('local_sip_port') || 5070),
+      local_rtp_port: Number(this.homey.settings.get('local_rtp_port') || 40000),
+      codec: (this.homey.settings.get('codec') || 'AUTO').toUpperCase(),
+      expires_sec: Number(this.homey.settings.get('expires_sec') || 300),
+      invite_timeout: Number(this.homey.settings.get('invite_timeout') || 45),
+      stun_server: this.homey.settings.get('stun_server') || 'stun.l.google.com',
+      stun_port: Number(this.homey.settings.get('stun_port') || 19302)
+    };
+  }
+
   async _resolveSoundboardToWav(soundArg) {
     const sb = this.homey.api.getApiApp('com.athom.soundboard');
     if (!await sb.getInstalled()) throw new Error('Soundboard app niet geïnstalleerd');
@@ -269,21 +247,29 @@ class HomeyPhoneHomeApp extends Homey.App {
     const sounds = Array.isArray(root) ? root : (root?.sounds || []);
     const s = sounds.find(x => x.id === soundArg.id || x.path === soundArg.id || x.name === soundArg.id);
     if (!s || !s.path) throw new Error('Soundboard geluid niet gevonden');
+    const safePath = path.posix.normalize(s.path).replace(/^\/+/, '');
+    if (safePath.startsWith('..')) throw new Error('Ongeldige soundboard pad');
     const localAddress = await this.homey.cloud.getLocalAddress();
-    const url = `http://${localAddress}/app/com.athom.soundboard/${s.path}`.replace(/\.\//g, '');
+    const url = `http://${localAddress}/app/com.athom.soundboard/${safePath}`;
     const dest = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
     await this._downloadToFile(url, dest);
     const cacheDays = Number(this.homey.settings.get('cache_days') || 3);
-    return await ensureWavPcm16Mono16k(dest, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)), cacheDays);
+    const out = await ensureWavPcm16Mono16k(dest, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)), cacheDays);
+    if (out !== dest) fs.unlink(dest, () => {});
+    return out;
   }
   async _ensureLocalWav(urlOrPath) {
     let local = urlOrPath;
+    let cleanup = false;
     if (/^https?:\/\//i.test(urlOrPath)) {
       local = path.join(os.tmpdir(), `voip_${Date.now()}.wav`);
       await this._downloadToFile(urlOrPath, local);
+      cleanup = true;
     } else { if (!fs.existsSync(urlOrPath)) throw new Error('Bestand niet gevonden: '+urlOrPath); }
     const cacheDays = Number(this.homey.settings.get('cache_days') || 3);
-    return await ensureWavPcm16Mono16k(local, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)), cacheDays);
+    const out = await ensureWavPcm16Mono16k(local, (lvl,msg) => (lvl==='error'?this.error(msg):this.log(msg)), cacheDays);
+    if (cleanup && out !== local) fs.unlink(local, () => {});
+    return out;
   }
 
   async _openAiTextToWav(text) {
@@ -330,13 +316,21 @@ class HomeyPhoneHomeApp extends Homey.App {
     await sb.post('/sounds', form, null, { headers });
   }
   async _downloadToFile(url, destPath) {
-    const client = url.startsWith('https')?https:http;
-    await new Promise((resolve,reject)=>{
+    const client = url.startsWith('https') ? https : http;
+    await new Promise((resolve, reject) => {
       const file = fs.createWriteStream(destPath);
-      const req = client.get(url, res=>{
-        if (res.statusCode!==200) return reject(new Error('HTTP '+res.statusCode));
-        res.pipe(file); file.on('finish', ()=>file.close(resolve));
-      }); req.on('error', reject);
+      const cleanup = err => {
+        file.close(() => fs.unlink(destPath, () => {}));
+        reject(err);
+      };
+      const req = client.get(url, res => {
+        if (res.statusCode !== 200) return cleanup(new Error('HTTP ' + res.statusCode));
+        res.pipe(file);
+        file.on('finish', () => file.close(resolve));
+        file.on('error', cleanup);
+      });
+      req.on('error', cleanup);
+      req.setTimeout(15000, () => req.destroy(new Error('Request timeout')));
     });
   }
 }
