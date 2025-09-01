@@ -19,8 +19,9 @@
 <body>
   <h1>Settings</h1>
   <div class="tabs">
-    <button type="button" class="tab active" data-target="sip-settings">SIP Settings</button>
-    <button type="button" class="tab" data-target="chatgpt-settings">ChatGPT Settings</button>
+    <button type="button" class="tab active" data-target="sip-settings">Sip</button>
+    <button type="button" class="tab" data-target="chatgpt-settings">ChatGPT</button>
+    <button type="button" class="tab" data-target="cache-settings">Cache</button>
   </div>
   <form id="settings-form">
     <div id="sip-settings" class="tab-content active">
@@ -85,9 +86,6 @@
       </label>
     </div>
     <div id="chatgpt-settings" class="tab-content">
-      <label>Cache days
-        <input id="cache_days" type="number" />
-      </label>
       <label>OpenAI API Key
         <input id="openai_api_key" type="password" />
       </label>
@@ -112,6 +110,11 @@
           <option value="normal">Normal</option>
           <option value="fast">Fast</option>
         </select>
+      </label>
+    </div>
+    <div id="cache-settings" class="tab-content">
+      <label>Cache days
+        <input id="cache_days" type="number" />
       </label>
       <button type="button" id="clear-cache">Clear cache</button>
     </div>
