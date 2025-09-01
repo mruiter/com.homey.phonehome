@@ -356,6 +356,24 @@
       "value": "AUTO"
     },
     {
+      "id": "openai_api_key",
+      "type": "password",
+      "title": {
+        "en": "OpenAI API key",
+        "nl": "OpenAI API-sleutel",
+        "da": "OpenAI API-nøgle",
+        "de": "OpenAI-API-Schlüssel",
+        "es": "Clave API de OpenAI",
+        "fr": "Clé API OpenAI",
+        "it": "Chiave API OpenAI",
+        "no": "OpenAI API-nøkkel",
+        "sv": "OpenAI API-nyckel",
+        "pl": "Klucz API OpenAI",
+        "ru": "Ключ API OpenAI",
+        "ko": "OpenAI API 키"
+      }
+    },
+    {
       "id": "stun_server",
       "type": "text",
       "title": {
@@ -617,6 +635,111 @@
       },
       {
         "title": {
+          "en": "Call number and play TTS audio",
+          "nl": "Bel nummer en speel TTS-geluid",
+          "da": "Ring nummeret op og afspil TTS-lyd",
+          "de": "Nummer anrufen und TTS-Audio abspielen",
+          "es": "Llamar al número y reproducir audio TTS",
+          "fr": "Appeler le numéro et lire l'audio TTS",
+          "it": "Chiama il numero e riproduci l'audio TTS",
+          "no": "Ring nummeret og spill av TTS-lyd",
+          "sv": "Ring upp numret och spela TTS-ljud",
+          "pl": "Zadzwoń pod numer i odtwórz dźwięk TTS",
+          "ru": "Позвоните по номеру и воспроизведите TTS-звук",
+          "ko": "번호로 전화하고 TTS 오디오 재생"
+        },
+        "titleFormatted": {
+          "en": "Call [[number]] and speak [[text]] [[repeat]] times, wait [[delay]]s before hangup",
+          "nl": "Bel [[number]] en spreek [[text]] [[repeat]] keer, wacht [[delay]]s voor ophangen",
+          "da": "Ring [[number]] og tal [[text]] [[repeat]] gange, vent [[delay]] sekunder før afbrydelse",
+          "de": "Rufe [[number]] an und sprich [[text]] [[repeat]] Mal, warte [[delay]] Sekunden vor dem Auflegen",
+          "es": "Llama a [[number]] y dice [[text]] [[repeat]] veces, espera [[delay]] segundos antes de colgar",
+          "fr": "Appelez [[number]] et prononcez [[text]] [[repeat]] fois, attendez [[delay]] s avant de raccrocher",
+          "it": "Chiama [[number]] e pronuncia [[text]] [[repeat]] volte, attendi [[delay]] secondi prima di riagganciare",
+          "no": "Ring [[number]] og si [[text]] [[repeat]] ganger, vent [[delay]] sekunder før du legger på",
+          "sv": "Ring [[number]] och säg [[text]] [[repeat]] gånger, vänta [[delay]] sekunder innan avstängning",
+          "pl": "Zadzwoń pod [[number]] i wypowiedz [[text]] [[repeat]] razy, poczekaj [[delay]] sekund przed rozłączeniem",
+          "ru": "Позвоните на [[number]] и произнесите [[text]] [[repeat]] раз, подождите [[delay]] секунд перед отключением",
+          "ko": "[[number]]로 전화하고 [[text]]를 [[repeat]]번 말한 후, [[delay]]초 기다린 후 끊기"
+        },
+        "args": [
+          {
+            "name": "number",
+            "type": "text",
+            "title": {
+              "en": "Phone number or SIP URI",
+              "nl": "Telefoonnummer of SIP URI",
+              "da": "Telefonnummer eller SIP URI",
+              "de": "Telefonnummer oder SIP URI",
+              "es": "Número de teléfono o URI SIP",
+              "fr": "Numéro de téléphone ou URI SIP",
+              "it": "Numero di telefono o URI SIP",
+              "no": "Telefonnummer eller SIP URI",
+              "sv": "Telefonnummer eller SIP URI",
+              "pl": "Numer telefonu lub SIP URI",
+              "ru": "Номер телефона или SIP URI",
+              "ko": "전화번호 또는 SIP URI"
+            }
+          },
+          {
+            "name": "text",
+            "type": "text",
+            "title": {
+              "en": "Text to speak",
+              "nl": "Tekst om uit te spreken",
+              "da": "Tekst at tale",
+              "de": "Text zum Sprechen",
+              "es": "Texto a decir",
+              "fr": "Texte à dire",
+              "it": "Testo da pronunciare",
+              "no": "Tekst å si",
+              "sv": "Text att säga",
+              "pl": "Tekst do wypowiedzenia",
+              "ru": "Текст для произнесения",
+              "ko": "말할 텍스트"
+            }
+          },
+          {
+            "name": "repeat",
+            "type": "number",
+            "title": {
+              "en": "Times to play audio",
+              "nl": "Aantal keer afspelen",
+              "da": "Antal gange at afspille lyd",
+              "de": "Häufigkeit der Audiowiedergabe",
+              "es": "Veces que se reproduce el audio",
+              "fr": "Nombre de fois pour jouer l'audio",
+              "it": "Numero di volte da riprodurre l'audio",
+              "no": "Antall ganger å spille av lyd",
+              "sv": "Antal gånger att spela upp ljud",
+              "pl": "Liczba odtworzeń audio",
+              "ru": "Количество воспроизведений аудио",
+              "ko": "오디오 재생 횟수"
+            }
+          },
+          {
+            "name": "delay",
+            "type": "number",
+            "title": {
+              "en": "Delay before hangup (s)",
+              "nl": "Vertraging voor ophangen (s)",
+              "da": "Forsinkelse før afbrydelse (s)",
+              "de": "Verzögerung vor dem Auflegen (s)",
+              "es": "Retraso antes de colgar (s)",
+              "fr": "Délai avant de raccrocher (s)",
+              "it": "Ritardo prima di riagganciare (s)",
+              "no": "Forsinkelse før avstenging (s)",
+              "sv": "Fördröjning innan avstängning (s)",
+              "pl": "Opóźnienie przed rozłączeniem (s)",
+              "ru": "Задержка перед отключением (s)",
+              "ko": "종료 전 지연 시간 (s)"
+            }
+          }
+        ],
+        "id": "call_and_play_text"
+      },
+      {
+        "title": {
           "en": "Call number and play URL audio",
           "nl": "Bel nummer en speel URL-geluid",
           "da": "Ring nummeret op og afspil URL-lyd",
@@ -719,6 +842,75 @@
           }
         ],
         "id": "call_and_play_url"
+      },
+      {
+        "title": {
+          "en": "Generate TTS and save to Soundboard",
+          "nl": "Genereer TTS en sla op in Soundboard",
+          "da": "Generer TTS og gem på Soundboard",
+          "de": "Erstelle TTS und speichere im Soundboard",
+          "es": "Generar TTS y guardar en Soundboard",
+          "fr": "Générer TTS et enregistrer dans Soundboard",
+          "it": "Genera TTS e salva su Soundboard",
+          "no": "Generer TTS og lagre i Soundboard",
+          "sv": "Generera TTS och spara i Soundboard",
+          "pl": "Generuj TTS i zapisz w Soundboard",
+          "ru": "Создать TTS и сохранить в Soundboard",
+          "ko": "TTS를 생성하여 사운드보드에 저장"
+        },
+        "titleFormatted": {
+          "en": "Generate TTS for [[text]] and save as [[name]]",
+          "nl": "Genereer TTS voor [[text]] en sla op als [[name]]",
+          "da": "Generer TTS for [[text]] og gem som [[name]]",
+          "de": "Erstelle TTS für [[text]] und speichere als [[name]]",
+          "es": "Generar TTS para [[text]] y guardar como [[name]]",
+          "fr": "Générer TTS pour [[text]] et enregistrer comme [[name]]",
+          "it": "Genera TTS per [[text]] e salva come [[name]]",
+          "no": "Generer TTS for [[text]] og lagre som [[name]]",
+          "sv": "Generera TTS för [[text]] och spara som [[name]]",
+          "pl": "Generuj TTS dla [[text]] i zapisz jako [[name]]",
+          "ru": "Создать TTS для [[text]] и сохранить как [[name]]",
+          "ko": "[[text]]에 대한 TTS를 생성하여 [[name]]으로 저장"
+        },
+        "args": [
+          {
+            "name": "text",
+            "type": "text",
+            "title": {
+              "en": "Text to speak",
+              "nl": "Tekst om uit te spreken",
+              "da": "Tekst at tale",
+              "de": "Text zum Sprechen",
+              "es": "Texto a decir",
+              "fr": "Texte à dire",
+              "it": "Testo da pronunciare",
+              "no": "Tekst å si",
+              "sv": "Text att säga",
+              "pl": "Tekst do wypowiedzenia",
+              "ru": "Текст для произнесения",
+              "ko": "말할 텍스트"
+            }
+          },
+          {
+            "name": "name",
+            "type": "text",
+            "title": {
+              "en": "Soundboard name",
+              "nl": "Soundboard naam",
+              "da": "Soundboard navn",
+              "de": "Soundboard-Name",
+              "es": "Nombre de Soundboard",
+              "fr": "Nom Soundboard",
+              "it": "Nome Soundboard",
+              "no": "Soundboard-navn",
+              "sv": "Soundboard-namn",
+              "pl": "Nazwa Soundboard",
+              "ru": "Имя Soundboard",
+              "ko": "사운드보드 이름"
+            }
+          }
+        ],
+        "id": "text_to_soundboard"
       }
     ]
   }
