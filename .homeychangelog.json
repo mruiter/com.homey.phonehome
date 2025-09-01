@@ -16,5 +16,8 @@
   },
   "1.0.5": {
     "en": "Fixed soundboard issue"
+  },
+  "1.0.6": {
+    "en": "Implemented ChatGPT TTS - Cleaned settings page"
   }
 }
