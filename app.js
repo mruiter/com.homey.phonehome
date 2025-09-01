@@ -309,7 +309,16 @@ class HomeyPhoneHomeApp extends Homey.App {
     const form = new FormData();
     form.append('file', fs.createReadStream(wavPath), { filename: `${name}.wav` });
     form.append('name', name);
-    await sb.post('/sounds', form);
+    const headers = form.getHeaders();
+    try {
+      const len = await new Promise((resolve, reject) => {
+        form.getLength((err, length) => err ? reject(err) : resolve(length));
+      });
+      headers['Content-Length'] = len;
+    } catch (e) {
+      this.error('Soundboard form length failed:', e.message || e);
+    }
+    await sb.post('/sounds', form, headers);
   }
   async _downloadToFile(url, destPath) {
     const client = url.startsWith('https')?https:http;
