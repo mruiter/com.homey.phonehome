@@ -1,13 +1,13 @@
-import Homey from 'homey';
-import path from 'path';
-import fs from 'fs';
-import os from 'os';
-import http from 'http';
-import https from 'https';
-import OpenAI from 'openai';
-import FormData from 'form-data';
-import sipCallPlay from './lib/sip_call_play.cjs';
-import wavUtils from './lib/wav_utils.cjs';
+const Homey = require('homey');
+const path = require('path');
+const fs = require('fs');
+const os = require('os');
+const http = require('http');
+const https = require('https');
+const OpenAI = require('openai');
+const FormData = require('form-data');
+const sipCallPlay = require('./lib/sip_call_play.cjs');
+const wavUtils = require('./lib/wav_utils.cjs');
 
 const { callOnce } = sipCallPlay;
 const { ensureWavPcm16Mono16k } = wavUtils;
@@ -334,4 +334,4 @@ class HomeyPhoneHomeApp extends Homey.App {
     });
   }
 }
-export default HomeyPhoneHomeApp;
+module.exports = HomeyPhoneHomeApp;
