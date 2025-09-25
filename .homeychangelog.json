@@ -19,5 +19,8 @@
   },
   "1.0.6": {
     "en": "Implemented ChatGPT TTS - Cleaned settings page"
+  },
+  "1.0.7": {
+    "en": "Compliance updates for appstore"
   }
 }
