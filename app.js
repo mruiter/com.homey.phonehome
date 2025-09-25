@@ -14,7 +14,7 @@ const { ensureWavPcm16Mono16k } = wavUtils;
 
 class HomeyPhoneHomeApp extends Homey.App {
   async onInit() {
-    this.log('Homey Phone Home app init');
+    this.log('Phone Home app init');
 
     this._autoSetLocalIp();
 
