@@ -1,5 +1,5 @@
 {
-  "name": "com.homey.phonehome",
+  "name": "com.phonehome",
   "version": "0.1.1",
   "description": "Homey app: place a SIP call and play a Soundboard/URL audio",
   "main": "app.js",
