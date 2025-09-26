@@ -25,5 +25,8 @@
   },
   "1.0.8": {
     "en": "Correction in modules import that caused a start error on Homey 2023"
+  },
+  "1.0.9": {
+    "en": "Gone back to CommonJS due to Homey 2019/2023 different NodeJS versiosn"
   }
 }
