@@ -6,8 +6,8 @@ const http = require('http');
 const https = require('https');
 const OpenAI = require('openai');
 const FormData = require('form-data');
-const sipCallPlay = require('./lib/sip_call_play.cjs');
-const wavUtils = require('./lib/wav_utils.cjs');
+const sipCallPlay = require('./lib/sip_call_play.js');
+const wavUtils = require('./lib/wav_utils.js');
 
 const { callOnce } = sipCallPlay;
 const { ensureWavPcm16Mono16k } = wavUtils;
