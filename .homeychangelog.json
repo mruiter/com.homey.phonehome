@@ -22,5 +22,8 @@
   },
   "1.0.7": {
     "en": "Compliance updates for appstore"
+  },
+  "1.0.8": {
+    "en": "Correction in modules import that caused a start error on Homey 2023"
   }
 }

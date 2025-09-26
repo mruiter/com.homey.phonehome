@@ -29,7 +29,7 @@
     "ko": "심지어 E.T.도 스마트 홈이 필요하기 때문입니다."
   },
   "category": "tools",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": {
     "name": "Marco Ruiter",
     "email": "mruiter@eslaan24.nl"
@@ -417,5 +417,5 @@
     "xlarge": "assets/images/xlarge.png"
   },
   "brandColor": "#785607",
-  "esm": true
+  "esm": false
 }
