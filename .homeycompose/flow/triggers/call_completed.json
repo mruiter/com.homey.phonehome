@@ -27,6 +27,145 @@
     "ru": "Вызов с [[callee]] завершён: [[status]] (причина: [[reason]], длительность [[duurMs]] мс)",
     "ko": "[[callee]]와의 통화 완료: [[status]] (이유: [[reason]], 통화 시간 [[duurMs]]ms)"
   },
+  "args": [
+    {
+      "name": "status",
+      "type": "dropdown",
+      "title": {
+        "en": "Status",
+        "nl": "Status",
+        "da": "Status",
+        "de": "Status",
+        "es": "Estado",
+        "fr": "Statut",
+        "it": "Stato",
+        "no": "Status",
+        "sv": "Status",
+        "pl": "Status",
+        "ru": "Статус",
+        "ko": "상태"
+      },
+      "values": [
+        {
+          "id": "any",
+          "label": {
+            "en": "Any status",
+            "nl": "Elke status",
+            "da": "Enhver status",
+            "de": "Beliebiger Status",
+            "es": "Cualquier estado",
+            "fr": "N'importe quel statut",
+            "it": "Qualsiasi stato",
+            "no": "Enhver status",
+            "sv": "Valfri status",
+            "pl": "Dowolny status",
+            "ru": "Любой статус",
+            "ko": "모든 상태"
+          }
+        },
+        {
+          "id": "answered",
+          "label": {
+            "en": "Answered",
+            "nl": "Beantwoord",
+            "da": "Besvaret",
+            "de": "Beantwortet",
+            "es": "Contestada",
+            "fr": "Répondu",
+            "it": "Risposta",
+            "no": "Besvart",
+            "sv": "Besvarad",
+            "pl": "Odebrano",
+            "ru": "Отвечен",
+            "ko": "응답됨"
+          }
+        },
+        {
+          "id": "busy",
+          "label": {
+            "en": "Busy",
+            "nl": "In gesprek",
+            "da": "Optaget",
+            "de": "Besetzt",
+            "es": "Ocupado",
+            "fr": "Occupé",
+            "it": "Occupato",
+            "no": "Opptatt",
+            "sv": "Upptaget",
+            "pl": "Zajęty",
+            "ru": "Занято",
+            "ko": "통화중"
+          }
+        },
+        {
+          "id": "no-answer",
+          "label": {
+            "en": "No answer",
+            "nl": "Geen antwoord",
+            "da": "Intet svar",
+            "de": "Keine Antwort",
+            "es": "Sin respuesta",
+            "fr": "Pas de réponse",
+            "it": "Nessuna risposta",
+            "no": "Ingen svar",
+            "sv": "Inget svar",
+            "pl": "Brak odpowiedzi",
+            "ru": "Нет ответа",
+            "ko": "응답 없음"
+          }
+        },
+        {
+          "id": "failed",
+          "label": {
+            "en": "Failed",
+            "nl": "Mislukt",
+            "da": "Mislykkedes",
+            "de": "Fehlgeschlagen",
+            "es": "Falló",
+            "fr": "Échoué",
+            "it": "Fallito",
+            "no": "Feilet",
+            "sv": "Misslyckades",
+            "pl": "Niepowodzenie",
+            "ru": "Неудачно",
+            "ko": "실패"
+          }
+        }
+      ]
+    },
+    {
+      "name": "callee",
+      "type": "text",
+      "title": {
+        "en": "Callee",
+        "nl": "Gebelde partij",
+        "da": "Modtager",
+        "de": "Angerufener",
+        "es": "Destinatario",
+        "fr": "Appelé",
+        "it": "Destinatario",
+        "no": "Mottaker",
+        "sv": "Mottagare",
+        "pl": "Odbierający",
+        "ru": "Абонент",
+        "ko": "수신자"
+      },
+      "placeholder": {
+        "en": "Leave empty for any callee",
+        "nl": "Laat leeg voor elke gebelde partij",
+        "da": "Tom for enhver modtager",
+        "de": "Leer lassen für jeden Angerufenen",
+        "es": "Dejar vacío para cualquier destinatario",
+        "fr": "Laisser vide pour tout destinataire",
+        "it": "Lascia vuoto per qualsiasi destinatario",
+        "no": "La tom for hvilken som helst mottaker",
+        "sv": "Lämna tomt för valfri mottagare",
+        "pl": "Pozostaw puste dla dowolnego odbiorcy",
+        "ru": "Оставьте пустым для любого абонента",
+        "ko": "모든 수신자에 대해 비워 두세요"
+      }
+    }
+  ],
   "tokens": [
     {
       "name": "status",
