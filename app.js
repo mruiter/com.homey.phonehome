@@ -20,6 +20,20 @@ class HomeyPhoneHomeApp extends Homey.App {
 
     this._triggerCompleted = this.homey.flow.getTriggerCard('call_completed');
 
+    this._triggerCompleted.registerRunListener(async (args, state) => {
+      const statusFilter = args.status && args.status.id ? args.status.id : args.status;
+      if (statusFilter && statusFilter !== 'any') {
+        if (!state || state.status !== statusFilter) return false;
+      }
+
+      const calleeFilter = String(args.callee || '').trim();
+      if (calleeFilter) {
+        if (!state || String(state.callee || '').trim() !== calleeFilter) return false;
+      }
+
+      return true;
+    });
+
     this.homey.on('clear_cache', async (_data, callback) => {
       try {
         const cacheDir = path.join(os.tmpdir(), 'voip_cache');
@@ -79,20 +93,25 @@ class HomeyPhoneHomeApp extends Homey.App {
           logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
         });
       } catch (e) {
-        await this._triggerCompleted.trigger({
-          status: 'failed', duurMs: 0, callee: number, reason: e.message||'unknown'
-        });
+        const tokens = {
+          status: 'failed',
+          duurMs: 0,
+          callee: number,
+          reason: e.message || 'unknown'
+        };
+        await this._triggerCompleted.trigger(tokens, tokens);
         throw e;
       } finally {
         if (wavPath.startsWith(os.tmpdir())) fs.unlink(wavPath, () => {});
       }
 
-      await this._triggerCompleted.trigger({
+      const tokens = {
         status: result.status || 'answered',
-        duurMs: Number(result.durationMs||0),
+        duurMs: Number(result.durationMs || 0),
         callee: number,
         reason: result.reason || 'OK'
-      });
+      };
+      await this._triggerCompleted.trigger(tokens, tokens);
       return true;
     });
 
@@ -127,20 +146,25 @@ class HomeyPhoneHomeApp extends Homey.App {
           logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
         });
       } catch (e) {
-        await this._triggerCompleted.trigger({
-          status: 'failed', duurMs: 0, callee: number, reason: e.message||'unknown'
-        });
+        const tokens = {
+          status: 'failed',
+          duurMs: 0,
+          callee: number,
+          reason: e.message || 'unknown'
+        };
+        await this._triggerCompleted.trigger(tokens, tokens);
         throw e;
       } finally {
         if (wavPath.startsWith(os.tmpdir())) fs.unlink(wavPath, () => {});
       }
 
-    await this._triggerCompleted.trigger({
-      status: result.status || 'answered',
-      duurMs: Number(result.durationMs||0),
-      callee: number,
-      reason: result.reason || 'OK'
-    });
+      const tokens = {
+        status: result.status || 'answered',
+        duurMs: Number(result.durationMs || 0),
+        callee: number,
+        reason: result.reason || 'OK'
+      };
+      await this._triggerCompleted.trigger(tokens, tokens);
     return true;
   });
 
@@ -175,20 +199,25 @@ class HomeyPhoneHomeApp extends Homey.App {
           logger: (lvl, msg) => (lvl==='error'?this.error(msg):this.log(msg))
         });
       } catch (e) {
-        await this._triggerCompleted.trigger({
-          status: 'failed', duurMs: 0, callee: number, reason: e.message||'unknown'
-        });
+        const tokens = {
+          status: 'failed',
+          duurMs: 0,
+          callee: number,
+          reason: e.message || 'unknown'
+        };
+        await this._triggerCompleted.trigger(tokens, tokens);
         throw e;
       } finally {
         if (wavPath.startsWith(os.tmpdir())) fs.unlink(wavPath, () => {});
       }
 
-      await this._triggerCompleted.trigger({
+      const tokens = {
         status: result.status || 'answered',
-        duurMs: Number(result.durationMs||0),
+        duurMs: Number(result.durationMs || 0),
         callee: number,
         reason: result.reason || 'OK'
-      });
+      };
+      await this._triggerCompleted.trigger(tokens, tokens);
       return true;
     });
 
