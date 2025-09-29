@@ -97,7 +97,7 @@ class HomeyPhoneHomeApp extends Homey.App {
           status: 'failed',
           duurMs: 0,
           callee: number,
-          reasonText: e.message || 'unknown'
+          reason: e.message || 'unknown'
         };
         await this._triggerCompleted.trigger(tokens, tokens);
         throw e;
@@ -109,7 +109,7 @@ class HomeyPhoneHomeApp extends Homey.App {
         status: result.status || 'answered',
         duurMs: Number(result.durationMs || 0),
         callee: number,
-        reasonText: result.reason || 'OK'
+        reason: result.reason || 'OK'
       };
       await this._triggerCompleted.trigger(tokens, tokens);
       return true;
@@ -150,7 +150,7 @@ class HomeyPhoneHomeApp extends Homey.App {
           status: 'failed',
           duurMs: 0,
           callee: number,
-          reasonText: e.message || 'unknown'
+          reason: e.message || 'unknown'
         };
         await this._triggerCompleted.trigger(tokens, tokens);
         throw e;
@@ -162,7 +162,7 @@ class HomeyPhoneHomeApp extends Homey.App {
         status: result.status || 'answered',
         duurMs: Number(result.durationMs || 0),
         callee: number,
-        reasonText: result.reason || 'OK'
+        reason: result.reason || 'OK'
       };
       await this._triggerCompleted.trigger(tokens, tokens);
     return true;
@@ -203,7 +203,7 @@ class HomeyPhoneHomeApp extends Homey.App {
           status: 'failed',
           duurMs: 0,
           callee: number,
-          reasonText: e.message || 'unknown'
+          reason: e.message || 'unknown'
         };
         await this._triggerCompleted.trigger(tokens, tokens);
         throw e;
@@ -215,7 +215,7 @@ class HomeyPhoneHomeApp extends Homey.App {
         status: result.status || 'answered',
         duurMs: Number(result.durationMs || 0),
         callee: number,
-        reasonText: result.reason || 'OK'
+        reason: result.reason || 'OK'
       };
       await this._triggerCompleted.trigger(tokens, tokens);
       return true;
