@@ -14,18 +14,18 @@
     "ko": "번호로 전화하고 사운드보드 오디오 재생"
   },
   "titleFormatted": {
-    "en": "Call {{number}} and play {{sound}} {{repeat}} times, wait {{delay}}s before hangup",
-    "nl": "Bel {{number}} en speel {{sound}} {{repeat}} keer, wacht {{delay}}s voor ophangen",
-    "da": "Ring {{number}} og afspil {{sound}} {{repeat}} gange, vent {{delay}} sekunder før afbrydelse",
-    "de": "Rufe {{number}} an und spiele {{sound}} {{repeat}} Mal ab, warte {{delay}} Sekunden vor dem Auflegen",
-    "es": "Llama a {{number}} y reproduce {{sound}} {{repeat}} veces, espera {{delay}} segundos antes de colgar",
-    "fr": "Appelez {{number}} et jouez {{sound}} {{repeat}} fois, attendez {{delay}} s avant de raccrocher",
-    "it": "Chiama {{number}} e riproduci {{sound}} {{repeat}} volte, attendi {{delay}} secondi prima di riagganciare",
-    "no": "Ring {{number}} og spill av {{sound}} {{repeat}} ganger, vent {{delay}} sekunder før du legger på",
-    "sv": "Ring {{number}} och spela {{sound}} {{repeat}} gånger, vänta {{delay}} sekunder innan avstängning",
-    "pl": "Zadzwoń pod {{number}} i odtwórz {{sound}} {{repeat}} razy, poczekaj {{delay}} sekund przed rozłączeniem",
-    "ru": "Позвоните на {{number}} и воспроизведите {{sound}} {{repeat}} раз, подождите {{delay}} секунд перед отключением",
-    "ko": "{{number}}로 전화하고 {{sound}}를 {{repeat}}번 재생한 후, {{delay}}초 기다린 후 끊기"
+    "en": "Call [[number]] and play [[sound]] [[repeat]] times, wait [[delay]]s before hangup",
+    "nl": "Bel [[number]] en speel [[sound]] [[repeat]] keer, wacht [[delay]]s voor ophangen",
+    "da": "Ring [[number]] og afspil [[sound]] [[repeat]] gange, vent [[delay]] sekunder før afbrydelse",
+    "de": "Rufe [[number]] an und spiele [[sound]] [[repeat]] Mal ab, warte [[delay]] Sekunden vor dem Auflegen",
+    "es": "Llama a [[number]] y reproduce [[sound]] [[repeat]] veces, espera [[delay]] segundos antes de colgar",
+    "fr": "Appelez [[number]] et jouez [[sound]] [[repeat]] fois, attendez [[delay]] s avant de raccrocher",
+    "it": "Chiama [[number]] e riproduci [[sound]] [[repeat]] volte, attendi [[delay]] secondi prima di riagganciare",
+    "no": "Ring [[number]] og spill av [[sound]] [[repeat]] ganger, vent [[delay]] sekunder før du legger på",
+    "sv": "Ring [[number]] och spela [[sound]] [[repeat]] gånger, vänta [[delay]] sekunder innan avstängning",
+    "pl": "Zadzwoń pod [[number]] i odtwórz [[sound]] [[repeat]] razy, poczekaj [[delay]] sekund przed rozłączeniem",
+    "ru": "Позвоните на [[number]] и воспроизведите [[sound]] [[repeat]] раз, подождите [[delay]] секунд перед отключением",
+    "ko": "[[number]]로 전화하고 [[sound]]를 [[repeat]]번 재생한 후, [[delay]]초 기다린 후 끊기"
   },
   "args": [
     {

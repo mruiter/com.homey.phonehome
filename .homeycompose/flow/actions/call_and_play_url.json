@@ -14,18 +14,18 @@
     "ko": "번호로 전화하고 URL 오디오 재생"
   },
   "titleFormatted": {
-    "en": "Call {{number}} and play {{file_url}} {{repeat}} times, wait {{delay}}s before hangup",
-    "nl": "Bel {{number}} en speel {{file_url}} {{repeat}} keer, wacht {{delay}}s voor ophangen",
-    "da": "Ring {{number}} og afspil {{file_url}} {{repeat}} gange, vent {{delay}} sekunder før afbrydelse",
-    "de": "Rufe {{number}} an und spiele {{file_url}} {{repeat}} Mal ab, warte {{delay}} Sekunden vor dem Auflegen",
-    "es": "Llama a {{number}} y reproduce {{file_url}} {{repeat}} veces, espera {{delay}} segundos antes de colgar",
-    "fr": "Appelez {{number}} et jouez {{file_url}} {{repeat}} fois, attendez {{delay}} s avant de raccrocher",
-    "it": "Chiama {{number}} e riproduci {{file_url}} {{repeat}} volte, attendi {{delay}} secondi prima di riagganciare",
-    "no": "Ring {{number}} og spill av {{file_url}} {{repeat}} ganger, vent {{delay}} sekunder før du legger på",
-    "sv": "Ring {{number}} och spela {{file_url}} {{repeat}} gånger, vänta {{delay}} sekunder innan avstängning",
-    "pl": "Zadzwoń pod {{number}} i odtwórz {{file_url}} {{repeat}} razy, poczekaj {{delay}} sekund przed rozłączeniem",
-    "ru": "Позвоните на {{number}} и воспроизведите {{file_url}} {{repeat}} раз, подождите {{delay}} секунд перед отключением",
-    "ko": "{{number}}로 전화하고 {{file_url}}을 {{repeat}}번 재생한 후, {{delay}}초 기다린 후 끊기"
+    "en": "Call [[number]] and play [[file_url]] [[repeat]] times, wait [[delay]]s before hangup",
+    "nl": "Bel [[number]] en speel [[file_url]] [[repeat]] keer, wacht [[delay]]s voor ophangen",
+    "da": "Ring [[number]] og afspil [[file_url]] [[repeat]] gange, vent [[delay]] sekunder før afbrydelse",
+    "de": "Rufe [[number]] an und spiele [[file_url]] [[repeat]] Mal ab, warte [[delay]] Sekunden vor dem Auflegen",
+    "es": "Llama a [[number]] y reproduce [[file_url]] [[repeat]] veces, espera [[delay]] segundos antes de colgar",
+    "fr": "Appelez [[number]] et jouez [[file_url]] [[repeat]] fois, attendez [[delay]] s avant de raccrocher",
+    "it": "Chiama [[number]] e riproduci [[file_url]] [[repeat]] volte, attendi [[delay]] secondi prima di riagganciare",
+    "no": "Ring [[number]] og spill av [[file_url]] [[repeat]] ganger, vent [[delay]] sekunder før du legger på",
+    "sv": "Ring [[number]] och spela [[file_url]] [[repeat]] gånger, vänta [[delay]] sekunder innan avstängning",
+    "pl": "Zadzwoń pod [[number]] i odtwórz [[file_url]] [[repeat]] razy, poczekaj [[delay]] sekund przed rozłączeniem",
+    "ru": "Позвоните на [[number]] и воспроизведите [[file_url]] [[repeat]] раз, подождите [[delay]] секунд перед отключением",
+    "ko": "[[number]]로 전화하고 [[file_url]]을 [[repeat]]번 재생한 후, [[delay]]초 기다린 후 끊기"
   },
   "args": [
     {
