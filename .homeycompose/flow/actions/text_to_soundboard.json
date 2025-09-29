@@ -14,18 +14,18 @@
     "ko": "TTS를 생성하여 사운드보드에 저장"
   },
   "titleFormatted": {
-    "en": "Generate TTS for [[text]] and save as [[name]]",
-    "nl": "Genereer TTS voor [[text]] en sla op als [[name]]",
-    "da": "Generer TTS for [[text]] og gem som [[name]]",
-    "de": "Erstelle TTS für [[text]] und speichere als [[name]]",
-    "es": "Generar TTS para [[text]] y guardar como [[name]]",
-    "fr": "Générer TTS pour [[text]] et enregistrer comme [[name]]",
-    "it": "Genera TTS per [[text]] e salva come [[name]]",
-    "no": "Generer TTS for [[text]] og lagre som [[name]]",
-    "sv": "Generera TTS för [[text]] och spara som [[name]]",
-    "pl": "Generuj TTS dla [[text]] i zapisz jako [[name]]",
-    "ru": "Создать TTS для [[text]] и сохранить как [[name]]",
-    "ko": "[[text]]에 대한 TTS를 생성하여 [[name]]으로 저장"
+    "en": "Generate TTS for {{text}} and save as {{name}}",
+    "nl": "Genereer TTS voor {{text}} en sla op als {{name}}",
+    "da": "Generer TTS for {{text}} og gem som {{name}}",
+    "de": "Erstelle TTS für {{text}} und speichere als {{name}}",
+    "es": "Generar TTS para {{text}} y guardar como {{name}}",
+    "fr": "Générer TTS pour {{text}} et enregistrer comme {{name}}",
+    "it": "Genera TTS per {{text}} e salva come {{name}}",
+    "no": "Generer TTS for {{text}} og lagre som {{name}}",
+    "sv": "Generera TTS för {{text}} och spara som {{name}}",
+    "pl": "Generuj TTS dla {{text}} i zapisz jako {{name}}",
+    "ru": "Создать TTS для {{text}} и сохранить как {{name}}",
+    "ko": "{{text}}에 대한 TTS를 생성하여 {{name}}으로 저장"
   },
   "args": [
     {

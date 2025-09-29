@@ -14,18 +14,18 @@
     "ko": "통화 완료 (상태)"
   },
   "titleFormatted": {
-    "en": "Call with [[callee]] completed: [[status]] (reason: [[reason]], duration [[duurMs]] ms)",
-    "nl": "Call met [[callee]] afgerond: [[status]] (reden: [[reason]], duur [[duurMs]] ms)",
-    "da": "Opkald med [[callee]] fuldført: [[status]] (årsag: [[reason]], varighed [[duurMs]] ms)",
-    "de": "Anruf mit [[callee]] abgeschlossen: [[status]] (Grund: [[reason]], Dauer [[duurMs]] ms)",
-    "es": "Llamada con [[callee]] completada: [[status]] (motivo: [[reason]], duración [[duurMs]] ms)",
-    "fr": "Appel avec [[callee]] terminé : [[status]] (raison : [[reason]], durée [[duurMs]] ms)",
-    "it": "Chiamata con [[callee]] completata: [[status]] (motivo: [[reason]], durata [[duurMs]] ms)",
-    "no": "Samtale med [[callee]] fullført: [[status]] (årsak: [[reason]], varighet [[duurMs]] ms)",
-    "sv": "Samtal med [[callee]] slutfört: [[status]] (orsak: [[reason]], varaktighet [[duurMs]] ms)",
-    "pl": "Połączenie z [[callee]] zakończone: [[status]] (powód: [[reason]], czas trwania [[duurMs]] ms)",
-    "ru": "Вызов с [[callee]] завершён: [[status]] (причина: [[reason]], длительность [[duurMs]] мс)",
-    "ko": "[[callee]]와의 통화 완료: [[status]] (이유: [[reason]], 통화 시간 [[duurMs]]ms)"
+    "en": "Call with {{callee}} completed: {{status}} (reason: {{reason}}, duration {{duurMs}} ms)",
+    "nl": "Call met {{callee}} afgerond: {{status}} (reden: {{reason}}, duur {{duurMs}} ms)",
+    "da": "Opkald med {{callee}} fuldført: {{status}} (årsag: {{reason}}, varighed {{duurMs}} ms)",
+    "de": "Anruf mit {{callee}} abgeschlossen: {{status}} (Grund: {{reason}}, Dauer {{duurMs}} ms)",
+    "es": "Llamada con {{callee}} completada: {{status}} (motivo: {{reason}}, duración {{duurMs}} ms)",
+    "fr": "Appel avec {{callee}} terminé : {{status}} (raison : {{reason}}, durée {{duurMs}} ms)",
+    "it": "Chiamata con {{callee}} completata: {{status}} (motivo: {{reason}}, durata {{duurMs}} ms)",
+    "no": "Samtale med {{callee}} fullført: {{status}} (årsak: {{reason}}, varighet {{duurMs}} ms)",
+    "sv": "Samtal med {{callee}} slutfört: {{status}} (orsak: {{reason}}, varaktighet {{duurMs}} ms)",
+    "pl": "Połączenie z {{callee}} zakończone: {{status}} (powód: {{reason}}, czas trwania {{duurMs}} ms)",
+    "ru": "Вызов с {{callee}} завершён: {{status}} (причина: {{reason}}, длительность {{duurMs}} мс)",
+    "ko": "{{callee}}와의 통화 완료: {{status}} (이유: {{reason}}, 통화 시간 {{duurMs}}ms)"
   },
   "tokens": [
     {
