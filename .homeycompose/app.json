@@ -42,7 +42,6 @@
     }
   },
   "permissions": [
-    "homey:manager:api",
     "homey:app:com.athom.soundboard"
   ],
   "compatibility": ">=12.0.1",
