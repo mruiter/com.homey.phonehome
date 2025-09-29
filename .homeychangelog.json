@@ -28,5 +28,8 @@
   },
   "1.0.9": {
     "en": "Gone back to CommonJS due to Homey 2019/2023 different NodeJS versiosn"
+  },
+  "1.0.10": {
+    "en": "Args added"
   }
 }
